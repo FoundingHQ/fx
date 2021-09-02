@@ -8,12 +8,12 @@ import React, {
   ComponentType,
 } from "react";
 import queryString from "query-string";
-import { useUser, createUser, updateUser } from "util/db";
+import { useUser, createUser, updateUser } from "actions/user";
 import router from "next/router";
 import authClient from "util/_fakeAuthClient";
 
 // Whether to merge extra user data from database into auth.user
-const MERGE_DB_USER = true;
+const MERGE_DB_USER = false;
 
 type ContextProps = {
   user: User | null | undefined | false;
@@ -185,8 +185,9 @@ function useAuthProvider() {
 
 // Format final user object and merge extra data from database
 function usePrepareUser(user: (User & { provider?: string }) | null | false) {
+  const uid = MERGE_DB_USER ? (user ? user.uid : "") : "";
   // Fetch extra data from database (if enabled and auth user has been fetched)
-  const userDbQuery = useUser(MERGE_DB_USER && user && user.uid);
+  const userDbQuery = useUser(uid);
 
   // Memoize so we only create a new object if user or userDbQuery changes
   return useMemo(() => {

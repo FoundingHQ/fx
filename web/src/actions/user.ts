@@ -1,15 +1,6 @@
-import { ReactNode } from "react";
-import {
-  useQuery,
-  QueryClient,
-  QueryClientProvider as QueryClientProviderBase,
-} from "react-query";
-import { apiRequest } from "./request";
-
-// For interacting with the React Query cache
-const queryClient = new QueryClient();
-
-/**** USERS ****/
+import { useQuery } from "react-query";
+import { apiRequest } from "util/request";
+import { queryClient } from "util/query";
 
 // Fetch user data (hook)
 // This is called automatically by auth.js and merged into auth.user
@@ -34,17 +25,4 @@ export const updateUser = async (uid: string, data: {}) => {
   // Invalidate and refetch queries that could have old data
   await queryClient.invalidateQueries(["user", { uid }]);
   return response;
-};
-
-type Props = {
-  children: ReactNode;
-};
-
-// React Query context provider that wraps our app
-export const QueryClientProvider = (props: Props) => {
-  return (
-    <QueryClientProviderBase client={queryClient}>
-      {props.children}
-    </QueryClientProviderBase>
-  );
 };
