@@ -1,4 +1,4 @@
-import { tw } from "util/styles";
+import tw from "tailwind-styled-components";
 import { SEO, Heading, Text } from "components";
 
 const Page = tw.main`flex h-screen`;

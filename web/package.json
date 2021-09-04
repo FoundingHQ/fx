@@ -28,13 +28,13 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.0",
-    "fake-auth": "^0.1.7",
     "framer-motion": "^4.1.17",
     "next": "^11.1.0",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-query": "^3.21.1"
+    "react-query": "^3.21.1",
+    "tailwind-styled-components": "^2.0.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.3.3",
