@@ -7,9 +7,8 @@
     "dev": "nx run-many --target=serve --projects=api,web --parallel",
     "dev:api": "nx serve api",
     "dev:web": "nx serve web",
-    "build": "nx build",
-    "build:api": "nx build api",
-    "build:web": "nx build web",
+    "build:api": "nx build api --prod",
+    "build:web": "nx build web --prod",
     "test": "nx test"
   },
   "dependencies": {
