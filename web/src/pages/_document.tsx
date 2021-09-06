@@ -1,6 +1,6 @@
 import NextDocument, { Html, Head, Main, NextScript } from "next/document";
 
-const APP_NAME = process.env.APP_NAME;
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 
 export default class Document extends NextDocument {
   render() {

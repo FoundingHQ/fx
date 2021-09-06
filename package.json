@@ -1,5 +1,5 @@
 {
-  "name": "__APP_NAME__",
+  "name": "founding-monorepo",
   "workspaces": [
     "web"
   ],

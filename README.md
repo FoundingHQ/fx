@@ -5,7 +5,7 @@ Simple monorepo template for projects with:
 - Nextjs
 - Tailwind
 
-### Replacements
+### .env Replacements
 
 - `__APP_NAME__` with project name (eg. Founding)
 - `__APP_DESCRIPTION__` with project description (eg. A simple monorepo)
