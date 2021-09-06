@@ -9,6 +9,8 @@
     "dev:web": "nx serve web",
     "build:api": "nx build api --prod",
     "build:web": "nx build web --prod",
+    "start:api": "node dist/apps/api/main.js",
+    "start:web": "nx run web:serve:production",
     "test": "nx test"
   },
   "dependencies": {
