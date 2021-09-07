@@ -1,5 +1,5 @@
 {
-  "npmScope": "template",
+  "npmScope": "libs",
   "affected": {
     "defaultBase": "main"
   },
