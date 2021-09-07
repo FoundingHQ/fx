@@ -15,9 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@template/data-access/*": ["libs/data-access/src/*"],
-      "@template/ui": ["libs/ui/src/index.ts"],
-      "@template/util/*": ["libs/util/src/*"]
+      "@libs/ui": ["libs/ui/src/index.ts"],
+      "@libs/data-access/*": ["libs/data-access/src/*"],
+      "@libs/util/*": ["libs/util/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

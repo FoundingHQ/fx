@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import { SEO, Heading, Text } from "@template/ui";
+import { SEO, Heading, Text } from "@libs/ui";
 
 const Page = tw.main`flex h-screen`;
 const Container = tw.section`m-auto text-center`;

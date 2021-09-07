@@ -4,10 +4,10 @@ import { ThemeProvider } from "next-themes";
 import Router from "next/router";
 import { useEffect, ReactElement, ReactNode } from "react";
 
-import { ProgressBar } from "@template/ui";
-import { QueryClientProvider } from "@template/data-access/lib/query";
-import { AuthProvider } from "@template/data-access/actions/auth";
-import { initAnalytics, logPageView, logEvent } from "@template/util/analytics";
+import { ProgressBar } from "@libs/ui";
+import { QueryClientProvider } from "@libs/data-access/lib/query";
+import { AuthProvider } from "@libs/data-access/actions/auth";
+import { initAnalytics, logPageView, logEvent } from "@libs/util/analytics";
 
 import "tailwindcss/tailwind.css";
 
