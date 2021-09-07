@@ -2,76 +2,61 @@
 
 > Basic monorepo template for new projects.
 
-This project was generated using [Nx](https://nx.dev).
+This project serves as a basic starting point for newly formed Founding projects.
 
-🔎 **Smart, Extensible Build Framework**
+We'll be adding custom [nx generators](https://nx.dev/latest/react/generators/workspace-generators) which contain full-featured implementations of different features (i18n, stripe integration, etc) which can extend this project.
 
-## Adding capabilities to your workspace
+## Adding features to your workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
 These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
 
-Below are our core plugins:
+Below are our core feature plugins:
 
 - [React](https://reactjs.org)
   - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+There are also many [nx plugins](https://nx.dev/community) you could use.
 
-## Generate an application
+## 👉 Get Started
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+This repository is a monorepo managed through [nx](https://nx.dev).
 
-> You can use any of the plugins above to generate applications as well.
+```
+/apps/ contains the application projects. This is the main entry point for a runnable application. We recommend keeping applications as light-weight as possible, with all the heavy lifting being done by libraries that are imported by each application.
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+/libs/ contains the library projects. There are many different kinds of libraries, and each library defines its own external API so that boundaries between libraries remain clear.
 
-## Generate a library
+/tools/ contains scripts that act on your code base. This could be database scripts, custom executors (or builders), or workspace generators.
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+/workspace.json defines each project in your workspace and the executors that can be run on those projects.
 
-> You can also use any of the plugins above to generate libraries as well.
+/nx.json adds extra information about projects, including manually defined dependencies and tags that can be used to restrict the ways projects are allowed to depend on each other.
 
-Libraries are shareable across libraries and applications. They can be imported from `@template/mylib`.
+/tsconfig.base.json sets up the global TypeScript settings and creates aliases for each library to aid when creating TypeScript imports.
+```
 
-## Development server
+### Install dependencies
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+```
+npm install
+```
 
-## Code scaffolding
+### Run the development server
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+```
+npm run dev
+```
 
-## Build
+This will start both the [Nest.js](https://nestjs.com/) and the [Next.js](https://nextjs.org/) development servers. When the above command completes you'll be able to view your website at `http://localhost:4200`
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## 🥞 Stack
 
-## Running unit tests
+This project uses the following libraries and services:
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
+- Frontend - [Next.js](https://nextjs.org)
+- Api - [Nest.js](https://nestjs.com)
 
 ## Further help
 
