@@ -57,7 +57,9 @@ This project uses the following libraries and services:
 
 - Frontend - [Next.js](https://nextjs.org)
 - Api - [Nest.js](https://nestjs.com)
+- Styles - [Tailwind](https://tailwindcss.com/)
+- Database - [Prisma](https://www.prisma.io/)
 
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+- Monorepo - [nx](https://nx.dev)
+- Testing - [Jest](https://jestjs.io/)
+- Deployment - [Heroku](https://www.heroku.com/)
