@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@libs/ui": ["libs/ui/src/index.ts"],
       "@libs/data-access/*": ["libs/data-access/src/*"],
+      "@libs/ui": ["libs/ui/src/index.ts"],
       "@libs/util/*": ["libs/util/src/*"]
     }
   },
