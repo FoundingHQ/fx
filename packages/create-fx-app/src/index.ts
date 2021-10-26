@@ -8,7 +8,7 @@ import checkForUpdate from "update-check";
 import { createApp, DownloadError } from "./create-app";
 import { shouldUseYarn } from "./helpers/should-use-yarn";
 import { validateNpmName } from "./helpers/validate-pkg";
-import packageJson from "./package.json";
+import packageJson from "../package.json";
 
 let projectPath: string = "";
 

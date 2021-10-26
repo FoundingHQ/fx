@@ -17,13 +17,14 @@
     "dist"
   ],
   "scripts": {
-    "dev": "ncc build ./index.ts -w -o dist/",
+    "dev": "ncc build ./src/index.ts -w -o ./dist/",
     "prerelease": "rimraf ./dist/",
-    "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
-    "prepublish": "yarn release"
+    "release": "ncc build ./src/index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
+    "prepublish": "npm run release"
   },
   "devDependencies": {
     "@types/async-retry": "1.4.2",
+    "@types/cross-spawn": "^6.0.2",
     "@types/node": "^12.6.8",
     "@types/prompts": "2.0.1",
     "@types/rimraf": "3.0.0",
