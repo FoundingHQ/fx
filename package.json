@@ -1,5 +1,5 @@
 {
-  "name": "founding-scaffold",
+  "name": "founding-fx",
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"
