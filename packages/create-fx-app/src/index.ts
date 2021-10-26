@@ -68,9 +68,7 @@ async function run(): Promise<void> {
     );
     console.log();
     console.log("For example:");
-    console.log(
-      `  ${chalk.cyan(program.name())} ${chalk.green("my-next-app")}`
-    );
+    console.log(`  ${chalk.cyan(program.name())} ${chalk.green("my-fx-app")}`);
     console.log();
     console.log(
       `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
@@ -93,21 +91,21 @@ async function run(): Promise<void> {
     process.exit(1);
   }
 
-  if (program.example === true) {
+  if (program.preset === true) {
     console.error(
-      "Please provide an example name or url, otherwise remove the example option."
+      "Please provide an preset name or url, otherwise remove the preset option."
     );
     process.exit(1);
     return;
   }
 
-  const example = typeof program.example === "string" && program.example.trim();
+  const preset = typeof program.preset === "string" && program.preset.trim();
   try {
     await createApp({
       appPath: resolvedProjectPath,
       useNpm: !!program.useNpm,
-      example: example && example !== "default" ? example : undefined,
-      examplePath: program.examplePath,
+      preset: preset && preset !== "default" ? preset : undefined,
+      presetPath: program.presetPath,
       typescript: program.typescript,
     });
   } catch (reason) {
@@ -119,10 +117,11 @@ async function run(): Promise<void> {
       type: "confirm",
       name: "builtin",
       message:
-        `Could not download "${example}" because of a connectivity issue between your machine and GitHub.\n` +
+        `Could not download "${preset}" because of a connectivity issue between your machine and GitHub.\n` +
         `Do you want to use the default template instead?`,
       initial: true,
     });
+
     if (!res.builtin) {
       throw reason;
     }
