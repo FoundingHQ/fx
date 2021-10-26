@@ -1,0 +1,43 @@
+{
+  "name": "@founding/devkit",
+  "version": "0.0.1",
+  "keywords": [],
+  "description": "CLI helper methods",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FoundingHQ/fx",
+    "directory": "packages/devkit"
+  },
+  "author": "@FoundingHQ",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsc --watch",
+    "prerelease": "rimraf ./dist/",
+    "release": "tsc",
+    "prepublish": "npm run release"
+  },
+  "devDependencies": {
+    "@types/async-retry": "1.4.2",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/node": "^12.6.8",
+    "@types/rimraf": "3.0.0",
+    "@types/tar": "4.0.3",
+    "@types/validate-npm-package-name": "3.0.0",
+    "async-retry": "1.3.1",
+    "chalk": "2.4.2",
+    "cpy": "7.3.0",
+    "cross-spawn": "6.0.5",
+    "got": "10.7.0",
+    "rimraf": "3.0.0",
+    "tar": "4.4.10",
+    "validate-npm-package-name": "3.0.0"
+  },
+  "engines": {
+    "node": ">=12.22.0"
+  }
+}

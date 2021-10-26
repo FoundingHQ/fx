@@ -1,0 +1,40 @@
+{
+  "name": "@founding/fx",
+  "version": "0.0.1",
+  "keywords": [],
+  "description": "CLI to add prebuilt features to Founding apps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FoundingHQ/fx",
+    "directory": "packages/fx"
+  },
+  "author": "@FoundingHQ",
+  "license": "MIT",
+  "bin": {
+    "fx": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "ncc build ./src/index.ts -w -o ./dist/",
+    "prerelease": "rimraf ./dist/",
+    "release": "ncc build ./src/index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
+    "prepublish": "npm run release"
+  },
+  "devDependencies": {
+    "@types/async-retry": "1.4.2",
+    "@types/node": "^12.6.8",
+    "@types/prompts": "2.0.1",
+    "@vercel/ncc": "0.25.1",
+    "async-retry": "1.3.1",
+    "chalk": "2.4.2",
+    "commander": "2.20.0",
+    "cpy": "7.3.0",
+    "prompts": "2.1.0",
+    "update-check": "1.5.4"
+  },
+  "engines": {
+    "node": ">=12.22.0"
+  }
+}
