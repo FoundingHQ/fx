@@ -1,6 +1,4 @@
 {
-  "name": "default",
-  "dependencies": {
-    "auth": "*"
-  }
+  "name": "ecommerce",
+  "features": [["auth", { "type": "session" }]]
 }

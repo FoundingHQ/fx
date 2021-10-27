@@ -6,7 +6,6 @@ import {
   cookieMiddleware,
   CookieSerializeOptions,
 } from "@lib/core/server/middlewares/cookie";
-import { configurePassport } from "@lib/auth/server/middlewares/passport";
 
 export type AppRequest = NextApiRequest & Express.Request;
 
@@ -21,8 +20,6 @@ export type AppResponse = NextApiResponse &
 
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "";
 
-export const passport = configurePassport();
-
 export const createHandler = (options = {}) =>
   nc<AppRequest, AppResponse>({
     onError: (err, _, res) => {
@@ -35,5 +32,4 @@ export const createHandler = (options = {}) =>
     ...options,
   })
     .use(process.env.VERCEL ? trustProxyMiddleware : (_, __, next) => next())
-    .use(cookieMiddleware)
-    .use(passport.initialize());
+    .use(cookieMiddleware);

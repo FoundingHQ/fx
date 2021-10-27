@@ -59,7 +59,7 @@ export function hasRepo({
 
 export function hasPreset(name: string): Promise<boolean> {
   return isUrlOk(
-    `https://api.github.com/repos/founding/fx/contents/packages/template-presets/src/${encodeURIComponent(
+    `https://api.github.com/repos/foundinghq/fx/contents/packages/template-presets/src/${encodeURIComponent(
       name
     )}/fx-preset.json`
   );
@@ -79,7 +79,7 @@ export function downloadAndExtractRepo(
   }
 
   return pipeline(
-    got.stream("https://codeload.github.com/founding/fx/tar.gz/main"),
+    got.stream("https://codeload.github.com/foundinghq/fx/tar.gz/main"),
     tar.extract({ cwd: root, strip: 3 }, extractPaths)
   );
 }

@@ -4,14 +4,8 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { ProgressBar } from "@components";
-import { AuthProvider } from "@lib/auth/data/AuthProvider";
 import { queryClient } from "@util/query";
 import { initAnalytics, logPageView, logEvent } from "@util/analytics";
-
-import "tailwindcss/tailwind.css";
-
-const progress = new ProgressBar();
 
 type Page<P = Record<string, unknown>> = NextPage<P>;
 
@@ -19,12 +13,7 @@ type Props = AppProps & {
   Component: Page;
 };
 
-Router.events.on("routeChangeStart", progress.start);
-Router.events.on("routeChangeError", progress.finish);
-Router.events.on("routeChangeComplete", () => {
-  logPageView();
-  progress.finish();
-});
+Router.events.on("routeChangeComplete", logPageView);
 
 export const reportWebVitals = ({
   id,
@@ -48,9 +37,7 @@ const MyApp = ({ Component, pageProps }: Props) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Component {...pageProps} />
-      </AuthProvider>
+      <Component {...pageProps} />
       <ReactQueryDevtools />
     </QueryClientProvider>
   );

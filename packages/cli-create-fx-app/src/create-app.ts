@@ -5,7 +5,7 @@ import {
   downloadAndExtractRepo,
   makeDir,
   tryGitInit,
-  // install,
+  install,
   isFolderEmpty,
   getOnline,
   isWriteable,
@@ -69,7 +69,7 @@ export async function createApp({
   console.log("Installing packages. This might take a couple of minutes.");
   console.log();
 
-  // await install(root, null, { isOnline });
+  await install(root, null, { isOnline });
   console.log();
 
   if (tryGitInit(root)) {
@@ -87,6 +87,14 @@ export async function createApp({
   console.log(`${chalk.green("Success!")} Created ${appName} at ${appPath}`);
   console.log("Inside that directory, you can run several commands:");
   console.log();
+  console.log(chalk.cyan(`  npm run docker:start`));
+  console.log(
+    "    Starts a docker instance containing your database and other third party software."
+  );
+  console.log();
+  console.log(chalk.cyan(`  npm run prisma:migrate`));
+  console.log("    Runs your database migrations and generates types.");
+  console.log();
   console.log(chalk.cyan(`  npm run dev`));
   console.log("    Starts the development server.");
   console.log();
@@ -100,7 +108,7 @@ export async function createApp({
   console.log();
   console.log(chalk.cyan("  cd"), cdpath);
   console.log(`  ${chalk.cyan(`npm run docker:start`)}`);
-  console.log();
+  console.log(`  ${chalk.cyan(`npm run prisma:migrate`)}`);
   console.log(`  ${chalk.cyan(`npm run dev`)}`);
   console.log();
 }

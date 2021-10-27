@@ -18,6 +18,7 @@ coverage
 dist
 build
 out
+my-app
 
 # misc
 .DS_Store
