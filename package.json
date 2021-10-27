@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap && link-parent-bin",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "publish": "lerna publish"
   },
   "dependencies": {
     "husky": "^7.0.4",
