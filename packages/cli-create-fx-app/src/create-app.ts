@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import retry from "async-retry";
 import chalk from "chalk";
 import path from "path";
@@ -6,7 +5,7 @@ import {
   downloadAndExtractRepo,
   makeDir,
   tryGitInit,
-  install,
+  // install,
   isFolderEmpty,
   getOnline,
   isWriteable,
@@ -56,6 +55,7 @@ export async function createApp({
       retries: 3,
     });
   } catch (reason) {
+    console.log(reason);
     function isErrorLike(err: unknown): err is { message: string } {
       return (
         typeof err === "object" &&
@@ -69,7 +69,7 @@ export async function createApp({
   console.log("Installing packages. This might take a couple of minutes.");
   console.log();
 
-  await install(root, null, { isOnline });
+  // await install(root, null, { isOnline });
   console.log();
 
   if (tryGitInit(root)) {

@@ -90,40 +90,17 @@ async function run(): Promise<void> {
 
   if (program.preset === true) {
     console.error(
-      "Please provide an preset name or url, otherwise remove the preset option."
+      "Please provide an preset name, otherwise remove the preset option."
     );
     process.exit(1);
-    return;
   }
 
   const preset = typeof program.preset === "string" && program.preset.trim();
-  try {
-    await createApp({
-      appPath: resolvedProjectPath,
-      preset: preset && preset !== "default" ? preset : undefined,
-    });
-  } catch (reason) {
-    if (!(reason instanceof DownloadError)) {
-      throw reason;
-    }
 
-    const res = await prompts({
-      type: "confirm",
-      name: "builtin",
-      message:
-        `Could not download "${preset}" because of a connectivity issue between your machine and GitHub.\n` +
-        `Do you want to use the default template instead?`,
-      initial: true,
-    });
-
-    if (!res.builtin) {
-      throw reason;
-    }
-
-    await createApp({
-      appPath: resolvedProjectPath,
-    });
-  }
+  await createApp({
+    appPath: resolvedProjectPath,
+    preset: preset && preset !== "default" ? preset : undefined,
+  });
 }
 
 const update = checkForUpdate(packageJson).catch(() => null);

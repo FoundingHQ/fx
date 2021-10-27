@@ -17,7 +17,7 @@
     "dist"
   ],
   "scripts": {
-    "run": "tsnode src/index.ts",
+    "cli": "ts-node src/index.ts",
     "dev": "ncc build ./src/index.ts --watch --out ./dist/",
     "prerelease": "rimraf ./dist/",
     "release": "ncc build ./src/index.ts --out ./dist/ --minify --no-cache --no-source-map-register",
