@@ -5,7 +5,7 @@ import Commander from "commander";
 import path from "path";
 import prompts from "prompts";
 import checkForUpdate from "update-check";
-import { validateNpmName, shouldUseYarn } from "@founding/devkit";
+import { validateNpmName } from "@founding/devkit";
 import { createApp, DownloadError } from "./create-app";
 import packageJson from "../package.json";
 
@@ -47,10 +47,8 @@ async function run(): Promise<void> {
       initial: "my-app",
       validate: (name) => {
         const validation = validateNpmName(path.basename(path.resolve(name)));
-        if (validation.valid) {
-          return true;
-        }
-        return "Invalid project name: " + validation.problems![0];
+        if (validation.valid) return true;
+        return `Invalid project name: ${validation.problems![0]}`;
       },
     });
 
@@ -102,10 +100,7 @@ async function run(): Promise<void> {
   try {
     await createApp({
       appPath: resolvedProjectPath,
-      useNpm: !!program.useNpm,
       preset: preset && preset !== "default" ? preset : undefined,
-      presetPath: program.presetPath,
-      typescript: program.typescript,
     });
   } catch (reason) {
     if (!(reason instanceof DownloadError)) {
@@ -127,8 +122,6 @@ async function run(): Promise<void> {
 
     await createApp({
       appPath: resolvedProjectPath,
-      useNpm: !!program.useNpm,
-      typescript: program.typescript,
     });
   }
 }
@@ -139,17 +132,12 @@ async function notifyUpdate(): Promise<void> {
   try {
     const res = await update;
     if (res?.latest) {
-      const isYarn = shouldUseYarn();
-
       console.log();
       console.log(
         chalk.yellow.bold("A new version of `create-fx-app` is available!")
       );
       console.log(
-        "You can update by running: " +
-          chalk.cyan(
-            isYarn ? "yarn global add create-fx-app" : "npm i -g create-fx-app"
-          )
+        `You can update by running: ${chalk.cyan("npm i -g create-fx-app")}`
       );
       console.log();
     }

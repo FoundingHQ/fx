@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import got from "got";
 import tar from "tar";
 import { Stream } from "stream";
@@ -20,15 +19,11 @@ export async function isUrlOk(url: string): Promise<boolean> {
 
 export async function getRepoInfo(
   url: URL,
-  examplePath?: string
+  presetPath?: string
 ): Promise<RepoInfo | undefined> {
   const [, username, name, t, _branch, ...file] = url.pathname.split("/");
-  const filePath = examplePath
-    ? examplePath.replace(/^\//, "")
-    : file.join("/");
+  const filePath = presetPath ? presetPath.replace(/^\//, "") : file.join("/");
 
-  // Support repos whose entire purpose is to be a NextJS example, e.g.
-  // https://github.com/:username/:my-cool-nextjs-example-repo-name.
   if (t === undefined) {
     const infoResponse = await got(
       `https://api.github.com/repos/${username}/${name}`
@@ -40,8 +35,8 @@ export async function getRepoInfo(
     return { username, name, branch: info["default_branch"], filePath };
   }
 
-  // If examplePath is available, the branch name takes the entire path
-  const branch = examplePath
+  // If presetPath is available, the branch name takes the entire path
+  const branch = presetPath
     ? `${_branch}/${file.join("/")}`.replace(new RegExp(`/${filePath}|/$`), "")
     : _branch;
 
@@ -62,39 +57,29 @@ export function hasRepo({
   return isUrlOk(contentsUrl + packagePath + `?ref=${branch}`);
 }
 
-export function hasExample(name: string): Promise<boolean> {
+export function hasPreset(name: string): Promise<boolean> {
   return isUrlOk(
-    `https://api.github.com/repos/vercel/next.js/contents/examples/${encodeURIComponent(
+    `https://api.github.com/repos/founding/fx/contents/packages/template-presets/src/${encodeURIComponent(
       name
-    )}/package.json`
+    )}/fx-preset.json`
   );
 }
 
 export function downloadAndExtractRepo(
   root: string,
-  { username, name, branch, filePath }: RepoInfo
+  preset?: string
 ): Promise<void> {
-  return pipeline(
-    got.stream(
-      `https://codeload.github.com/${username}/${name}/tar.gz/${branch}`
-    ),
-    tar.extract(
-      { cwd: root, strip: filePath ? filePath.split("/").length + 1 : 1 },
-      [`${name}-${branch}${filePath ? `/${filePath}` : ""}`]
-    )
-  );
-}
+  if (preset === "__internal-testing-retry") {
+    throw new Error("This is an internal preset for testing the CLI.");
+  }
 
-export function downloadAndExtractExample(
-  root: string,
-  name: string
-): Promise<void> {
-  if (name === "__internal-testing-retry") {
-    throw new Error("This is an internal example for testing the CLI.");
+  const extractPaths = [`fx-main/packages/template-base`];
+  if (preset) {
+    extractPaths.push(`fx-main/packages/template-presets/src/${preset}`);
   }
 
   return pipeline(
-    got.stream("https://codeload.github.com/vercel/next.js/tar.gz/canary"),
-    tar.extract({ cwd: root, strip: 3 }, [`next.js-canary/examples/${name}`])
+    got.stream("https://codeload.github.com/founding/fx/tar.gz/main"),
+    tar.extract({ cwd: root, strip: 3 }, extractPaths)
   );
 }
