@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap && link-parent-bin",
     "prepare": "husky install",
-    "publish": "lerna publish"
+    "publish": "lerna publish --no-private"
   },
   "dependencies": {
     "husky": "^7.0.4",
