@@ -10,6 +10,7 @@
     "postinstall": "husky install",
     "build": "next build",
     "dev": "next dev",
+    "generate": "fx add",
     "lint": "next lint",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
@@ -55,6 +56,7 @@
     "superjson": "^1.7.5"
   },
   "devDependencies": {
+    "@founding/fx": "*",
     "@types/cookie": "^0.4.1",
     "@types/react": "^17.0.21",
     "eslint": "^7.32.0",
