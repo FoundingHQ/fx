@@ -66,19 +66,23 @@ export async function scaffold({
     throw new DownloadError(isErrorLike(reason) ? reason.message : reason + "");
   }
 
-  console.log("Installing packages. This might take a couple of minutes.");
-  console.log();
-
-  await install(root, null, { isOnline });
-  console.log();
-
-  if (preset) {
-    console.log("Bootstrapping your preset...");
+  if (tryGitInit(root)) {
+    console.log("Initialized a git repository.");
     console.log();
   }
 
-  if (tryGitInit(root)) {
-    console.log("Initialized a git repository.");
+  console.log("Installing packages. This might take a couple of minutes.");
+  console.log();
+
+  try {
+    await install(root, null, { isOnline });
+    console.log();
+  } catch (error) {
+    console.log();
+  }
+
+  if (preset) {
+    console.log("Bootstrapping your preset...");
     console.log();
   }
 

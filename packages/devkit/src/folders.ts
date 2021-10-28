@@ -58,10 +58,7 @@ export function isFolderEmpty(root: string, name: string): boolean {
   return true;
 }
 
-export function makeDir(
-  root: string,
-  options = { recursive: true }
-): Promise<void> {
+export function makeDir(root: string, options = { recursive: true }) {
   return fs.promises.mkdir(root, options);
 }
 
