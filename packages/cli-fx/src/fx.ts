@@ -2,6 +2,10 @@
 import chalk from "chalk";
 import { Command } from "commander";
 import { checkAndNotifyUpdates } from "@founding/devkit";
+import { list } from "./list";
+import { add } from "./add";
+import { remove } from "./remove";
+import { bootstrap } from "./bootstrap";
 import packageJson from "../package.json";
 
 const program = new Command();
@@ -9,18 +13,27 @@ const program = new Command();
 async function main() {
   program
     .version(packageJson.version)
-    .description(
-      "CLI tool to add/remove prebuilt features inside to a Fx project"
-    )
-    .command("add [feature]", "add a new feature to the project")
-    .alias("a")
-    .command("remove [feature]", "remove a feature from the project")
-    .alias("rm")
-    .command("list", "list all available features and presets", {
-      isDefault: true,
-    })
-    .command("bootstrap [preset]", "bootstrap a new project with a preset")
-    .alias("b");
+    .description("CLI tool to add/remove prebuilt features to a Fx project");
+
+  program
+    .command("list")
+    .description("list all available features and presets")
+    .action(list);
+
+  program
+    .command("add [feature]")
+    .description("add a new feature to the project")
+    .action(add);
+
+  program
+    .command("remove [feature]")
+    .description("remove a feature from the project")
+    .action(remove);
+
+  program
+    .command("bootstrap [preset]")
+    .description("bootstrap a new project with a preset")
+    .action(bootstrap);
 
   try {
     await program.parseAsync(process.argv);
