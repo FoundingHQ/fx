@@ -2,7 +2,7 @@
   "name": "@founding/devkit",
   "version": "0.2.0",
   "keywords": [],
-  "description": "CLI helper methods",
+  "description": "Founding app CLI utilities",
   "repository": {
     "type": "git",
     "url": "https://github.com/FoundingHQ/fx",
