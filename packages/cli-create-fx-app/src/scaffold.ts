@@ -13,7 +13,7 @@ import {
 
 export class DownloadError extends Error {}
 
-export async function createApp({
+export async function scaffold({
   appPath,
   preset,
 }: {
@@ -51,7 +51,7 @@ export async function createApp({
   try {
     console.log(`Downloading template files. This might take a moment.`);
     console.log();
-    await retry(() => downloadAndExtractRepo(root, preset), {
+    await retry(() => downloadAndExtractRepo(root), {
       retries: 3,
     });
   } catch (reason) {
@@ -71,6 +71,11 @@ export async function createApp({
 
   await install(root, null, { isOnline });
   console.log();
+
+  if (preset) {
+    console.log("Bootstrapping your preset...");
+    console.log();
+  }
 
   if (tryGitInit(root)) {
     console.log("Initialized a git repository.");
@@ -100,6 +105,9 @@ export async function createApp({
   console.log();
   console.log(chalk.cyan(`  npm run build`));
   console.log("    Builds the app for production.");
+  console.log();
+  console.log(chalk.cyan(`  npm run generate -- <feature>`));
+  console.log("    Generates prebuilt app features.");
   console.log();
   console.log(chalk.cyan(`  npm start`));
   console.log("    Runs the built app in production mode.");

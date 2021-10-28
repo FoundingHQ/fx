@@ -17,7 +17,7 @@
     "dist"
   ],
   "scripts": {
-    "cli": "ts-node src/index.ts",
+    "cli": "node -r ts-node/register src/index.ts",
     "dev": "ncc build ./src/index.ts -w -o ./dist/",
     "prerelease": "rimraf ./dist/",
     "release": "ncc build ./src/index.ts -o ./dist/ --minify --no-cache --no-source-map-register",

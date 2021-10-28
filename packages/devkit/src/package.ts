@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 import spawn from "cross-spawn";
 import validateProjectName from "validate-npm-package-name";
 import chalk from "chalk";
+import checkForUpdate from "update-check";
 
 interface InstallArgs {
   /**
@@ -137,5 +138,26 @@ export function shouldUseYarn(): boolean {
     return true;
   } catch (e) {
     return false;
+  }
+}
+
+export async function checkAndNotifyUpdates(
+  packageJson: Record<string, any>
+): Promise<void> {
+  try {
+    const res = await checkForUpdate(packageJson).catch(() => null);
+    if (res?.latest) {
+      console.log();
+      console.log(
+        chalk.yellow.bold("A new version of `create-fx-app` is available!")
+      );
+      console.log(
+        `You can update by running: ${chalk.cyan("npm i -g create-fx-app")}`
+      );
+      console.log();
+    }
+    process.exit();
+  } catch {
+    // ignore error
   }
 }
