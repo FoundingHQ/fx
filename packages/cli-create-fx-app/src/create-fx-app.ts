@@ -118,7 +118,7 @@ async function run(
 
   await scaffold({
     appPath: resolvedProjectPath,
-    preset: preset && preset !== "default" ? preset : undefined,
+    preset: preset || undefined,
   });
 }
 

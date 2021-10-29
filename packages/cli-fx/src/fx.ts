@@ -2,10 +2,10 @@
 import chalk from "chalk";
 import { Command } from "commander";
 import { checkAndNotifyUpdates } from "@founding/devkit";
-import { list } from "./list";
-import { add } from "./add";
-import { remove } from "./remove";
-import { bootstrap } from "./bootstrap";
+import { list } from "./actions/list";
+import { add } from "./actions/add";
+import { remove } from "./actions/remove";
+import { bootstrap } from "./actions/bootstrap";
 import packageJson from "../package.json";
 
 const program = new Command();

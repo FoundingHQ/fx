@@ -15,3 +15,13 @@ npx fx list
 # Takes in a fx preset configuration file and adds the features listed
 npx fx bootstrap <preset|path/to/fx-preset.json>
 ```
+
+## Development
+
+### Creating a new Feature
+
+TODO
+
+### Creating a new Preset
+
+TODO

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "module": "CommonJS",
+    "target": "esnext",
     "moduleResolution": "node",
     "strict": true,
     "resolveJsonModule": true,

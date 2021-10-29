@@ -1,3 +1,5 @@
+import globby from "globby";
+import cpy from "cpy";
 import chalk from "chalk";
 import fs from "fs";
 import path from "path";
@@ -58,7 +60,7 @@ export function isFolderEmpty(root: string, name: string): boolean {
   return true;
 }
 
-export function makeDir(root: string, options = { recursive: true }) {
+export async function makeDir(root: string, options = { recursive: true }) {
   return fs.promises.mkdir(root, options);
 }
 
@@ -69,4 +71,19 @@ export async function isWriteable(directory: string): Promise<boolean> {
   } catch (err) {
     return false;
   }
+}
+
+export async function copy(
+  source: string | string[],
+  destination: string,
+  options: cpy.Options = {}
+): Promise<string[]> {
+  return cpy(source, destination, options);
+}
+
+export async function getPaths(
+  patterns: string,
+  options?: globby.GlobbyOptions
+) {
+  return globby(patterns, options);
 }
