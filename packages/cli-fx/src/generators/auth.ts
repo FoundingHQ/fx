@@ -4,4 +4,4 @@ export async function install() {}
 
 export async function scaffold() {}
 
-export async function post() {}
+export async function onComplete() {}

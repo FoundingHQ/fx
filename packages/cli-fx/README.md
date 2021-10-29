@@ -20,8 +20,14 @@ npx fx bootstrap <preset|path/to/fx-preset.json>
 
 ### Creating a new Feature
 
-TODO
+TODO (complete this section)
+
+- [ ] Create a feature generator file under `src/generators/[feature-name]`
+- [ ] Place your feature templates in `templates/features`
+- [ ] Set up the feature generator by importing the generator module in `src/config.ts`
 
 ### Creating a new Preset
 
-TODO
+TODO (complete this section)
+
+- [ ] Create a Preset configuration file under `templates/presets`
