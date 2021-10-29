@@ -21,12 +21,12 @@ async function main() {
     .action(list);
 
   program
-    .command("add [feature]")
+    .command("add [feature...]")
     .description("add a new feature to the project")
     .action(add);
 
   program
-    .command("remove [feature]")
+    .command("remove [feature...]")
     .description("remove a feature from the project")
     .action(remove);
 
