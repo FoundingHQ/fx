@@ -13,7 +13,8 @@ const program = new Command();
 async function main() {
   program
     .version(packageJson.version)
-    .description("CLI tool to add/remove prebuilt features to a Fx project");
+    .description("CLI tool to add/remove prebuilt features to a Fx project")
+    .allowUnknownOption();
 
   program
     .command("list")

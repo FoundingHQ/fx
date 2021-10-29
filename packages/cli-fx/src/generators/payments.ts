@@ -1,7 +1,25 @@
-export async function setup() {}
+import { Generator } from "../types";
 
-export async function install() {}
+async function setup() {
+  return {};
+}
 
-export async function scaffold() {}
+async function install() {
+  return {
+    dependencies: [],
+    devDependencies: [],
+  };
+}
 
-export async function onComplete() {}
+async function scaffold() {
+  return [];
+}
+
+async function finish() {}
+
+export default {
+  setup,
+  install,
+  scaffold,
+  finish,
+} as Generator;
