@@ -15,9 +15,12 @@
     "fx:add": "fx add",
     "fx:list": "fx list",
     "fx:remove": "fx remove",
-    "fx:bootstrap": "fx bootstrap"
+    "fx:bootstrap": "fx bootstrap",
+    "create-fx-app": "create-fx-app",
+    "rm": "rimraf"
   },
   "devDependencies": {
-    "@founding/fx": "^0.2.1"
+    "@founding/fx": "*",
+    "create-fx-app": "*"
   }
 }
