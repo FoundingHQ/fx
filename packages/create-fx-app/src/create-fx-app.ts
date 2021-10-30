@@ -20,7 +20,7 @@ async function main() {
 
       Presets act as sharable set of feature configurations. You may want to
       bootstrap your application as an Ecommerce app, or a Marketplace app;
-      presets allow you to do that by cloning the root-template and scaffolding
+      presets allow you to do that by cloning the template and scaffolding
       a set of preconfigured features.
 
       You can use an example name from the Fx repo or a GitHub URL. The URL can

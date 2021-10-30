@@ -60,6 +60,6 @@ export function hasRepo({
 export function downloadAndExtractRepo(root: string): Promise<void> {
   return pipeline(
     got.stream("https://codeload.github.com/foundinghq/fx/tar.gz/main"),
-    tar.extract({ cwd: root, strip: 3 }, [`fx-main/packages/template-base`])
+    tar.extract({ cwd: root, strip: 3 }, [`fx-main/packages/template`])
   );
 }
