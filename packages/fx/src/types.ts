@@ -1,11 +1,12 @@
-export type Context = Record<string, any>;
+export type CopyPath = { src: string; dest: string };
 
-export type Generator = {
-  setup: () => Promise<Context>;
-  install: (context: Context) => Promise<{
+export type Generator<T = any> = {
+  setup: () => Promise<T>;
+  install: (context: T) => Promise<{
     dependencies: string[];
     devDependencies: string[];
   }>;
-  scaffold: (context: Context) => Promise<{ src: string; dest: string }[]>;
-  finish: (context: Context) => Promise<void>;
+  scaffold: (context: T) => Promise<CopyPath[]>;
+  codemods: (context: T) => Promise<void>;
+  finish: (context: T) => Promise<void>;
 };

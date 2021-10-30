@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "cpy": "^8.1.2",
     "cross-spawn": "^7.0.3",
+    "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
     "got": "^11.8.2",
     "rimraf": "^3.0.2",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
+    "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.11.6",
     "@types/rimraf": "^3.0.2",
     "@types/tar": "^6.1.0",

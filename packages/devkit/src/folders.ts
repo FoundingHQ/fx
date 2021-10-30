@@ -1,7 +1,6 @@
-import globby from "globby";
-import cpy from "cpy";
 import chalk from "chalk";
-import fs from "fs";
+import fs from "fs-extra";
+import globby from "globby";
 import path from "path";
 
 export function isFolderEmpty(root: string, name: string): boolean {
@@ -73,12 +72,8 @@ export async function isWriteable(directory: string): Promise<boolean> {
   }
 }
 
-export async function copy(
-  source: string | string[],
-  destination: string,
-  options: cpy.Options = {}
-): Promise<string[]> {
-  return cpy(source, destination, options);
+export async function copy(source: string, destination: string) {
+  return fs.copy(source, destination);
 }
 
 export async function getPaths(

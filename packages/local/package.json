@@ -17,10 +17,11 @@
     "fx:remove": "fx remove",
     "fx:bootstrap": "fx bootstrap",
     "create-fx-app": "create-fx-app",
-    "rm": "rimraf"
+    "reset": "ts-node ./scripts/reset.ts"
   },
   "devDependencies": {
     "@founding/fx": "*",
+    "@types/rimraf": "^3.0.2",
     "create-fx-app": "*"
   }
 }

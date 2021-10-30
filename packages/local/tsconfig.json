@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "skipLibCheck": false
+  },
+  "include": ["scripts/**/*"],
+  "exclude": ["dist"]
+}

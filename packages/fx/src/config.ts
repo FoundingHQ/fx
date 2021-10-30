@@ -17,3 +17,14 @@ export const config = {
   cliRoot: resolve(__dirname, "../"),
   projectRoot: cwd(),
 };
+
+export const convertTemplatePaths = ({ src = "", dest = "" }) => ({
+  src: resolve(config.cliRoot, src),
+  dest: resolve(config.projectRoot, dest),
+});
+
+export const onPromptCancel = () => {
+  throw {
+    command: "command",
+  };
+};

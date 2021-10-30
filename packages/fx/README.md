@@ -32,29 +32,28 @@ TODO (complete this section)
 // src/generators/[feature-name].ts
 import { Generator } from "../types";
 
-async function setup() {
-  return {};
-}
-
-async function install() {
-  return {
-    dependencies: [],
-    devDependencies: [],
-  };
-}
-
-async function scaffold() {
-  return [];
-}
-
-async function onComplete() {}
+type Config = {};
 
 export default {
-  setup,
-  install,
-  scaffold,
-  onComplete,
-} as Generator;
+  setup: async () => {
+    return {};
+  },
+  install: async (_config) => {
+    return {
+      dependencies: [],
+      devDependencies: [],
+    };
+  },
+  scaffold: async (_config) => {
+    return [];
+  },
+  codemods: async (_config) => {
+    return;
+  },
+  finish: async (_config) => {
+    return;
+  },
+} as Generator<Config>;
 ```
 
 ### Creating a new Preset
