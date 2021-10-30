@@ -103,13 +103,14 @@ export async function add(feature: string = "") {
   await featureGenerator.finish(context);
 
   console.log(
-    `${chalk.green("Success!")}. Your ${chalk.green(
+    `${chalk.green("Success!")} Your ${chalk.green(
       feature
     )} feature has been scaffolded.`
   );
+  console.log();
   console.log(
-    `New docs have been added to the ${chalk.bold(
+    `New docs have been added to the ${chalk.cyan(
       "/docs"
-    )} directory for more details about this feature`
+    )} directory. Take a look on a quick rundown of what was just scaffolded.`
   );
 }

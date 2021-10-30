@@ -14,7 +14,8 @@
     "fx": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "templates"
   ],
   "scripts": {
     "cli": "node -r ts-node/register src/fx.ts",
