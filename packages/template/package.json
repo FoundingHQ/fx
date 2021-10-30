@@ -7,7 +7,6 @@
   "repository": "https://github.com/FoundingHQ/fx",
   "author": "@FoundingHQ",
   "scripts": {
-    "postinstall": "husky install",
     "build": "next build",
     "dev": "next dev",
     "generate": "fx add",

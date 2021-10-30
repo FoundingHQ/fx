@@ -1,0 +1,23 @@
+{
+  "name": "@founding/fx-local",
+  "version": "0.1.0",
+  "private": true,
+  "keywords": [],
+  "description": "Local testing for fx CLI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FoundingHQ/fx",
+    "directory": "packages/local"
+  },
+  "author": "@FoundingHQ",
+  "license": "MIT",
+  "scripts": {
+    "fx:add": "fx add",
+    "fx:list": "fx list",
+    "fx:remove": "fx remove",
+    "fx:bootstrap": "fx bootstrap"
+  },
+  "devDependencies": {
+    "@founding/fx": "^0.2.1"
+  }
+}

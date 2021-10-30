@@ -6,12 +6,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/FoundingHQ/fx",
-    "directory": "packages/cli-fx"
+    "directory": "packages/fx"
   },
   "author": "@FoundingHQ",
   "license": "MIT",
   "bin": {
-    "fx": "./dist/fx.js"
+    "fx": "./dist/index.js"
   },
   "files": [
     "dist"

@@ -6,12 +6,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/FoundingHQ/fx",
-    "directory": "packages/cli-create-fx-app"
+    "directory": "packages/create-fx-app"
   },
   "author": "@FoundingHQ",
   "license": "MIT",
   "bin": {
-    "create-fx-app": "./dist/create-fx-app.js"
+    "create-fx-app": "./dist/index.js"
   },
   "files": [
     "dist"
