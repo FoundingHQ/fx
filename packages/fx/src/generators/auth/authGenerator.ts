@@ -1,6 +1,6 @@
 import prompts from "prompts";
-import { Generator } from "../types";
-import { convertTemplatePaths, onPromptCancel } from "../config";
+import { Generator } from "@types";
+import { convertTemplatePaths, onPromptCancel } from "@config";
 
 const typeMap = {
   session: {

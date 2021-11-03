@@ -6,7 +6,11 @@
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "paths": {
+      "@config": ["./src/config.ts"],
+      "@types": ["./src/types.ts"]
+    }
   },
   "exclude": ["dist", "templates"]
 }

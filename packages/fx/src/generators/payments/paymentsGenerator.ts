@@ -1,4 +1,4 @@
-import { Generator } from "../types";
+import { Generator } from "@types";
 
 type Config = {};
 

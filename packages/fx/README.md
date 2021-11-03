@@ -29,8 +29,8 @@ TODO (complete this section)
 #### Generator template:
 
 ```ts
-// src/generators/[feature-name].ts
-import { Generator } from "../types";
+// src/generators/[feature-name]/[feature-name]Generator.ts
+import { Generator } from "@types";
 
 type Config = {};
 

@@ -3,8 +3,8 @@ import { resolve } from "path";
 import { Generator } from "./types";
 
 // Import your feature generators:
-import authGenerator from "./generators/auth";
-import paymentsGenerator from "./generators/payments";
+import authGenerator from "./generators/auth/authGenerator";
+import paymentsGenerator from "./generators/payments/paymentsGenerator";
 
 // Export it for use in the CLI:
 export const featureGenerators = {
