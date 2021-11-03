@@ -1,77 +1,11 @@
 import prompts from "prompts";
 import { Generator } from "@types";
 import { convertTemplatePaths, onPromptCancel } from "@config";
-
-const typeMap = {
-  session: {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-    },
-    templates: [
-      {
-        src: "templates/features/auth",
-        dest: "lib/auth",
-      },
-      {
-        src: "templates/features/users",
-        dest: "lib/users",
-      },
-      {
-        src: "templates/features/pages/[...authApi].ts",
-        dest: "pages/api/auth/[...authApi].ts",
-      },
-    ],
-  },
-  jwt: {
-    installations: {
-      dependencies: ["passport-jwt", "jsonwebtoken"],
-      devDependencies: ["@types/passport-jwt"],
-    },
-    templates: [
-      {
-        src: "templates/features/auth",
-        dest: "lib/auth",
-      },
-      {
-        src: "templates/features/users",
-        dest: "lib/users",
-      },
-      {
-        src: "templates/features/pages/[...authApi].ts",
-        dest: "pages/api/auth/[...authApi].ts",
-      },
-    ],
-  },
-};
-
-const scopeMap = {
-  local: {
-    installations: {
-      dependencies: ["passport-local"],
-      devDependencies: ["@types/passport-local"],
-    },
-    templates: [],
-  },
-  google: {
-    installations: {
-      dependencies: ["passport-google-oauth20"],
-      devDependencies: ["@types/passport-google-oauth20"],
-    },
-    templates: [],
-  },
-  magic: {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-    },
-    templates: [],
-  },
-};
+import { baseConfig, authTypeConfig, authScopeConfig } from "./authConfig";
 
 type Context = {
-  type: keyof typeof typeMap;
-  scopes: (keyof typeof scopeMap)[];
+  type: keyof typeof authTypeConfig;
+  scopes: (keyof typeof authScopeConfig)[];
 };
 
 export default {
@@ -123,7 +57,6 @@ export default {
               selected: false,
             },
           ],
-          hint: "- Space to select. Return to submit",
         },
       ],
       {
@@ -134,40 +67,33 @@ export default {
     return res;
   },
   install: async ({ type, scopes }) => {
-    const installations = {
-      dependencies: ["nodemailer", "passport"],
-      devDependencies: ["@types/bcrypt", "@types/passport"],
+    return {
+      dependencies: [
+        ...baseConfig.installations.dependencies,
+        ...authTypeConfig[type].installations.dependencies,
+        ...scopes
+          .map((scope) => authScopeConfig[scope].installations.dependencies)
+          .flat(),
+      ],
+      devDependencies: [
+        ...baseConfig.installations.devDependencies,
+        ...authTypeConfig[type].installations.devDependencies,
+        ...scopes
+          .map((scope) => authScopeConfig[scope].installations.devDependencies)
+          .flat(),
+      ],
     };
-
-    // Install additional dependencies based off authentication type
-    installations.dependencies.push(
-      ...typeMap[type].installations.dependencies
-    );
-    installations.devDependencies.push(
-      ...typeMap[type].installations.devDependencies
-    );
-
-    // Install additional dependencies based off authentication scopes
-    installations.dependencies.push(
-      ...scopes
-        .map((scope) => scopeMap[scope].installations.dependencies)
-        .flat()
-    );
-    installations.devDependencies.push(
-      ...scopes
-        .map((scope) => scopeMap[scope].installations.devDependencies)
-        .flat()
-    );
-
-    return installations;
   },
   scaffold: async ({ type, scopes }) => {
-    const typeTemplates = typeMap[type].templates.map(convertTemplatePaths);
-    const scopeTemplates = scopes
-      .map((scope) => scopeMap[scope].templates.map(convertTemplatePaths))
-      .flat();
-
-    return [...typeTemplates, ...scopeTemplates];
+    return [
+      ...baseConfig.templates.map(convertTemplatePaths),
+      ...authTypeConfig[type].templates.map(convertTemplatePaths),
+      ...scopes
+        .map((scope) =>
+          authScopeConfig[scope].templates.map(convertTemplatePaths)
+        )
+        .flat(),
+    ];
   },
   codemods: async ({ type, scopes }) => {
     console.log("Running codemod on `lib/core/server/handler.ts`");
