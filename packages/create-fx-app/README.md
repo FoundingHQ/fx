@@ -16,4 +16,4 @@ npx create-fx-app blog-app
 
 `create-fx-app` comes with the following options:
 
-- **-p, --preset [name]|[github-url]** - Presets act as sharable set of feature configurations. You may want to bootstrap your application as a Sass app, a Ecommerce app, or a Marketplace app; presets allow you to do that by cloning the [template](https://github.com/FoundingHQ/fx/tree/main/packages/template) and scaffolding a set of preconfigured [features](https://github.com/FoundingHQ/fx/tree/main/packages/fx/templates/features). A list of officially supported presets can be found seen by running `npx fx list`.
+- **-p, --preset [name]|[github-url]** - Presets act as sharable set of feature configurations. You may want to bootstrap your application as a Sass app, a Ecommerce app, or a Marketplace app; presets allow you to do that by cloning the [template](https://github.com/FoundingHQ/fx-template/tree/main) and scaffolding a set of preconfigured [features](https://github.com/FoundingHQ/fx/tree/main/packages/fx/templates/features). A list of officially supported presets can be found seen by running `npx fx list`.
