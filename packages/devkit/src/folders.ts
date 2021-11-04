@@ -76,6 +76,19 @@ export async function copy(source: string, destination: string) {
   return fs.copy(source, destination);
 }
 
+export async function runTransform(
+  files: string[],
+  transform: (source: string) => string
+) {
+  const promises = files.map((filePath) => {
+    const source = fs.readFileSync(filePath, "utf8");
+    const transformed = transform(source);
+    return fs.writeFile(filePath, transformed);
+  });
+
+  return Promise.all(promises);
+}
+
 export async function getPaths(
   patterns: string,
   options?: globby.GlobbyOptions

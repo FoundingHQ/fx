@@ -1,3 +1,5 @@
+import { createTransformPassport } from "./authCodemods";
+
 export const baseConfig = {
   installations: {
     dependencies: ["nodemailer", "passport"],
@@ -15,6 +17,11 @@ export const baseConfig = {
     {
       src: "templates/features/auth/server/middlewares",
       dest: "lib/auth/server/middlewares",
+    },
+    {
+      src: "templates/features/auth/server/middlewares/passport.ts",
+      dest: "lib/auth/server/middlewares/passport.ts",
+      createTransform: createTransformPassport,
     },
     {
       src: "templates/features/auth/server/authConfig.ts",

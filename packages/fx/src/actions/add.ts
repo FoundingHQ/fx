@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import prompts from "prompts";
-import { copy, install, getOnline } from "@founding/devkit";
+import { copy, runTransform, install, getOnline } from "@founding/devkit";
 import { config, featureGenerators } from "../config";
 
 export async function add(feature: string = "") {
@@ -83,6 +83,10 @@ export async function add(feature: string = "") {
     const paths = await featureGenerator.scaffold(context);
     for (const path of paths) {
       await copy(path.src, path.dest);
+      if (path.createTransform) {
+        const transform = path.createTransform(context);
+        await runTransform([path.dest], transform);
+      }
     }
   } catch (error) {
     console.log("Error copying files:");

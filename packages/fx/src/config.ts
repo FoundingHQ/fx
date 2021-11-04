@@ -18,9 +18,10 @@ export const config = {
   projectRoot: cwd(),
 };
 
-export const convertTemplatePaths = ({ src = "", dest = "" }) => ({
-  src: resolve(config.cliRoot, src),
-  dest: resolve(config.projectRoot, dest),
+export const convertTemplatePaths = (path = { src: "", dest: "" }) => ({
+  ...path,
+  src: resolve(config.cliRoot, path.src),
+  dest: resolve(config.projectRoot, path.dest),
 });
 
 export const onPromptCancel = () => {
