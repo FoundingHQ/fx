@@ -30,7 +30,7 @@ TODO (complete this section)
 
 ```ts
 // src/generators/[feature-name]/[feature-name]Generator.ts
-import { Generator } from "@types";
+import { Generator } from "../../types";
 
 type Config = {};
 
@@ -52,6 +52,12 @@ export default {
   },
   finish: async (_config) => {
     return;
+  },
+  uninstall: async () => {
+    return {
+      dependencies: [],
+      templates: [],
+    };
   },
 } as Generator<Config>;
 ```

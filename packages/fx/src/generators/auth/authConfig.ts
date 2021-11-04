@@ -98,3 +98,34 @@ export const authScopeConfig = {
     templates: [],
   },
 };
+
+export const allDependencies = [
+  ...baseConfig.installations.dependencies,
+  ...baseConfig.installations.devDependencies,
+  ...Object.values(authTypeConfig)
+    .map((c) => {
+      return [
+        ...c.installations.dependencies,
+        ...c.installations.devDependencies,
+      ];
+    })
+    .flat(),
+  ...Object.values(authScopeConfig)
+    .map((c) => {
+      return [
+        ...c.installations.dependencies,
+        ...c.installations.devDependencies,
+      ];
+    })
+    .flat(),
+];
+
+export const allTemplates = [
+  ...baseConfig.templates.map((t) => t.dest),
+  ...Object.values(authTypeConfig)
+    .map((c) => c.templates.map((t) => t.dest))
+    .flat(),
+  ...Object.values(authScopeConfig)
+    .map((c) => c.templates.map((t) => t.dest))
+    .flat(),
+];

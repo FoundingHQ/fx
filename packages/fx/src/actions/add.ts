@@ -3,7 +3,10 @@ import prompts from "prompts";
 import { copy, runTransform, install, getOnline } from "@founding/devkit";
 import { config, featureGenerators } from "../config";
 
-export async function add(feature: string = "") {
+export async function add(
+  feature: string = "",
+  options: Record<string, any> = {}
+) {
   if (!feature) {
     const res = await prompts({
       type: "select",
@@ -18,6 +21,7 @@ export async function add(feature: string = "") {
 
     if (res.feature && res.feature.length > 0) {
       feature = res.feature;
+      console.log();
     }
   }
 
@@ -34,15 +38,23 @@ export async function add(feature: string = "") {
   }
 
   const featureGenerator = featureGenerators[feature];
+  const defaultOptions = options.options || {};
+
   if (!featureGenerator) {
     console.error(`Feature ${chalk.red(feature)} does not exist`);
     process.exit(1);
+  } else {
+    console.log(
+      `Scaffolding feature ${chalk.green(feature)} ${
+        defaultOptions ? "with options:" : ""
+      }`
+    );
+    if (defaultOptions) console.log(defaultOptions);
+    console.log();
   }
-  console.log(`Scaffolding feature ${chalk.green(feature)}`);
-  console.log();
 
   // Setup generator to get environment context for other generator methods
-  const context = await featureGenerator.setup();
+  const context = await featureGenerator.setup(defaultOptions);
 
   // Install required dependencies
   try {
@@ -76,9 +88,9 @@ export async function add(feature: string = "") {
     console.error(error);
   }
 
-  // Copy feature files
+  // Scaffold and transform feature files
   try {
-    console.log("Copying feature files");
+    console.log("Generating feature source code");
     console.log();
     const paths = await featureGenerator.scaffold(context);
     for (const path of paths) {
@@ -89,7 +101,7 @@ export async function add(feature: string = "") {
       }
     }
   } catch (error) {
-    console.log("Error copying files:");
+    console.log("Error creating files:");
     console.error(error);
   }
 

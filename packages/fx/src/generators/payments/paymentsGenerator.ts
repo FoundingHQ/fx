@@ -1,4 +1,4 @@
-import { Generator } from "@types";
+import { Generator } from "../../types";
 
 type Config = {};
 
@@ -20,5 +20,11 @@ export default {
   },
   finish: async (_config) => {
     return;
+  },
+  uninstall: async () => {
+    return {
+      dependencies: [],
+      templates: [],
+    };
   },
 } as Generator<Config>;

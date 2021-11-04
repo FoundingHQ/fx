@@ -5,7 +5,7 @@ export type TemplateOperation<T = any> = {
 };
 
 export type Generator<T = any> = {
-  setup: () => Promise<T>;
+  setup: (options?: Record<string, any>) => Promise<T>;
   install: (context: T) => Promise<{
     dependencies: string[];
     devDependencies: string[];
@@ -13,4 +13,8 @@ export type Generator<T = any> = {
   scaffold: (context: T) => Promise<TemplateOperation<T>[]>;
   codemods: (context: T) => Promise<void>;
   finish: (context: T) => Promise<void>;
+  uninstall: () => Promise<{
+    dependencies: string[];
+    templates: string[];
+  }>;
 };

@@ -15,6 +15,7 @@ const deps = [...uninstallDevDep, ...uninstallDep].filter((dep) => {
   return !keepDeps.includes(dep);
 });
 
-console.log(`Uninstalling dependencies:`, deps);
-
-execSync(`npm uninstall ${deps.join(" ")}`);
+if (deps.length) {
+  console.log(`Uninstalling dependencies:`, deps);
+  execSync(`npm uninstall ${deps.join(" ")}`);
+}

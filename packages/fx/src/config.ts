@@ -23,9 +23,3 @@ export const convertTemplatePaths = (path = { src: "", dest: "" }) => ({
   src: resolve(config.cliRoot, path.src),
   dest: resolve(config.projectRoot, path.dest),
 });
-
-export const onPromptCancel = () => {
-  throw {
-    command: "command",
-  };
-};

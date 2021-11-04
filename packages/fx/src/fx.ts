@@ -10,31 +10,50 @@ import packageJson from "../package.json";
 
 const program = new Command();
 
+const parseJsonOptions = (command: string) => (val: string) => {
+  try {
+    return JSON.parse(val);
+  } catch (e) {
+    throw {
+      command,
+      message: "Invalid JSON options",
+    };
+  }
+};
+
 async function main() {
   program
     .version(packageJson.version)
-    .description("CLI tool to add/remove prebuilt features to a Fx project")
-    .allowUnknownOption();
+    .description("CLI tool to add/remove prebuilt features to a Fx project");
 
   program
     .command("list")
     .description("list all available features and presets")
-    .action(list);
+    .action(list)
+    .allowUnknownOption();
 
   program
     .command("add [feature]")
     .description("add a new feature to the project")
-    .action(add);
+    .option(
+      "-o, --options <options>",
+      "additional feature configurations in JSON form",
+      parseJsonOptions("add")
+    )
+    .action(add)
+    .allowUnknownOption();
 
   program
     .command("remove [feature]")
     .description("remove a feature from the project")
-    .action(remove);
+    .action(remove)
+    .allowUnknownOption();
 
   program
     .command("bootstrap [preset]")
     .description("bootstrap a new project with a preset")
-    .action(bootstrap);
+    .action(bootstrap)
+    .allowUnknownOption();
 
   try {
     await program.parseAsync(process.argv);
@@ -43,7 +62,11 @@ async function main() {
     console.log();
     console.log("Aborting installation.");
     if (reason.command) {
-      console.log(`  ${chalk.cyan(reason.command)} has failed.`);
+      console.log(`  ${chalk.cyan(reason.command)} command failed.`);
+      if (reason.message) {
+        console.log();
+        console.log(`${chalk.red(reason.message)}`);
+      }
     } else {
       console.log(chalk.red("Unexpected error. Please report it as a bug:"));
       console.log(reason);

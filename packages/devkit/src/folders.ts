@@ -2,6 +2,7 @@ import chalk from "chalk";
 import fs from "fs-extra";
 import globby from "globby";
 import path from "path";
+import rimraf from "rimraf";
 
 export function isFolderEmpty(root: string, name: string): boolean {
   const validFiles = [
@@ -61,6 +62,10 @@ export function isFolderEmpty(root: string, name: string): boolean {
 
 export async function makeDir(root: string, options = { recursive: true }) {
   return fs.promises.mkdir(root, options);
+}
+
+export function removeDir(path: string) {
+  return rimraf.sync(path);
 }
 
 export async function isWriteable(directory: string): Promise<boolean> {

@@ -1,7 +1,13 @@
 import prompts from "prompts";
-import { Generator } from "@types";
-import { convertTemplatePaths, onPromptCancel } from "@config";
-import { baseConfig, authTypeConfig, authScopeConfig } from "./authConfig";
+import { Generator } from "../../types";
+import { convertTemplatePaths } from "../../config";
+import {
+  baseConfig,
+  authTypeConfig,
+  authScopeConfig,
+  allDependencies,
+  allTemplates,
+} from "./authConfig";
 
 type Context = {
   type: keyof typeof authTypeConfig;
@@ -9,11 +15,11 @@ type Context = {
 };
 
 export default {
-  setup: async () => {
+  setup: async (options = {}) => {
     const res = await prompts(
       [
         {
-          type: "select",
+          type: () => (options.type ? null : "select"),
           name: "type",
           message: "What type of authentication would you like to use?",
           initial: 0,
@@ -33,7 +39,8 @@ export default {
           ],
         },
         {
-          type: "multiselect",
+          type: () =>
+            options.scopes && options.scopes.length ? null : "multiselect",
           name: "scopes",
           message:
             "What type of authentication strategies would you like to add?",
@@ -60,11 +67,16 @@ export default {
         },
       ],
       {
-        onCancel: onPromptCancel,
+        onCancel: () => {
+          throw {
+            command: "add",
+            message: "User cancelled setup",
+          };
+        },
       }
     );
 
-    return res;
+    return { ...res, ...options };
   },
   install: async ({ type, scopes }) => {
     return {
@@ -101,5 +113,11 @@ export default {
   },
   finish: async ({ type, scopes }) => {
     return;
+  },
+  uninstall: async () => {
+    return {
+      dependencies: allDependencies,
+      templates: allTemplates,
+    };
   },
 } as Generator<Context>;
