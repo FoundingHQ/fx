@@ -6,6 +6,8 @@ export const REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
 export const REFRESH_TOKEN_SECRET =
   process.env.REFRESH_TOKEN_SECRET || "r-secret";
 
+export const COOKIE_SECRET = process.env.COOKIE_SECRET || "c-secret";
+
 export const cookieOptions = {
   path: "/",
   httpOnly: true,

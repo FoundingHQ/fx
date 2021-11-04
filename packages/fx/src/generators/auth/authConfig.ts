@@ -46,10 +46,15 @@ export const baseConfig = {
 export const authTypeConfig = {
   session: {
     installations: {
-      dependencies: [],
+      dependencies: ["express-session", "redis", "connect-redis"],
       devDependencies: [],
     },
-    templates: [],
+    templates: [
+      {
+        src: "templates/features/auth/server/strategy/session.ts",
+        dest: "lib/auth/server/strategy/session.ts",
+      },
+    ],
   },
   jwt: {
     installations: {
