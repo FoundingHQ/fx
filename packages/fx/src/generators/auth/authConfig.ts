@@ -28,10 +28,6 @@ export const baseConfig = {
       dest: "lib/auth/server/authConfig.ts",
     },
     {
-      src: "templates/features/auth/server/authService.ts",
-      dest: "lib/auth/server/authService.ts",
-    },
-    {
       src: "templates/features/users",
       dest: "lib/users",
     },
@@ -54,6 +50,10 @@ export const authTypeConfig = {
         src: "templates/features/auth/server/strategy/session.ts",
         dest: "lib/auth/server/strategy/session.ts",
       },
+      {
+        src: "templates/features/auth/server/authService[session].ts",
+        dest: "lib/auth/server/authService.ts",
+      },
     ],
   },
   jwt: {
@@ -65,6 +65,10 @@ export const authTypeConfig = {
       {
         src: "templates/features/auth/server/strategy/jwt.ts",
         dest: "lib/auth/server/strategy/jwt.ts",
+      },
+      {
+        src: "templates/features/auth/server/authService[jwt].ts",
+        dest: "lib/auth/server/authService.ts",
       },
     ],
   },
