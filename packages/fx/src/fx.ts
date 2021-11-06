@@ -40,18 +40,30 @@ async function main() {
       "additional feature configurations in JSON form",
       parseJsonOptions("add")
     )
+    .option(
+      "-n, --dryrun",
+      "print outputs of adding a feature without running the installations"
+    )
     .action(add)
     .allowUnknownOption();
 
   program
     .command("remove [feature]")
     .description("remove a feature from the project")
+    .option(
+      "-n, --dryrun",
+      "print outputs of removing a feature without running the installations"
+    )
     .action(remove)
     .allowUnknownOption();
 
   program
     .command("bootstrap [preset]")
     .description("bootstrap a new project with a preset")
+    .option(
+      "-n, --dryrun",
+      "print outputs of bootstrapping a project without running the installations"
+    )
     .action(bootstrap)
     .allowUnknownOption();
 

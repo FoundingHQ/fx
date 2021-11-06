@@ -1,7 +1,6 @@
-export type TemplateOperation<T = any> = {
+export type ScaffoldPath = {
   src: string;
   dest: string;
-  createTransform?: (context: T) => (source: string) => string;
 };
 
 export type Generator<T = any> = {
@@ -10,7 +9,7 @@ export type Generator<T = any> = {
     dependencies: string[];
     devDependencies: string[];
   }>;
-  scaffold: (context: T) => Promise<TemplateOperation<T>[]>;
+  scaffold: (context: T) => Promise<ScaffoldPath[]>;
   codemods: (context: T) => Promise<void>;
   finish: (context: T) => Promise<void>;
   uninstall: () => Promise<{

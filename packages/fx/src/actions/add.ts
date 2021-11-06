@@ -1,6 +1,16 @@
 import chalk from "chalk";
 import prompts from "prompts";
-import { copy, runTransform, install, getOnline } from "@founding/devkit";
+import {
+  copy,
+  runTransform,
+  getPaths,
+  install,
+  getOnline,
+} from "@founding/devkit";
+import {
+  createJscodeshiftTemplateTransform,
+  createTemplateTransform,
+} from "../transforms/templateTransforms";
 import { config, featureGenerators } from "../config";
 
 export async function add(
@@ -39,6 +49,7 @@ export async function add(
 
   const featureGenerator = featureGenerators[feature];
   const defaultOptions = options.options || {};
+  const dryRun = options.dryrun || false;
 
   if (!featureGenerator) {
     console.error(`Feature ${chalk.red(feature)} does not exist`);
@@ -46,10 +57,10 @@ export async function add(
   } else {
     console.log(
       `Scaffolding feature ${chalk.green(feature)} ${
-        defaultOptions ? "with options:" : ""
+        Object.keys(defaultOptions).length ? "with options:" : ""
       }`
     );
-    if (defaultOptions) console.log(defaultOptions);
+    if (Object.keys(defaultOptions).length) console.log(defaultOptions);
     console.log();
   }
 
@@ -67,20 +78,37 @@ export async function add(
       console.log();
     } else {
       const isOnline = await getOnline();
+      console.log();
 
       if (dependencies.length) {
-        console.log("Installing dependencies: ", dependencies.join(", "));
-        await install(config.projectRoot, dependencies, {
-          isOnline,
-        });
+        console.log("Installing dependencies:");
+        console.log(chalk.green(dependencies.join("\n")));
+        console.log();
+        if (dryRun) {
+          console.log(chalk.yellow("Dry run: skipping install"));
+          console.log();
+        } else {
+          await install(config.projectRoot, dependencies, {
+            isOnline,
+          });
+          console.log();
+        }
       }
 
       if (devDependencies.length) {
-        console.log("Installing devDependencies: ", dependencies.join(", "));
-        await install(config.projectRoot, devDependencies, {
-          devDependencies: true,
-          isOnline,
-        });
+        console.log("Installing devDependencies:");
+        console.log(chalk.green(devDependencies.join("\n")));
+        console.log();
+        if (dryRun) {
+          console.log(chalk.yellow("Dry run: skipping install"));
+          console.log();
+        } else {
+          await install(config.projectRoot, devDependencies, {
+            devDependencies: true,
+            isOnline,
+          });
+          console.log();
+        }
       }
     }
   } catch (error) {
@@ -95,9 +123,16 @@ export async function add(
     const paths = await featureGenerator.scaffold(context);
     for (const path of paths) {
       await copy(path.src, path.dest);
-      if (path.createTransform) {
-        const transform = path.createTransform(context);
-        await runTransform([path.dest], transform);
+      const allFiles = await getPaths(path.dest);
+      // TODO: Fix possible performance issue with this
+      for (const file of allFiles) {
+        if (file.endsWith(".ts") || file.endsWith(".tsx")) {
+          const transform = createJscodeshiftTemplateTransform(context);
+          await runTransform([file], transform);
+        } else {
+          const transform = createTemplateTransform(context);
+          await runTransform([file], transform);
+        }
       }
     }
   } catch (error) {
