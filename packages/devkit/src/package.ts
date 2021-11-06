@@ -149,10 +149,14 @@ export async function checkAndNotifyUpdates(
     if (res?.latest) {
       console.log();
       console.log(
-        chalk.yellow.bold("A new version of `create-fx-app` is available!")
+        chalk.yellow.bold(
+          `A new version of "${packageJson.name}" is available!`
+        )
       );
       console.log(
-        `You can update by running: ${chalk.cyan("npm i -g create-fx-app")}`
+        `You can update by running: ${chalk.cyan(
+          `npm update ${packageJson.name}`
+        )}`
       );
       console.log();
     }

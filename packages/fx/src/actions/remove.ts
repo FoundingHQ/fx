@@ -4,7 +4,10 @@ import chalk from "chalk";
 import { removeDir } from "@founding/devkit";
 import { featureGenerators } from "../config";
 
-export async function remove(feature: string = "") {
+export async function remove(
+  feature: string = "",
+  options: Record<string, any> = {}
+) {
   if (!feature) {
     const res = await prompts({
       type: "select",
@@ -36,6 +39,7 @@ export async function remove(feature: string = "") {
   }
 
   const featureGenerator = featureGenerators[feature];
+  const dryRun = options.dryrun || false;
 
   if (!featureGenerator) {
     console.error(`Feature ${chalk.red(feature)} does not exist`);
@@ -50,9 +54,14 @@ export async function remove(feature: string = "") {
   // Uninstall dependencies
   if (dependencies.length) {
     try {
-      console.log(`Uninstalling dependencies: ${dependencies.join(" ")}`);
+      console.log("Uninstalling dependencies:");
+      console.log(chalk.green(dependencies.join("\n")));
       console.log();
-      execSync(`npm uninstall ${dependencies.join(" ")}`);
+      if (dryRun) {
+        console.log(chalk.yellow("Dry run: skipping install"));
+      } else {
+        execSync(`npm uninstall ${dependencies.join(" ")}`);
+      }
     } catch (error) {
       console.log("Error uninstalling dependencies:");
       console.error(error);
@@ -66,8 +75,14 @@ export async function remove(feature: string = "") {
     try {
       console.log("Removing feature source code");
       console.log();
-      for (const path of templates) {
-        removeDir(path);
+      if (dryRun) {
+        console.log(chalk.yellow("Dry run: skipping source removal"));
+        console.log("Paths to remove:");
+        console.log(templates);
+      } else {
+        for (const path of templates) {
+          removeDir(path);
+        }
       }
     } catch (error) {
       console.log("Error removing files:");

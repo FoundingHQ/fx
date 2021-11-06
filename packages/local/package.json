@@ -12,7 +12,7 @@
   "author": "@FoundingHQ",
   "license": "MIT",
   "scripts": {
-    "fx:add": "fx add --dryrun",
+    "fx:add": "fx add",
     "fx:list": "fx list",
     "fx:remove": "fx remove",
     "fx:bootstrap": "fx bootstrap",

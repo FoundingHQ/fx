@@ -83,8 +83,8 @@ export async function add(
       if (dependencies.length) {
         console.log("Installing dependencies:");
         console.log(chalk.green(dependencies.join("\n")));
-        console.log();
         if (dryRun) {
+          console.log();
           console.log(chalk.yellow("Dry run: skipping install"));
           console.log();
         } else {
@@ -98,8 +98,8 @@ export async function add(
       if (devDependencies.length) {
         console.log("Installing devDependencies:");
         console.log(chalk.green(devDependencies.join("\n")));
-        console.log();
         if (dryRun) {
+          console.log();
           console.log(chalk.yellow("Dry run: skipping install"));
           console.log();
         } else {
@@ -135,6 +135,12 @@ export async function add(
         }
       }
     }
+    console.log(
+      `${chalk.green(feature)} source code can be found under ${chalk.cyan(
+        `lib/${feature}`
+      )}`
+    );
+    console.log();
   } catch (error) {
     console.log("Error creating files:");
     console.error(error);
