@@ -20,8 +20,9 @@
     "reset": "ts-node ./scripts/reset.ts"
   },
   "devDependencies": {
-    "@founding/fx": "*",
+    "rimraf": "^3.0.2",
     "@types/rimraf": "^3.0.2",
+    "@founding/fx": "*",
     "create-fx-app": "*"
   }
 }
