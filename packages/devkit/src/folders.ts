@@ -81,20 +81,16 @@ export async function copy(source: string, destination: string) {
   return fs.copy(source, destination);
 }
 
-export async function runTransform(
-  files: string[],
-  transform: (source: string) => string
+export async function runTransforms(
+  filePath: string,
+  transforms: ((source: string) => string)[]
 ) {
-  const promises = files.map((filePath) => {
-    const source = fs.readFileSync(filePath, "utf8");
-    const transformed = transform(source);
-    return fs.writeFile(filePath, transformed);
-  });
-
-  return Promise.all(promises);
+  const source = fs.readFileSync(filePath, "utf8");
+  const transformed = transforms.map((transform) => transform(source));
+  return fs.writeFile(filePath, transformed);
 }
 
-export async function getPaths(
+export async function getFiles(
   patterns: string,
   options?: globby.GlobbyOptions
 ) {

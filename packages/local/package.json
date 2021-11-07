@@ -12,9 +12,9 @@
   "author": "@FoundingHQ",
   "license": "MIT",
   "scripts": {
-    "fx:add": "fx add",
+    "fx:add": "fx add --dryrun",
     "fx:list": "fx list",
-    "fx:remove": "fx remove",
+    "fx:remove": "fx remove --dryrun",
     "fx:bootstrap": "fx bootstrap",
     "create-fx-app": "create-fx-app",
     "reset": "ts-node ./scripts/reset.ts"

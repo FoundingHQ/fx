@@ -1,11 +1,11 @@
 import chalk from "chalk";
 import { resolve } from "path";
-import { getPaths } from "@founding/devkit";
+import { getFiles } from "@founding/devkit";
 import { config, featureGenerators } from "../config";
 
 export async function list() {
   const featureList = Object.keys(featureGenerators);
-  const presetPaths = await getPaths(
+  const presetPaths: string[] = await getFiles(
     resolve(config.cliRoot, "templates/presets/*.json")
   );
 

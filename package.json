@@ -4,12 +4,15 @@
   "scripts": {
     "postinstall": "lerna bootstrap && link-parent-bin",
     "prepare": "husky install",
-    "publish": "lerna publish --no-private"
+    "publish": "lerna publish --no-private",
+    "clean": "lerna clean",
+    "dev": "lerna run dev --parallel"
   },
   "dependencies": {
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
     "link-parent-bin": "^2.0.0",
+    "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"

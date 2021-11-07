@@ -2,8 +2,8 @@ import chalk from "chalk";
 import prompts from "prompts";
 import {
   copy,
-  runTransform,
-  getPaths,
+  runTransforms,
+  getFiles,
   install,
   getOnline,
 } from "@founding/devkit";
@@ -120,19 +120,20 @@ export async function add(
   try {
     console.log("Generating feature source code");
     console.log();
-    const paths = await featureGenerator.scaffold(context);
-    for (const path of paths) {
-      await copy(path.src, path.dest);
-      const allFiles = await getPaths(path.dest);
+    const scaffoldPaths = await featureGenerator.scaffold(context);
+    for (const scaffoldPath of scaffoldPaths) {
+      await copy(scaffoldPath.src, scaffoldPath.dest);
+      const files = await getFiles(scaffoldPath.dest);
+      const transformations = (scaffoldPath.transforms || []).map(
+        (createTransform) => createTransform(context)
+      );
       // TODO: Fix possible performance issue with this
-      for (const file of allFiles) {
-        if (file.endsWith(".ts") || file.endsWith(".tsx")) {
-          const transform = createJscodeshiftTemplateTransform(context);
-          await runTransform([file], transform);
-        } else {
-          const transform = createTemplateTransform(context);
-          await runTransform([file], transform);
-        }
+      for (const file of files) {
+        const templateTransform =
+          file.endsWith(".ts") || file.endsWith(".tsx")
+            ? createJscodeshiftTemplateTransform(context)
+            : createTemplateTransform(context);
+        await runTransforms(file, [templateTransform, ...transformations]);
       }
     }
     console.log(
