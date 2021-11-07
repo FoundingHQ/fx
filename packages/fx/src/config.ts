@@ -5,12 +5,14 @@ import { Generator } from "./types";
 // Import your feature generators:
 import authGenerator from "./generators/auth/authGenerator";
 import paymentsGenerator from "./generators/payments/paymentsGenerator";
+import resourcesGenerator from "./generators/resources/resourcesGenerator";
 
 // Export it for use in the CLI:
 export const featureGenerators = {
   // { Feature name: generator module }
   auth: authGenerator,
   payments: paymentsGenerator,
+  resources: resourcesGenerator,
 } as Record<string, Generator>;
 
 export const config = {
