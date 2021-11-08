@@ -1,7 +1,7 @@
 export type ScaffoldPath<T> = {
   src: string;
   dest: string;
-  transforms?: ((context: T) => (source: string) => string)[];
+  transforms?: ((source: string, context: T) => string)[];
 };
 
 export type Generator<T = any> = {

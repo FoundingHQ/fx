@@ -1,5 +1,7 @@
 import chalk from "chalk";
 import prompts from "prompts";
+import ejs from "ejs";
+import prettier from "prettier";
 import {
   copy,
   runTransforms,
@@ -7,11 +9,7 @@ import {
   install,
   getOnline,
 } from "@founding/devkit";
-import {
-  createJscodeshiftTemplateTransform,
-  createTemplateTransform,
-} from "../transforms/templateTransforms";
-import { config, featureGenerators } from "../config";
+import { config, getPrettierParser, featureGenerators } from "../config";
 
 export async function add(
   feature: string = "",
@@ -124,16 +122,21 @@ export async function add(
     for (const scaffoldPath of scaffoldPaths) {
       await copy(scaffoldPath.src, scaffoldPath.dest);
       const files = await getFiles(scaffoldPath.dest);
-      const transformations = (scaffoldPath.transforms || []).map(
-        (createTransform) => createTransform(context)
-      );
       // TODO: Fix possible performance issue with this
-      for (const file of files) {
-        const templateTransform =
-          file.endsWith(".ts") || file.endsWith(".tsx")
-            ? createJscodeshiftTemplateTransform(context)
-            : createTemplateTransform(context);
-        await runTransforms(file, [templateTransform, ...transformations]);
+      for (const filePath of files) {
+        await runTransforms(
+          filePath,
+          [
+            ejs.render,
+            ...(scaffoldPath.transforms || []),
+            (source) => {
+              const parser = getPrettierParser(filePath);
+              if (parser) return prettier.format(source, { parser });
+              return source;
+            },
+          ],
+          context
+        );
       }
     }
     console.log(
