@@ -1,15 +1,16 @@
 import chalk from "chalk";
 import prompts from "prompts";
-import ejs from "ejs";
-import prettier from "prettier";
 import {
   copy,
   runTransforms,
   getFiles,
   install,
   getOnline,
+  getEjsTransform,
+  getPrettierTransform,
+  extendContext,
 } from "@founding/devkit";
-import { config, getPrettierParser, featureGenerators } from "../config";
+import { config, featureGenerators } from "../config";
 
 export async function add(
   feature: string = "",
@@ -63,7 +64,8 @@ export async function add(
   }
 
   // Setup generator to get environment context for other generator methods
-  const context = await featureGenerator.setup(defaultOptions);
+  const rawContext = await featureGenerator.setup(defaultOptions);
+  const context = extendContext(rawContext);
 
   // Install required dependencies
   try {
@@ -127,13 +129,9 @@ export async function add(
         await runTransforms(
           filePath,
           [
-            ejs.render,
+            getEjsTransform(filePath),
             ...(scaffoldPath.transforms || []),
-            (source) => {
-              const parser = getPrettierParser(filePath);
-              if (parser) return prettier.format(source, { parser });
-              return source;
-            },
+            getPrettierTransform(filePath),
           ],
           context
         );
