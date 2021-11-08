@@ -1,6 +1,6 @@
 # `create-fx-app` CLI
 
-This CLI tool enables you to quickly start building a new Founding application, with everything set up for you. To get started, use the following command:
+This CLI tool enables you to quickly start building a new Fx application, with everything set up for you. To get started, use the following command:
 
 ```bash
 npx create-fx-app

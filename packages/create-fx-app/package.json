@@ -2,7 +2,7 @@
   "name": "create-fx-app",
   "version": "0.8.0",
   "keywords": [],
-  "description": "Bootstrap a Founding app with one command",
+  "description": "Bootstrap a Fx app with one command",
   "repository": {
     "type": "git",
     "url": "https://github.com/FoundingHQ/fx",

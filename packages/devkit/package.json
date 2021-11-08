@@ -1,7 +1,7 @@
 {
   "name": "@founding/devkit",
   "version": "0.8.0",
-  "description": "Founding app CLI utilities",
+  "description": "Fx app CLI utilities",
   "keywords": [],
   "repository": {
     "type": "git",

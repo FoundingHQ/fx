@@ -42,7 +42,7 @@ export async function scaffold({
   const isOnline = await getOnline();
   const originalDirectory = process.cwd();
 
-  console.log(`Creating a new Founding app in ${chalk.green(root)}.`);
+  console.log(`Creating a new Fx app in ${chalk.green(root)}.`);
   console.log();
 
   await makeDir(root);

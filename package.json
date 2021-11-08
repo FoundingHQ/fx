@@ -1,5 +1,5 @@
 {
-  "name": "founding-fx",
+  "name": "fx",
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap && link-parent-bin",
