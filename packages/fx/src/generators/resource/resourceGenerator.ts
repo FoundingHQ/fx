@@ -1,7 +1,7 @@
 import prompts from "prompts";
 import { Generator } from "../../types";
 import { convertTemplatePaths } from "../../config";
-import { baseConfig, allDependencies, allTemplates } from "./resourcesConfig";
+import { baseConfig, allDependencies, allTemplates } from "./resourceConfig";
 
 type Context = {
   name: string;
