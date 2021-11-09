@@ -5,57 +5,57 @@ const defaultSelect = {
   id: true,
 };
 
-type Create<%= name %>Input = {
+type Create<%= h.changeCase.pascalCase(name) %>Input = {
   id?: string;
   <%= attributes %>
 };
 
-export const create<%= name %> = async (input: Create<%= name %>Input) => {
-  return prisma.<%= name.toLowerCase() %>.create({
+export const create<%= name %> = async (input: Create<%= h.changeCase.pascalCase(name) %>Input) => {
+  return prisma.<%= h.changeCase.camelCase(name) %>.create({
     data: input,
     select: defaultSelect,
   });
 };
 
-type Get<%= name %>Input = {
+type Get<%= h.changeCase.pascalCase(name) %>Input = {
   id?: string;
   <%= attributes %>
 };
 
-export const get<%= name %> = async (input: Get<%= name %>Input) => {
-  return prisma.<%= name.toLowerCase() %>.findUnique({
+export const get<%= h.changeCase.pascalCase(name) %> = async (input: Get<%= h.changeCase.pascalCase(name) %>Input) => {
+  return prisma.<%= h.changeCase.camelCase(name) %>.findUnique({
     where: input,
     select: defaultSelect,
   });
 };
 
-export const get<%= name %>List = async () => {
-  return prisma.<%= name.toLowerCase() %>.findMany({ select: defaultSelect });
+export const get<%= h.changeCase.pascalCase(name) %>List = async () => {
+  return prisma.<%= h.changeCase.camelCase(name) %>.findMany({ select: defaultSelect });
 };
 
-interface Update<%= name %>Input {
-  <%= name.toLowerCase() %>Id: string;
-  <%= name.toLowerCase() %>Input: Create<%= name %>Input;
+interface Update<%= h.changeCase.pascalCase(name) %>Input {
+  <%= h.changeCase.camelCase(name) %>Id: string;
+  <%= h.changeCase.camelCase(name) %>Input: Create<%= h.changeCase.pascalCase(name) %>Input;
 }
 
-export const update<%= name %> = async ({
-  <%= name.toLowerCase() %>Id,
-  <%= name.toLowerCase() %>Input,
-}: Update<%= name %>Input) => {
-  return prisma.<%= name.toLowerCase() %>.update({
-    where: { id: <%= name.toLowerCase() %>Id },
-    data: <%= name.toLowerCase() %>Input,
+export const update<%= h.changeCase.pascalCase(name) %> = async ({
+  <%= h.changeCase.camelCase(name) %>Id,
+  <%= h.changeCase.camelCase(name) %>Input,
+}: Update<%= h.changeCase.pascalCase(name) %>Input) => {
+  return prisma.<%= h.changeCase.camelCase(name) %>.update({
+    where: { id: <%= h.changeCase.camelCase(name) %>Id },
+    data: <%= h.changeCase.camelCase(name) %>Input,
   });
 };
 
-interface Delete<%= name %>Input {
-  <%= name.toLowerCase() %>Id: string;
+interface Delete<%= h.changeCase.pascalCase(name) %>Input {
+  <%= h.changeCase.camelCase(name) %>Id: string;
 }
 
-export const delete<%= name %> = async ({
-  <%= name.toLowerCase() %>Id,
-}: Delete<%= name %>Input) => {
-  return prisma.<%= name.toLowerCase() %>.delete({
-    where: { id: <%= name.toLowerCase() %>Id },
+export const delete<%= h.changeCase.pascalCase(name) %> = async ({
+  <%= h.changeCase.camelCase(name) %>Id,
+}: Delete<%= h.changeCase.pascalCase(name) %>Input) => {
+  return prisma.<%= h.changeCase.camelCase(name) %>.delete({
+    where: { id: <%= h.changeCase.camelCase(name) %>Id },
   });
 };
