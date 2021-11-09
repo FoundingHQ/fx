@@ -47,3 +47,16 @@ export const getPrettierParser = (filePath: string) => {
   const filetype = filePath.slice(filePath.lastIndexOf(".") + 1);
   return filetypeToParser[filetype as keyof typeof filetypeToParser] || null;
 };
+
+const interpolate = (template: string, obj: Record<string, any> = {}) => {
+  const keys = Object.keys(obj);
+  const func = Function(...keys, "return `" + template + "`;");
+  return func(...keys.map((k) => obj[k]));
+};
+
+export const convertAndInterpolateTemplatePaths = (
+  template: string,
+  context: Record<string, any> = {}
+) => {
+  return resolve(config.cliRoot, interpolate(template, context));
+};

@@ -10,7 +10,13 @@ import {
   getPrettierTransform,
   extendContext,
 } from "@founding/devkit";
-import { config, featureGenerators } from "../config";
+import {
+  config,
+  convertAndInterpolateTemplatePaths,
+  convertDestTemplatePaths,
+  convertSrcTemplatePaths,
+  featureGenerators,
+} from "../config";
 
 export async function add(
   feature: string = "",
@@ -122,8 +128,14 @@ export async function add(
     console.log();
     const scaffoldPaths = await featureGenerator.scaffold(context);
     for (const scaffoldPath of scaffoldPaths) {
-      await copy(scaffoldPath.src, scaffoldPath.dest);
-      const files = await getFiles(scaffoldPath.dest);
+      const src = convertAndInterpolateTemplatePaths(scaffoldPath.src, context);
+      const dest = convertAndInterpolateTemplatePaths(
+        scaffoldPath.dest,
+        context
+      );
+      await copy(src, dest);
+
+      const files = await getFiles(dest);
       // TODO: Fix possible performance issue with this
       for (const filePath of files) {
         await runTransforms(

@@ -42,8 +42,7 @@ export default {
     };
   },
   scaffold: async ({ name }) => {
-    const { templates } = baseConfig(name);
-    return [...templates.map(convertTemplatePaths)];
+    return [...baseConfig.templates.map(convertTemplatePaths)];
   },
   codemods: async ({ name, attributes }) => {
     console.log(`Code mods: ${name}, attributes: ${attributes}`);
