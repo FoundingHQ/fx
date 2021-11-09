@@ -1,5 +1,5 @@
 import inflection from "inflection";
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 import path from "path";
 
 const helpers = {
