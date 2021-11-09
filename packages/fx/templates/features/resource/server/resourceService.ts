@@ -11,9 +11,8 @@ type Create<%= name %>Input = {
 };
 
 export const create<%= name %> = async (input: Create<%= name %>Input) => {
-  const data: Prisma.<%= name %>CreateInput = { name };
   return prisma.<%= name.toLowerCase() %>.create({
-    data,
+    data: input,
     select: defaultSelect,
   });
 };
