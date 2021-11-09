@@ -1,7 +1,7 @@
 import prompts from "prompts";
 import { Generator } from "../../types";
 import { convertTemplatePaths } from "../../config";
-import { baseConfig, allDependencies, allTemplates } from "./resourceConfig";
+import { baseConfig } from "./resourceConfig";
 
 type Context = {
   name: string;
@@ -35,16 +35,15 @@ export default {
 
     return { ...res, ...options };
   },
-  install: async ({ name, attributes }) => {
+  install: async () => {
     return {
-      dependencies: [...baseConfig.installations.dependencies],
-      devDependencies: [...baseConfig.installations.devDependencies],
+      dependencies: [],
+      devDependencies: [],
     };
   },
-  scaffold: async ({ name, attributes }) => {
-    console.log(`Scaffold name: ${name}, attributes: ${attributes}`);
-
-    return [...baseConfig.templates.map(convertTemplatePaths)];
+  scaffold: async ({ name }) => {
+    const { templates } = baseConfig(name);
+    return [...templates.map(convertTemplatePaths)];
   },
   codemods: async ({ name, attributes }) => {
     console.log(`Code mods: ${name}, attributes: ${attributes}`);
@@ -58,8 +57,8 @@ export default {
   },
   uninstall: async () => {
     return {
-      dependencies: allDependencies,
-      templates: allTemplates,
+      dependencies: [],
+      templates: [],
     };
   },
 } as Generator<Context>;
