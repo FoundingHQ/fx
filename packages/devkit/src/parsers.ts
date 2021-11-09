@@ -1,7 +1,7 @@
 import ejs from "ejs";
 import prettier from "prettier";
 
-const filetypeToPrettierParser = {
+export const filetypeToPrettierParser = {
   ts: "typescript",
   tsx: "typescript",
   js: "babel",

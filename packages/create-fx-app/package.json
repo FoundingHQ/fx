@@ -18,7 +18,6 @@
   ],
   "scripts": {
     "cli": "node -r ts-node/register src/create-fx-app.ts",
-    "cli:dist": "",
     "dev": "tsc --watch",
     "build": "tsc",
     "prepublish": "npm run build",
@@ -37,6 +36,6 @@
     "@types/prompts": "^2.0.14"
   },
   "engines": {
-    "node": ">=12.22.0"
+    "node": ">=14.0.0"
   }
 }
