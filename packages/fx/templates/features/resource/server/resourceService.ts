@@ -45,12 +45,6 @@ export const update<%= name %> = async ({
   <%= name.toLowerCase() %>Id,
   <%= name.toLowerCase() %>Input,
 }: Update<%= name %>Input) => {
-  const <%= name.toLowerCase() %>  = await prisma.<%= name.toLowerCase() %>.findUnique({
-    where: {
-      id: <%= name.toLowerCase() %>Id,
-    },
-  });
-
   const { name } = <%= name.toLowerCase() %>Input;
   return prisma.<%= name.toLowerCase() %>.update({
     where: { id: <%= name.toLowerCase() %>Id },
@@ -65,12 +59,6 @@ interface Delete<%= name %>Input {
 export const delete<%= name %> = async ({
   <%= name.toLowerCase() %>Id,
 }: Delete<%= name %>Input) => {
-  const <%= name.toLowerCase() %> = await prisma.<%= name.toLowerCase() %>.findUnique({
-    where: {
-      id: <%= name.toLowerCase() %>Id,
-    },
-  });
-
   return prisma.<%= name.toLowerCase() %>.delete({
     where: { id: <%= name.toLowerCase() %>Id },
   });
