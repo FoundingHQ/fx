@@ -10,7 +10,7 @@ type Create<%= name %>Input = {
   <%= attributes %>
 };
 
-export const create<%= name %> = async ({ name }: Create<%= name %>Input) => {
+export const create<%= name %> = async (input: Create<%= name %>Input) => {
   const data: Prisma.<%= name %>CreateInput = { name };
   return prisma.<%= name.toLowerCase() %>.create({
     data,
@@ -23,11 +23,9 @@ type Get<%= name %>Input = {
   <%= attributes %>
 };
 
-export const get<%= name %> = async ({ id }: Get<%= name %>Input) => {
-  const where = { id };
-
+export const get<%= name %> = async (input: Get<%= name %>Input) => {
   return prisma.<%= name.toLowerCase() %>.findUnique({
-    where,
+    where: input,
     select: defaultSelect,
   });
 };
