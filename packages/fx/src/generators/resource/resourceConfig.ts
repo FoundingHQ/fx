@@ -8,12 +8,16 @@ export const baseConfig = (resourceName: string) => {
     },
     templates: [
       {
-        src: "templates/features/resource/components",
-        dest: `lib/${resourceDir}/components`,
+        src: "templates/features/resource/components/ResourceForm.tsx",
+        dest: `lib/${resourceDir}/components/${resourceName}Form.tsx`,
       },
       {
-        src: "templates/features/resource/data",
-        dest: `lib/${resourceDir}/data`,
+        src: "templates/features/resource/data/resourceHooks.ts",
+        dest: `lib/${resourceDir}/data/${resourceDir}Hooks.ts`,
+      },
+      {
+        src: "templates/features/resource/data/ResourceProvider.ts",
+        dest: `lib/${resourceDir}/data/${resourceName}Provider.ts`,
       },
       {
         src: "templates/features/resource/server/resourceConfig.ts",

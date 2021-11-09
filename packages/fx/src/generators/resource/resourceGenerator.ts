@@ -46,19 +46,8 @@ export default {
     return [...templates.map(convertTemplatePaths)];
   },
   codemods: async ({ name, attributes }) => {
-    // Rename templates
-
-    const renameResourceFile = (currentPath: string, newPath: string) => {};
-    renameResourceFile("", ``);
-
-    // components/ResourceForm.tsx -> components/${name}Form.tsx
-    // data/resourceHooks.ts -> data/${name.toLowerCase()}Hooks.ts
-    // data/ResourceProvider.ts -> data/${name}Provider.ts
-    // server/resourceConfig.ts -> server/${name.toLowerCase()}Config.ts
-    // server/resourceService.ts -> server/${name.toLowerCase()}Service.ts
-
-    // Update prisma schema
     console.log(`Code mods: ${name}, attributes: ${attributes}`);
+    // TODO: update prisma schema
 
     return;
   },
