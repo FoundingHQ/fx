@@ -43,10 +43,9 @@ export const update<%= name %> = async ({
   <%= name.toLowerCase() %>Id,
   <%= name.toLowerCase() %>Input,
 }: Update<%= name %>Input) => {
-  const { name } = <%= name.toLowerCase() %>Input;
   return prisma.<%= name.toLowerCase() %>.update({
     where: { id: <%= name.toLowerCase() %>Id },
-    data: { name },
+    data: <%= name.toLowerCase() %>Input,
   });
 };
 
