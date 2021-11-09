@@ -11,5 +11,5 @@
     "skipLibCheck": false
   },
   "include": ["src/**/*"],
-  "exclude": ["dist"]
+  "exclude": ["node_modules", "dist"]
 }

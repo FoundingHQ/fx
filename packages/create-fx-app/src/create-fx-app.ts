@@ -1,11 +1,15 @@
 #!/usr/bin/env node
-import chalk from "chalk";
-import { Command } from "commander";
 import path from "path";
+import fs from "fs";
+import { Command } from "commander";
+import chalk from "chalk";
 import prompts from "prompts";
 import { validateNpmName, checkAndNotifyUpdates } from "@founding/devkit";
 import { scaffold } from "./scaffold";
-import packageJson from "../package.json";
+
+const packageJson = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "../package.json"), "utf8")
+);
 
 const program = new Command();
 

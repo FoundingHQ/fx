@@ -6,7 +6,9 @@
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "outDir": "./dist"
   },
-  "exclude": ["dist", "templates"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "templates"]
 }

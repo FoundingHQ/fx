@@ -1,12 +1,17 @@
 #!/usr/bin/env node
-import chalk from "chalk";
+import fs from "fs";
+import path from "path";
 import { Command } from "commander";
+import chalk from "chalk";
 import { checkAndNotifyUpdates } from "@founding/devkit";
-import { list } from "./actions/list";
-import { add } from "./actions/add";
-import { remove } from "./actions/remove";
-import { bootstrap } from "./actions/bootstrap";
-import packageJson from "../package.json";
+import { list } from "./commands/list";
+import { add } from "./commands/add";
+import { remove } from "./commands/remove";
+import { bootstrap } from "./commands/bootstrap";
+
+const packageJson = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "../package.json"), "utf8")
+);
 
 const program = new Command();
 
