@@ -5,73 +5,73 @@ const defaultSelect = {
   id: true,
 };
 
-type CreateResourceInput = {
+type Create<%= name %>Input = {
   id?: string;
   name?: string;
 };
 
-export const createResource = async ({ name }: CreateResourceInput) => {
-  const data: Prisma.ResourceCreateInput = { name };
-  return prisma.resource.create({
+export const create<%= name %> = async ({ name }: Create<%= name %>Input) => {
+  const data: Prisma.<%= name %>CreateInput = { name };
+  return prisma.<%= name.toLowerCase() %>.create({
     data,
     select: defaultSelect,
   });
 };
 
-type GetResourceInput = {
+type Get<%= name %>Input = {
   id?: string;
   email?: string;
 };
 
-export const getResource = async ({ id }: GetResourceInput) => {
+export const get<%= name %> = async ({ id }: Get<%= name %>Input) => {
   const where = { id };
 
-  return prisma.resource.findUnique({
+  return prisma.<%= name.toLowerCase() %>.findUnique({
     where,
     select: defaultSelect,
   });
 };
 
-export const getResources = async () => {
-  return prisma.user.findMany({ select: defaultSelect });
+export const get<%= name %>List = async () => {
+  return prisma.<%= name.toLowerCase() %>.findMany({ select: defaultSelect });
 };
 
-interface UpdateResourceInput {
-  resourceId: string;
-  resourceInput: CreateResourceInput;
+interface Update<%= name %>Input {
+  <%= name.toLowerCase() %>Id: string;
+  <%= name.toLowerCase() %>Input: Create<%= name %>Input;
 }
 
-export const updateEngagement = async ({
-  resourceId,
-  resourceInput,
-}: UpdateResourceInput) => {
-  const resource = await prisma.resource.findUnique({
+export const update<%= name %> = async ({
+  <%= name.toLowerCase() %>Id,
+  <%= name.toLowerCase() %>Input,
+}: Update<%= name %>Input) => {
+  const <%= name.toLowerCase() %>  = await prisma.<%= name.toLowerCase() %>.findUnique({
     where: {
-      id: resourceId,
+      id: <%= name.toLowerCase() %>Id,
     },
   });
 
-  const { name } = resourceInput;
-  return prisma.resource.update({
-    where: { id: resourceId },
+  const { name } = <%= name.toLowerCase() %>Input;
+  return prisma.<%= name.toLowerCase() %>.update({
+    where: { id: <%= name.toLowerCase() %>Id },
     data: { name },
   });
 };
 
-interface DeleteEngagementInput {
-  resourceId: string;
+interface Delete<%= name %>Input {
+  <%= name.toLowerCase() %>Id: string;
 }
 
-export const deleteEngagement = async ({
-  resourceId,
-}: DeleteEngagementInput) => {
-  const resource = await prisma.resource.findUnique({
+export const delete<%= name %> = async ({
+  <%= name.toLowerCase() %>Id,
+}: Delete<%= name %>Input) => {
+  const <%= name.toLowerCase() %> = await prisma.<%= name.toLowerCase() %>.findUnique({
     where: {
-      id: resourceId,
+      id: <%= name.toLowerCase() %>Id,
     },
   });
 
-  return prisma.resource.delete({
-    where: { id: resourceId },
+  return prisma.<%= name.toLowerCase() %>.delete({
+    where: { id: <%= name.toLowerCase() %>Id },
   });
 };
