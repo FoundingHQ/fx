@@ -7,7 +7,7 @@ const defaultSelect = {
 
 type Create<%= name %>Input = {
   id?: string;
-  name?: string;
+  <%= attributes %>
 };
 
 export const create<%= name %> = async ({ name }: Create<%= name %>Input) => {
@@ -20,7 +20,7 @@ export const create<%= name %> = async ({ name }: Create<%= name %>Input) => {
 
 type Get<%= name %>Input = {
   id?: string;
-  email?: string;
+  <%= attributes %>
 };
 
 export const get<%= name %> = async ({ id }: Get<%= name %>Input) => {
