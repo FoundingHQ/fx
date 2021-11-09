@@ -21,7 +21,7 @@ export const baseConfig = {
       dest: "lib/${h.changeCase.camelCase(name)}/server/${h.changeCase.camelCase(name)}Service.ts",
     },
     {
-      src: "templates/features/pages/resource/index.ts",
+      src: "templates/features/pages/api/resource/index.ts",
       dest: "pages/api/${h.changeCase.camelCase(name)}/index.ts",
     },
   ],
