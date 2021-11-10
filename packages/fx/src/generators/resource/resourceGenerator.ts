@@ -29,7 +29,8 @@ export default {
         {
           type: () => (options.attributes ? null : "text"),
           name: "attributes",
-          message: "What are the attributes of the resource?",
+          message:
+            "What are the attributes of the resource?\n\nAttribute consists of prisma fieldName and fieldType\n\n(i.e. name:String description:Text)\n\n",
         },
       ],
       {
