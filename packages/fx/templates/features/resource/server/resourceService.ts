@@ -1,5 +1,4 @@
 import { prisma } from "@server/prisma";
-import { Prisma } from "@prisma/client";
 
 const defaultSelect = {
   id: true,
