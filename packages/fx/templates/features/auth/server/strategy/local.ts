@@ -22,7 +22,7 @@ export const loginStrategy = new Strategy(
       if (
         !user ||
         !passwordHash ||
-        (passwordHash && !validatePassword(passwordHash, password))
+        (passwordHash && !(await validatePassword(password, passwordHash)))
       ) {
         return done(null, false);
       }

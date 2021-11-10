@@ -26,6 +26,7 @@ export const authRoutes = {
   facebook: "/api/auth/facebook",
   facebookCallback: "/api/auth/facebook/callback",
   refresh: "/api/auth/refresh_token",
+  currentUser: "/api/auth/current_user",
 };
 
 type AuthRoutes = typeof authRoutes;

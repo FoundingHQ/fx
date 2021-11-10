@@ -44,6 +44,7 @@ export default {
           name: "scopes",
           message:
             "What type of authentication strategies would you like to add?",
+          min: 1,
           choices: [
             {
               title: "Local",
@@ -55,7 +56,13 @@ export default {
               title: "Google",
               description: "Google OAuth",
               value: "google",
-              selected: true,
+              selected: false,
+            },
+            {
+              title: "Facebook",
+              description: "Facebook OAuth",
+              value: "facebook",
+              selected: false,
             },
             {
               title: "Magic Link",

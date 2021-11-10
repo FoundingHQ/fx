@@ -1,28 +1,14 @@
 import passport from "passport";
-<% if (type === "jwt") { %>
-import {
-  accessTokenStrategy,
-  refreshTokenStrategy,
-} from "@lib/auth/server/strategy/jwt";
-<% } %>
-<% if (scopes.includes("local")) { %>
+// import { googleStrategy } from "@lib/auth/server/strategy/google";
 import { signupStrategy, loginStrategy } from "@lib/auth/server/strategy/local";
-<% } %>
-<% if (scopes.includes("google")) { %>
-import { googleStrategy } from "@lib/auth/server/strategy/google";
-<% } %>
+import { serializeUser, deserializeUser } from "@lib/users/server/userService";
 
-export const configurePassport = () => {
-  <% if (type === "jwt") { %>
-  passport.use("accessToken", accessTokenStrategy);
-  passport.use("refreshToken", refreshTokenStrategy);
-  <% } %>
-  <% if (scopes.includes("local")) { %>
-  passport.use("signup", signupStrategy);
-  passport.use("login", loginStrategy);
-  <% } %>
-  <% if (scopes.includes("google")) { %>
-  passport.use(googleStrategy);
-  <% } %>
-  return passport;
-};
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
+
+passport.use("signup", signupStrategy);
+passport.use("login", loginStrategy);
+
+// passport.use(googleStrategy);
+
+export default passport;

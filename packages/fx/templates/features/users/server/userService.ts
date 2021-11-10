@@ -1,6 +1,6 @@
+import { Prisma, User } from "@prisma/client";
 import { prisma } from "@server/prisma";
 import { createPasswordHash } from "@lib/auth/server/authService";
-import { Prisma, User } from "@prisma/client";
 
 const defaultSelect = {
   id: true,
@@ -87,8 +87,12 @@ export const getUserPasswordHash = async ({ email, id }: GetUserInput) => {
   return { user: null, passwordHash: null };
 };
 
+export const getUsers = async () => {
+  return prisma.user.findMany({ select: defaultSelect });
+};
+
 export const serializeUser = (
-  user: User,
+  user: Partial<User>,
   callback: (err: any, userId?: string) => void
 ) => {
   callback(null, user.id);
@@ -104,8 +108,4 @@ export const deserializeUser = async (
   } catch (err) {
     callback(err);
   }
-};
-
-export const getUsers = async () => {
-  return prisma.user.findMany({ select: defaultSelect });
 };

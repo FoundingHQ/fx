@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useQueryClient, useQuery, useMutation } from "react-query";
 import { fetcher } from "@util/query";
 import {
   clientAuthRoutes,
-  ACCESS_TOKEN_TIMEOUT,
+  <% if (type === "jwt") { %>ACCESS_TOKEN_TIMEOUT<% } %>
 } from "@lib/auth/server/authConfig";
 
 // We should subset this to only interface we need.
@@ -14,7 +15,9 @@ export type Session = { accessToken: string; user: User };
 export type AuthInput = { email: string; password: string };
 
 const sessionKey = "session";
+<% if (type === "jwt") { %>
 const defaultSessionTimeout = ACCESS_TOKEN_TIMEOUT - 1000;
+<% } %>
 
 const useHandleAuth = (shouldInvalidate = false) => {
   const queryClient = useQueryClient();
@@ -29,6 +32,38 @@ const useHandleAuth = (shouldInvalidate = false) => {
   return handleAuth;
 };
 
+export const useCurrentUser = () => {
+  return useQuery<Session>(sessionKey, () =>
+    fetcher.post(clientAuthRoutes.currentUser)
+  );
+};
+
+const useAuthRedirect = (shouldBeAuthed: boolean, redirectPath: string) => {
+  const { data, isLoading, isSuccess, isError } = useCurrentUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      if (shouldBeAuthed && !data.user) {
+        router.push(redirectPath);
+      }
+      if (!shouldBeAuthed && data.user) {
+        router.push(redirectPath);
+      }
+    }
+  }, [isSuccess, data]);
+
+  return { data, isLoading, isSuccess, isError };
+};
+
+export const useRequireAuth = (redirectPath: string) => {
+  return useAuthRedirect(true, redirectPath);
+};
+
+export const useRedirectOnceAuthed = (redirectPath: string) => {
+  return useAuthRedirect(false, redirectPath);
+};
+<% if (type === "jwt") { %>
 export const useSession = () => {
   const [refetchInterval, setRefetchInterval] = useState(defaultSessionTimeout);
   return useQuery<Session>(
@@ -46,7 +81,7 @@ export const useSession = () => {
     }
   );
 };
-
+<% } %>
 export const useLogin = () => {
   const handleAuth = useHandleAuth();
   return useMutation(

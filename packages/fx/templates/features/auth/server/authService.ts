@@ -1,6 +1,7 @@
+import { hash, compare } from "bcrypt";
+<% if (type === "jwt") { %>
 import { User } from "@prisma/client";
 import { sign } from "jsonwebtoken";
-import { hash, compare } from "bcrypt";
 import {
   ACCESS_TOKEN_SECRET,
   ACCESS_TOKEN_TIMEOUT,
@@ -8,7 +9,7 @@ import {
   REFRESH_TOKEN_SECRET,
   cookieOptions,
 } from "./authConfig";
-
+<% } %>
 const SALT_ROUNDS = 10;
 
 export const createPasswordHash = async (password: string) => {
@@ -17,13 +18,14 @@ export const createPasswordHash = async (password: string) => {
 };
 
 export const validatePassword = async (
-  passwordHash: string,
-  password: string
+  password: string,
+  passwordHash: string
 ) => {
   const isMatchingPassword = await compare(password, passwordHash);
   return isMatchingPassword;
 };
 
+<% if (type === "jwt") { %>
 export const createAccessToken = (user: Partial<User>) => {
   const accessToken = sign({ user }, ACCESS_TOKEN_SECRET, {
     expiresIn: ACCESS_TOKEN_TIMEOUT,
@@ -46,3 +48,4 @@ export const attachRefreshToken = (refreshToken: string, res: any) => {
 export const destroyRefreshToken = (res: any) => {
   res.cookie(REFRESH_TOKEN_COOKIE_NAME, "", cookieOptions);
 };
+<% } %>

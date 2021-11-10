@@ -1,6 +1,6 @@
 export const baseConfig = {
   installations: {
-    dependencies: ["nodemailer", "passport"],
+    dependencies: ["nodemailer", "passport", "bcrypt"],
     devDependencies: ["@types/bcrypt", "@types/passport"],
   },
   templates: [
@@ -40,12 +40,20 @@ export const authTypeConfig = {
   session: {
     installations: {
       dependencies: ["express-session", "redis", "connect-redis"],
-      devDependencies: [],
+      devDependencies: [
+        "@types/express-session",
+        "@types/redis",
+        "@types/connect-redis",
+      ],
     },
     templates: [
       {
-        src: "templates/features/auth/server/strategy/session.ts",
-        dest: "lib/auth/server/strategy/session.ts",
+        src: "templates/features/auth/server/middlewares/session.ts",
+        dest: "lib/auth/server/middlewares/session.ts",
+      },
+      {
+        src: "templates/features/core/server/redis.ts",
+        dest: "lib/core/server/redis.ts",
       },
     ],
   },

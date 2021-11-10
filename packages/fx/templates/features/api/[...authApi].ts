@@ -1,37 +1,60 @@
-import { createHandler, passport } from "@server/handler";
+import createHandler from "@server/handler";
+import passport from "passport";
+import { authRoutes } from "@lib/auth/server/authConfig";
+<% if (type === "jwt") { %>
 import {
   createAccessToken,
   createRefreshToken,
   attachRefreshToken,
   destroyRefreshToken,
 } from "@lib/auth/server/authService";
-import { authRoutes } from "@lib/auth/server/authConfig";
-
+<% } %>
 const handler = createHandler({ attachParams: true });
 
 handler
   .post(
     authRoutes.signup,
-    passport.authenticate("signup", { session: false }),
+    passport.authenticate("signup", { session: true }),
     async (req, res) => {
+      <% if (type === "jwt") { %>
       const accessToken = createAccessToken(req.user!);
       const refreshToken = createRefreshToken(req.user!);
-
       attachRefreshToken(refreshToken, refreshToken);
       res.status(200).json({ user: req.user, accessToken });
+      <% } %>
+      <% if (type === "session") { %>
+      req.session.userId = req.user?.id;
+      res.status(200).json({ user: req.user });
+      <% } %>
     }
   )
   .post(
     authRoutes.login,
-    passport.authenticate("login", { session: false }),
+    passport.authenticate("login", { session: true }),
     async (req, res) => {
+      <% if (type === "jwt") { %>
       const accessToken = createAccessToken(req.user!);
       const refreshToken = createRefreshToken(req.user!);
-
       attachRefreshToken(refreshToken, refreshToken);
       res.status(200).json({ user: req.user, accessToken });
+      <% } %>
+      <% if (type === "session") { %>
+      req.session.userId = req.user?.id;
+      res.status(200).json({ user: req.user });
+      <% } %>
     }
   )
+  .post(authRoutes.logout, async (req, res) => {
+    req.logout();
+    <% if (type === "jwt") { %>
+    // destroyRefreshToken(res);
+    // res.status(200).json({ user: null, accessToken: null });
+    <% } %>
+    <% if (type === "session") { %>
+    res.status(200).json({ user: null });
+    <% } %>
+  })
+  <% if (type === "jwt") { %>
   .post(
     authRoutes.refresh,
     passport.authenticate("refreshToken", { session: false }),
@@ -40,33 +63,32 @@ handler
       res.status(200).json({ user: req.user, accessToken });
     }
   )
-  .post(
-    authRoutes.logout,
-    passport.authenticate("refreshToken", { session: false }),
-    async (req, res) => {
-      destroyRefreshToken(res);
-      req.logout();
-      res.status(200).json({ user: null, accessToken: null });
-    }
-  )
+  <% } %>
+  .post(authRoutes.currentUser, async (req, res) => {
+    res.status(200).json({ user: req.user });
+  })
   .get(
     authRoutes.google,
     passport.authenticate("google", {
       scope: ["profile", "email"],
-      session: false,
+      session: true,
     })
   )
   .get(
     authRoutes.googleCallback,
     passport.authenticate("google", {
-      failureRedirect: "/login",
-      session: false,
+      failureRedirect: "/auth/login",
+      session: true,
     }),
     async (req, res) => {
+      <% if (type === "jwt") { %>
       const refreshToken = createRefreshToken(req.user!);
-
       attachRefreshToken(refreshToken, refreshToken);
+      <% } %>
+      <% if (type === "session") { %>
+      req.session.userId = req.user?.id;
       res.redirect("/");
+      <% } %>
     }
   );
 
