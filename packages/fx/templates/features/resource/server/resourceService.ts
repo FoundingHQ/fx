@@ -6,7 +6,7 @@ const defaultSelect = {
 
 type Create<%= h.changeCase.pascalCase(name) %>Input = {
   id?: string;
-  <% attributes.split(" ").forEach((attr) => { %><%= attr %>;<% }); %>
+  <% attributes.split(" ").forEach((attr) => { %><%= h.prismaToTypescript(attr) %>;<% }); %>
 };
 
 export const create<%= name %> = async (input: Create<%= h.changeCase.pascalCase(name) %>Input) => {
@@ -18,7 +18,7 @@ export const create<%= name %> = async (input: Create<%= h.changeCase.pascalCase
 
 type Get<%= h.changeCase.pascalCase(name) %>Input = {
   id?: string;
-  <% attributes.split(" ").forEach((attr) => { %><%= attr %>;<% }); %>
+  <% attributes.split(" ").forEach((attr) => { %><%= h.prismaToTypescript(attr) %>;<% }); %>
 };
 
 export const get<%= h.changeCase.pascalCase(name) %> = async (input: Get<%= h.changeCase.pascalCase(name) %>Input) => {
