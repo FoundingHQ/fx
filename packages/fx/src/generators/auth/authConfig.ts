@@ -29,7 +29,7 @@ export const baseConfig = {
       dest: "lib/users",
     },
     {
-      src: "templates/features/pages/[...authApi].ts",
+      src: "templates/features/api/[...authApi].ts",
       dest: "pages/api/auth/[...authApi].ts",
     },
   ],
