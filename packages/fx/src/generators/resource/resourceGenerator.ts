@@ -1,15 +1,16 @@
 import fs from "fs";
 import prompts from "prompts";
-import {
-  getSchema,
-  KeyValue,
-  printSchema,
-  Property,
-} from "@mrleebo/prisma-ast";
+import { getSchema, printSchema, Property } from "@mrleebo/prisma-ast";
 
 import { Generator } from "../../types";
 import { convertProjectPath, convertTemplatePaths } from "../../config";
 import { baseConfig } from "./resourceConfig";
+import {
+  primaryKey,
+  createdAt,
+  updatedAt,
+  attributesToProperties,
+} from "./util/prisma";
 
 type Context = {
   name: string;
@@ -56,82 +57,7 @@ export default {
     const schemaPath = convertProjectPath("prisma/schema.prisma");
     const source = fs.readFileSync(schemaPath, "utf8");
     const schema = getSchema(source);
-
-    const properties: Array<Property> = attributes
-      .split(" ")
-      .map((attribute: string) => {
-        const [fieldName, fieldType] = attribute.split(":");
-        return { type: "field", name: fieldName, fieldType };
-      });
-
-    const primaryKey: any = {
-      type: "field",
-      name: "id",
-      fieldType: "String",
-      array: false,
-      optional: false,
-      attributes: [
-        {
-          type: "attribute",
-          name: "id",
-          kind: "field",
-          group: "",
-        },
-        {
-          type: "attribute",
-          name: "default",
-          kind: "field",
-          args: [
-            {
-              type: "attributeArgument",
-              value: {
-                type: "function",
-                name: "cuid",
-              },
-            },
-          ],
-        },
-      ],
-    };
-
-    const createdAt: any = {
-      type: "field",
-      name: "createdAt",
-      fieldType: "DateTime",
-      array: false,
-      optional: false,
-      attributes: [
-        {
-          type: "attribute",
-          name: "default",
-          kind: "field",
-          args: [
-            {
-              type: "attributeArgument",
-              value: {
-                type: "function",
-                name: "now",
-              },
-            },
-          ],
-        },
-      ],
-    };
-
-    const updatedAt: any = {
-      type: "field",
-      name: "updatedAt",
-      fieldType: "DateTime",
-      array: false,
-      optional: false,
-      attributes: [
-        {
-          type: "attribute",
-          name: "updatedAt",
-          kind: "field",
-        },
-      ],
-    };
+    const properties = attributesToProperties(attributes);
 
     schema.list.push({
       type: "model",
