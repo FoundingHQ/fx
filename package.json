@@ -8,7 +8,7 @@
     "clean": "lerna clean",
     "dev": "lerna run dev --parallel",
     "test": "jest",
-    "reset": "lerna exec reset"
+    "reset": "lerna clean && npm i"
   },
   "dependencies": {
     "@types/jest": "^27.0.2",
