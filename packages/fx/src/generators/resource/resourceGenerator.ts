@@ -1,6 +1,9 @@
+import fs from "fs";
 import prompts from "prompts";
+import { getSchema } from "@mrleebo/prisma-ast";
+
 import { Generator } from "../../types";
-import { convertTemplatePaths } from "../../config";
+import { convertProjectPath, convertTemplatePaths } from "../../config";
 import { baseConfig } from "./resourceConfig";
 
 type Context = {
@@ -46,6 +49,11 @@ export default {
   },
   codemods: async ({ name, attributes }) => {
     console.log(`Code mods: ${name}, attributes: ${attributes}`);
+
+    const schemaPath = convertProjectPath("prisma/schema.prisma");
+    const source = fs.readFileSync(schemaPath, "utf8");
+    const schema = getSchema(source);
+    console.log("\n\nschema", schema);
     // TODO: update prisma schema
 
     return;

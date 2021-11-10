@@ -26,6 +26,10 @@ export const convertTemplatePaths = (path = { src: "", dest: "" }) => ({
   dest: resolve(config.projectRoot, path.dest),
 });
 
+export const convertProjectPath = (path: string) => {
+  return resolve(config.projectRoot, path);
+};
+
 const filetypeToParser = {
   ts: "typescript",
   tsx: "typescript",
