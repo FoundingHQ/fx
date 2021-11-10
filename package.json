@@ -7,7 +7,8 @@
     "publish": "lerna publish --no-private",
     "clean": "lerna clean",
     "dev": "lerna run dev --parallel",
-    "test": "jest"
+    "test": "jest",
+    "reset": "lerna exec reset"
   },
   "dependencies": {
     "@types/jest": "^27.0.2",
