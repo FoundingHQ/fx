@@ -13,8 +13,6 @@ import {
 import {
   config,
   convertAndInterpolateTemplatePaths,
-  convertDestTemplatePaths,
-  convertSrcTemplatePaths,
   featureGenerators,
 } from "../config";
 
