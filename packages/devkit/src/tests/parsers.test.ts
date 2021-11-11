@@ -1,4 +1,4 @@
-import { getPrettierParser } from "../parsers";
+import { getPrettierParser } from "../prettier";
 
 describe("getPrettierParser", () => {
   it("should resolve typescript files", () => {

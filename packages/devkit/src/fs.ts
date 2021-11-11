@@ -83,12 +83,16 @@ export async function copy(source: string, destination: string) {
 
 export async function runTransforms(
   filePath: string,
-  transforms: ((source: string, context: Record<string, any>) => string)[],
-  context: Record<string, any> = {}
+  transforms: ((source: string, context: any) => Promise<string>)[],
+  context: any = {}
 ) {
   let source = fs.readFileSync(filePath, "utf8");
-  for (const transform of transforms) {
-    source = transform(source, context);
+  for (const [index, transform] of transforms.entries()) {
+    if (Array.isArray(context) && context[index]) {
+      source = await transform(source, context[index]);
+    } else {
+      source = await transform(source, context);
+    }
   }
   return fs.writeFile(filePath, source);
 }

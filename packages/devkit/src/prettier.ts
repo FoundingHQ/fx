@@ -1,4 +1,3 @@
-import ejs from "ejs";
 import prettier from "prettier";
 
 export const filetypeToPrettierParser = {
@@ -25,10 +24,9 @@ export const getPrettierParser = (filePath: string) => {
   return filetypeToPrettierParser[filetype] || null;
 };
 
-export const getEjsTransform = (_filePath: string) => ejs.render;
-
-export const getPrettierTransform = (filePath: string) => (source: string) => {
-  const parser = getPrettierParser(filePath);
-  if (parser) return prettier.format(source, { parser });
-  return source;
-};
+export const getPrettierTransform =
+  (filePath: string) => async (source: string) => {
+    const parser = getPrettierParser(filePath);
+    if (parser) return prettier.format(source, { parser });
+    return source;
+  };

@@ -5,3 +5,4 @@ export * from "./add-prisma-model-attribute";
 export * from "./add-prisma-model";
 export * from "./produce-schema";
 export * from "./set-prisma-data-source";
+export * from "./log-schema";
