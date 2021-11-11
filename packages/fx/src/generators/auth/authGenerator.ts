@@ -123,13 +123,14 @@ export default {
     const schemaPath = getProjectPath("prisma/schema.prisma");
     await runTransforms(
       schemaPath,
-      [addPrismaModel, addPrismaModel, addPrismaModel],
-      [accountSchema, userSchema, tokenSchema]
-    );
-    await runTransforms(
-      schemaPath,
-      [addPrismaEnum, addPrismaEnum],
-      [tokenTypeEnum, userRoleEnum]
+      [
+        addPrismaModel,
+        addPrismaModel,
+        addPrismaModel,
+        addPrismaEnum,
+        addPrismaEnum,
+      ],
+      [accountSchema, userSchema, tokenSchema, tokenTypeEnum, userRoleEnum]
     );
     console.log();
   },
