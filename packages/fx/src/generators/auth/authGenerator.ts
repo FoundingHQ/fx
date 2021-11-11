@@ -1,5 +1,12 @@
 import prompts from "prompts";
-import { runTransforms, addPrismaModel, addPrismaEnum } from "@founding/devkit";
+import {
+  runTransforms,
+  addPrismaModel,
+  addPrismaEnum,
+  createJscodeshiftTransform,
+  addImport,
+  jStatement,
+} from "@founding/devkit";
 import { Generator } from "../../types";
 import { getProjectPath } from "../../config";
 import {
@@ -118,6 +125,16 @@ export default {
   },
   codemods: async ({ type, scopes }) => {
     console.log("Running codemod on `lib/core/server/handler.ts`");
+    const handlerTransform = createJscodeshiftTransform(addImport);
+    const handlerPath = getProjectPath("lib/core/server/handler.ts");
+    await runTransforms(
+      handlerPath,
+      [handlerTransform, handlerTransform],
+      [
+        jStatement`import sessionMiddleware from "@lib/auth/server/middlewares/session";`,
+        jStatement`import passport from "@lib/auth/server/middlewares/passport";`,
+      ]
+    );
     console.log();
     console.log("Running codemod on `prisma/schema.prisma`");
     const schemaPath = getProjectPath("prisma/schema.prisma");
