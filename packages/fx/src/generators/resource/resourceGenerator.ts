@@ -57,25 +57,7 @@ export default {
   },
   codemods: async ({ name, attributes }) => {
     const schemaPath = getProjectPath("prisma/schema.prisma");
-    const source = fs.readFileSync(schemaPath, "utf8");
-    const schema = getSchema(source);
     const properties = attributesToProperties(attributes);
-
-    schema.list.push({
-      type: "model",
-      name,
-      properties: [primaryKey, ...properties, createdAt, updatedAt],
-    });
-
-    const newSource = printSchema(schema);
-    fs.writeFile(schemaPath, newSource, (err) => {
-      if (err) {
-        throw {
-          command: "add",
-          message: "Failed to write to schema",
-        };
-      }
-    });
 
     const resourceSchema = {
       type: "model",
