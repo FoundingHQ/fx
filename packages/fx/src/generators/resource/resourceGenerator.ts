@@ -3,7 +3,7 @@ import prompts from "prompts";
 import { getSchema, printSchema, Property } from "@mrleebo/prisma-ast";
 
 import { Generator } from "../../types";
-import { convertProjectPath, convertTemplatePaths } from "../../config";
+import { getProjectPath } from "../../config";
 import { baseConfig } from "./resourceConfig";
 import {
   primaryKey,
@@ -52,10 +52,10 @@ export default {
     };
   },
   scaffold: async ({ name }) => {
-    return [...baseConfig.templates.map(convertTemplatePaths)];
+    return [...baseConfig.templates];
   },
   codemods: async ({ name, attributes }) => {
-    const schemaPath = convertProjectPath("prisma/schema.prisma");
+    const schemaPath = getProjectPath("prisma/schema.prisma");
     const source = fs.readFileSync(schemaPath, "utf8");
     const schema = getSchema(source);
     const properties = attributesToProperties(attributes);

@@ -12,7 +12,8 @@ import {
 } from "@founding/devkit";
 import {
   config,
-  convertAndInterpolateTemplatePaths,
+  convertTemplateSrcPaths,
+  convertTemplateDestPaths,
   featureGenerators,
 } from "../config";
 
@@ -126,11 +127,8 @@ export async function add(
     console.log();
     const scaffoldPaths = await featureGenerator.scaffold(context);
     for (const scaffoldPath of scaffoldPaths) {
-      const src = convertAndInterpolateTemplatePaths(scaffoldPath.src, context);
-      const dest = convertAndInterpolateTemplatePaths(
-        scaffoldPath.dest,
-        context
-      );
+      const src = convertTemplateSrcPaths(scaffoldPath.src, context);
+      const dest = convertTemplateDestPaths(scaffoldPath.dest, context);
       await copy(src, dest);
 
       const files = await getFiles(dest);
@@ -141,11 +139,7 @@ export async function add(
         );
         await runTransforms(
           filePath,
-          [
-            getEjsTransform(filePath),
-            ...(scaffoldPath.transforms || []),
-            getPrettierTransform(filePath),
-          ],
+          [getEjsTransform(filePath), getPrettierTransform(filePath)],
           context
         );
       }

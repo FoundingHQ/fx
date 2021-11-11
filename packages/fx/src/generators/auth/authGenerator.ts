@@ -1,6 +1,7 @@
 import prompts from "prompts";
+import { runTransforms, addPrismaModel, addPrismaEnum } from "@founding/devkit";
 import { Generator } from "../../types";
-import { convertTemplatePaths } from "../../config";
+import { getProjectPath } from "../../config";
 import {
   baseConfig,
   authTypeConfig,
@@ -8,6 +9,11 @@ import {
   allDependencies,
   allTemplates,
 } from "./authConfig";
+import accountSchema from "./schema/account";
+import userSchema from "./schema/user";
+import tokenSchema from "./schema/token";
+import tokenTypeEnum from "./schema/tokenType";
+import userRoleEnum from "./schema/userRole";
 
 type Context = {
   type: keyof typeof authTypeConfig;
@@ -105,18 +111,27 @@ export default {
   },
   scaffold: async ({ type, scopes }) => {
     return [
-      ...baseConfig.templates.map(convertTemplatePaths),
-      ...authTypeConfig[type].templates.map(convertTemplatePaths),
-      ...scopes
-        .map((scope) =>
-          authScopeConfig[scope].templates.map(convertTemplatePaths)
-        )
-        .flat(),
+      ...baseConfig.templates,
+      ...authTypeConfig[type].templates,
+      ...scopes.map((scope) => authScopeConfig[scope].templates).flat(),
     ];
   },
   codemods: async ({ type, scopes }) => {
     console.log("Running codemod on `lib/core/server/handler.ts`");
-    return;
+    console.log();
+    console.log("Running codemod on `prisma/schema.prisma`");
+    const schemaPath = getProjectPath("prisma/schema.prisma");
+    await runTransforms(
+      schemaPath,
+      [addPrismaModel, addPrismaModel, addPrismaModel],
+      [accountSchema, userSchema, tokenSchema]
+    );
+    await runTransforms(
+      schemaPath,
+      [addPrismaEnum, addPrismaEnum],
+      [tokenTypeEnum, userRoleEnum]
+    );
+    console.log();
   },
   finish: async ({ type, scopes }) => {
     return;

@@ -20,25 +20,30 @@ export const config = {
   projectRoot: cwd(),
 };
 
-export const convertTemplatePaths = (path = { src: "", dest: "" }) => ({
-  ...path,
-  src: resolve(config.cliRoot, path.src),
-  dest: resolve(config.projectRoot, path.dest),
-});
-
-export const convertProjectPath = (path: string) => {
+export const getProjectPath = (path: string) => {
   return resolve(config.projectRoot, path);
 };
 
-const interpolate = (template: string, obj: Record<string, any> = {}) => {
+export const getCliPath = (path: string) => {
+  return resolve(config.cliRoot, path);
+};
+
+const interpolate = (path: string, obj: Record<string, any> = {}) => {
   const keys = Object.keys(obj);
-  const func = Function(...keys, "return `" + template + "`;");
+  const func = Function(...keys, "return `" + path + "`;");
   return func(...keys.map((k) => obj[k]));
 };
 
-export const convertAndInterpolateTemplatePaths = (
-  template: string,
+export const convertTemplateSrcPaths = (
+  path: string,
   context: Record<string, any> = {}
 ) => {
-  return resolve(config.cliRoot, interpolate(template, context));
+  return resolve(config.cliRoot, interpolate(path, context));
+};
+
+export const convertTemplateDestPaths = (
+  path: string,
+  context: Record<string, any> = {}
+) => {
+  return resolve(config.projectRoot, interpolate(path, context));
 };
