@@ -136,6 +136,9 @@ export async function add(
       const files = await getFiles(dest);
       // TODO: Fix possible performance issue with this
       for (const filePath of files) {
+        console.log(
+          `▶ Generated ${chalk.green(filePath.replace(config.projectRoot, ""))}`
+        );
         await runTransforms(
           filePath,
           [
@@ -147,8 +150,9 @@ export async function add(
         );
       }
     }
+    console.log();
     console.log(
-      `${chalk.green(feature)} source code can be found under ${chalk.cyan(
+      `${chalk.green(feature)} source code can be found under ${chalk.green(
         `lib/${feature}`
       )}`
     );
@@ -178,7 +182,7 @@ export async function add(
   );
   console.log();
   console.log(
-    `New docs have been added to the ${chalk.cyan(
+    `New docs have been added to the ${chalk.green(
       "/docs"
     )} directory. Take a look on a quick rundown of what was just scaffolded.`
   );
