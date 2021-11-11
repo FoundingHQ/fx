@@ -39,12 +39,8 @@ export const baseConfig = {
 export const authTypeConfig = {
   session: {
     installations: {
-      dependencies: ["express-session", "redis", "connect-redis"],
-      devDependencies: [
-        "@types/express-session",
-        "@types/redis",
-        "@types/connect-redis",
-      ],
+      dependencies: ["next-session", "redis", "connect-redis"],
+      devDependencies: ["@types/redis", "@types/connect-redis"],
     },
     templates: [
       {

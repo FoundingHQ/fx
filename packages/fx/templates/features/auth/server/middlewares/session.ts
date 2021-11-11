@@ -1,16 +1,22 @@
-import session from "express-session";
+import { NextApiRequest, NextApiResponse } from "next";
+import nextSession from "next-session";
+import { promisifyStore, expressSession } from "next-session/lib/compat";
 import connectRedis from "connect-redis";
 import { redis } from "@server/redis";
-import { COOKIE_SECRET, cookieOptions } from "@lib/auth/server/authConfig";
+import { cookieOptions } from "@lib/auth/server/authConfig";
 
-const RedisStore = connectRedis(session);
+const RedisStore = connectRedis(expressSession);
 
-const sessionMiddleware = session({
-  store: new RedisStore({ client: redis }),
-  secret: COOKIE_SECRET,
-  resave: false,
-  saveUninitialized: false,
+const getSession = nextSession({
+  store: promisifyStore(new RedisStore({ client: redis })),
   cookie: cookieOptions,
 });
 
-export default sessionMiddleware;
+export default async function sessionMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: any
+) {
+  await getSession(req, res);
+  next();
+}
