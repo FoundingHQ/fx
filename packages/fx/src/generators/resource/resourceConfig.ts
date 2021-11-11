@@ -9,10 +9,6 @@ export const baseConfig = {
       dest: "lib/${h.changeCase.camelCase(name)}/data/${h.changeCase.camelCase(name)}Hooks.ts",
     },
     {
-      src: "templates/features/resource/data/ResourceProvider.ts",
-      dest: "lib/${h.changeCase.camelCase(name)}/data/${h.changeCase.pascalCase(name)}Provider.ts",
-    },
-    {
       src: "templates/features/resource/server/resourceConfig.ts",
       dest: "lib/${h.changeCase.camelCase(name)}/server/${h.changeCase.camelCase(name)}Config.ts",
     },
@@ -21,7 +17,7 @@ export const baseConfig = {
       dest: "lib/${h.changeCase.camelCase(name)}/server/${h.changeCase.camelCase(name)}Service.ts",
     },
     {
-      src: "templates/features/pages/api/resource/index.ts",
+      src: "templates/features/api/resource/index.ts",
       dest: "pages/api/${h.changeCase.camelCase(name)}/index.ts",
     },
   ],
