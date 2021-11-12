@@ -4,7 +4,7 @@ import { stripe, getCustomerId } from "@lib/payments/server/paymentsService";
 const handler = createHandler();
 
 handler.post(async (req, res) => {
-  const { price, quantity = 1, metadata = {} } = req.body;
+  const { price, quantity = 1, isSubscription } = req.body;
 
   if (!price) {
     throw new Error("Missing parameter price");
@@ -14,6 +14,20 @@ handler.post(async (req, res) => {
 
   const customerId = await getCustomerId(userId);
 
+  let checkoutTypeConfig: any = {
+    mode: "payment",
+  };
+
+  if (isSubscription) {
+    checkoutTypeConfig = {
+      mode: "subscription",
+      subscription_data: {
+        trial_from_plan: true,
+        metadata: {},
+      },
+    }
+  }
+  
   const checkoutSession = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     billing_address_collection: "required",
@@ -22,15 +36,10 @@ handler.post(async (req, res) => {
     line_items: [
       {
         price: price,
-        quantity: 1,
+        quantity: quantity,
       },
     ],
-    mode: "subscription",
-    allow_promotion_codes: true,
-    subscription_data: {
-      trial_from_plan: true,
-      metadata: {},
-    },
+    ...checkoutTypeConfig,
     success_url: `${APP_URL}/profile`,
     cancel_url: `${APP_URL}/`,
   });

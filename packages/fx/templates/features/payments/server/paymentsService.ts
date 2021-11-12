@@ -6,7 +6,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 });
 
 export const getCustomerId = async (userId: string) => {
-  let customer = await prisma.customer.findFirst({
+  const customer = await prisma.customer.findFirst({
     where: {
       userId: userId,
     },
@@ -35,3 +35,14 @@ export const getCustomerId = async (userId: string) => {
 
   return newCustomer.id;
 };
+
+export const generateAccountLink = (accountID, origin) => {
+  return stripe.accountLinks
+    .create({
+      type: "account_onboarding",
+      account: accountID,
+      refresh_url: `${origin}/onboard-user/refresh`,
+      return_url: `${origin}/success.html`,
+    })
+    .then((link) => link.url);
+}
