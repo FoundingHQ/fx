@@ -6,6 +6,8 @@ import {
   createJscodeshiftProgram,
   addImport,
   getPrettierTransform,
+  startDocker,
+  runMigrations,
 } from "@founding/devkit";
 import { Generator } from "../../types";
 import { getProjectPath } from "../../config";
@@ -171,6 +173,9 @@ const generator: Generator<Context> = {
     console.log();
   },
   finish: async ({ type, scopes }) => {
+    console.log("Checking your db");
+    startDocker();
+    runMigrations("fx add auth");
     return;
   },
   uninstall: async () => {

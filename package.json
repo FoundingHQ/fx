@@ -2,7 +2,7 @@
   "name": "fx",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap && link-parent-bin",
+    "postinstall": "lerna bootstrap --force-local && link-parent-bin",
     "prepare": "husky install",
     "publish": "lerna publish --no-private",
     "clean": "lerna clean",
