@@ -20,9 +20,10 @@
   "scripts": {
     "cli": "node -r ts-node/register src/fx.ts",
     "dev": "tsc --watch",
+    "clean": "rimraf ./dist/",
+    "prebuild": "rimraf ./dist/",
     "build": "tsc",
-    "prepublish": "npm run build",
-    "prebuild": "rimraf ./dist/"
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "@founding/devkit": "^0.10.1",

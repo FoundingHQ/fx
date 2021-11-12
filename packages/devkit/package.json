@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "dev": "tsc --watch",
+    "clean": "rimraf ./dist/",
     "prebuild": "rimraf ./dist/",
     "build": "tsc",
     "prepublish": "npm run build"

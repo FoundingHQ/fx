@@ -2,10 +2,10 @@
   "name": "fx",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap --force-local && link-parent-bin",
+    "postinstall": "ts-node ./scripts/postinstall.ts && lerna bootstrap --force-local && link-parent-bin",
     "prepare": "husky install",
     "publish": "lerna publish --no-private",
-    "clean": "lerna clean",
+    "clean": "lerna clean && lerna run clean",
     "dev": "lerna run dev --parallel",
     "test": "jest",
     "reset": "lerna clean && npm i"
