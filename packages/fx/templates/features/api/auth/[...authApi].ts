@@ -1,5 +1,5 @@
 import createHandler from "@server/handler";
-import passport from "passport";
+import { passport } from "@lib/auth/server/middlewares/passport";
 import { authRoutes } from "@lib/auth/server/authConfig";
 <% if (type === "jwt") { %>
 import {

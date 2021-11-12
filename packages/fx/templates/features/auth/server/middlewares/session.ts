@@ -12,11 +12,11 @@ const getSession = nextSession({
   cookie: cookieOptions,
 });
 
-export default async function sessionMiddleware(
+export const sessionMiddleware = async (
   req: NextApiRequest,
   res: NextApiResponse,
   next: any
-) {
+) => {
   await getSession(req, res);
   next();
-}
+};

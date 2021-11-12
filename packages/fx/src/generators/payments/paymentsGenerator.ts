@@ -78,7 +78,7 @@ export default {
   },
   codemods: async (_config) => {
     const schemaPath = getProjectPath("prisma/schema.prisma");
-    await runTransforms(schemaPath, [addPrismaModel], [customerSchema]);
+    await runTransforms(schemaPath, [addPrismaModel, customerSchema]);
   },
   finish: async (_config) => {
     return;

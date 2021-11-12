@@ -11,4 +11,4 @@ passport.use("login", loginStrategy);
 
 // passport.use(googleStrategy);
 
-export default passport;
+export { passport };

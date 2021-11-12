@@ -131,12 +131,12 @@ const generator: Generator<Context> = {
       addImport(
         program,
         j.template
-          .statement`import sessionMiddleware from "@lib/auth/server/middlewares/session";`
+          .statement`import { sessionMiddleware } from "@lib/auth/server/middlewares/session";`
       );
       addImport(
         program,
         j.template
-          .statement`import passport from "@lib/auth/server/middlewares/passport";`
+          .statement`import { passport } from "@lib/auth/server/middlewares/passport";`
       );
 
       program
