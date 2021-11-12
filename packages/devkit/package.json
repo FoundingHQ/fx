@@ -1,6 +1,6 @@
 {
   "name": "@founding/devkit",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Fx app CLI utilities",
   "keywords": [],
   "repository": {
@@ -25,19 +25,19 @@
   "dependencies": {
     "@mrleebo/prisma-ast": "^0.2.5",
     "chalk": "^4.1.2",
+    "change-case": "^4.1.2",
     "cross-spawn": "^7.0.3",
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
     "got": "^11.8.2",
+    "inflection": "^1.13.1",
     "jscodeshift": "^0.13.0",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "tar": "^6.1.11",
     "update-check": "^1.5.4",
-    "validate-npm-package-name": "^3.0.0",
-    "change-case": "^4.1.2",
-    "inflection": "^1.13.1"
+    "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
