@@ -175,7 +175,9 @@ const generator: Generator<Context> = {
   finish: async ({ type, scopes }) => {
     console.log("Checking your db");
     startDocker();
+    console.log();
     runMigrations("fx add auth");
+    console.log();
     return;
   },
   uninstall: async () => {
