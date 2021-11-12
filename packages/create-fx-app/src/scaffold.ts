@@ -16,9 +16,11 @@ export class DownloadError extends Error {}
 export async function scaffold({
   appPath,
   preset,
+  shouldNpmInstall,
 }: {
   appPath: string;
   preset?: string;
+  shouldNpmInstall?: boolean;
 }): Promise<void> {
   const root = path.resolve(appPath);
 
@@ -71,14 +73,15 @@ export async function scaffold({
     console.log();
   }
 
-  console.log("Installing packages. This might take a couple of minutes.");
-  console.log();
-
-  try {
-    await install(root, null, { isOnline });
+  if (shouldNpmInstall) {
+    console.log("Installing packages. This might take a couple of minutes.");
     console.log();
-  } catch (error) {
-    console.log();
+    try {
+      await install(root, null, { isOnline });
+      console.log();
+    } catch (error) {
+      console.log();
+    }
   }
 
   if (preset) {

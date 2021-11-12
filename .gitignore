@@ -19,6 +19,7 @@ dist
 build
 out
 my-app
+packages/local
 
 # misc
 .DS_Store

@@ -35,7 +35,9 @@
     "rimraf": "^3.0.2",
     "tar": "^6.1.11",
     "update-check": "^1.5.4",
-    "validate-npm-package-name": "^3.0.0"
+    "validate-npm-package-name": "^3.0.0",
+    "change-case": "^4.1.2",
+    "inflection": "^1.13.1"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
@@ -47,9 +49,7 @@
     "@types/prettier": "^2.4.1",
     "@types/rimraf": "^3.0.2",
     "@types/tar": "^6.1.0",
-    "@types/validate-npm-package-name": "^3.0.3",
-    "change-case": "^4.1.2",
-    "inflection": "^1.13.1"
+    "@types/validate-npm-package-name": "^3.0.3"
   },
   "engines": {
     "node": ">=14.0.0"
