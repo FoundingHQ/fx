@@ -6,4 +6,6 @@ console.log(`Removing local fx app...`, removeFolders);
 removeFolders.forEach((folder) => rimraf.sync(folder));
 
 console.log(`Adding new local fx app...`);
-execSync(`npx create-fx-app packages/local --noinstall`, { stdio: "inherit" });
+execSync(`npx create-fx-app@latest packages/local --noinstall`, {
+  stdio: "inherit",
+});
