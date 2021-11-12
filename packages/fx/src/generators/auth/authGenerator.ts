@@ -3,9 +3,9 @@ import {
   runTransforms,
   addPrismaModel,
   addPrismaEnum,
-  createJscodeshiftTransform,
+  createJscodeshiftProgram,
   addImport,
-  jStatement,
+  getPrettierTransform,
 } from "@founding/devkit";
 import { Generator } from "../../types";
 import { getProjectPath } from "../../config";
@@ -27,7 +27,7 @@ type Context = {
   scopes: (keyof typeof authScopeConfig)[];
 };
 
-export default {
+const generator: Generator<Context> = {
   setup: async (options = {}) => {
     const res = await prompts(
       [
@@ -125,29 +125,48 @@ export default {
   },
   codemods: async ({ type, scopes }) => {
     console.log("Running codemod on `lib/core/server/handler.ts`");
-    const handlerTransform = createJscodeshiftTransform(addImport);
     const handlerPath = getProjectPath("lib/core/server/handler.ts");
+    const handlerTransform = async (source: string) => {
+      let { program, j } = createJscodeshiftProgram(source);
+      addImport(
+        program,
+        j.template
+          .statement`import sessionMiddleware from "@lib/auth/server/middlewares/session";`
+      );
+      addImport(
+        program,
+        j.template
+          .statement`import passport from "@lib/auth/server/middlewares/passport";`
+      );
+
+      program
+        .find(j.VariableDeclarator, { id: { name: "createHandler" } })
+        .find(j.CallExpression, { callee: { name: "nc" } })
+        .replaceWith((path) =>
+          j.memberExpression(
+            path.value,
+            j.template
+              .expression`use(sessionMiddleware).use(passport.initialize()).use(passport.session())`
+          )
+        );
+
+      return program.toSource();
+    };
     await runTransforms(
       handlerPath,
-      [handlerTransform, handlerTransform],
-      [
-        jStatement`import sessionMiddleware from "@lib/auth/server/middlewares/session";`,
-        jStatement`import passport from "@lib/auth/server/middlewares/passport";`,
-      ]
+      [handlerTransform],
+      [getPrettierTransform(handlerPath)]
     );
     console.log();
     console.log("Running codemod on `prisma/schema.prisma`");
     const schemaPath = getProjectPath("prisma/schema.prisma");
     await runTransforms(
       schemaPath,
-      [
-        addPrismaModel,
-        addPrismaModel,
-        addPrismaModel,
-        addPrismaEnum,
-        addPrismaEnum,
-      ],
-      [accountSchema, userSchema, tokenSchema, tokenTypeEnum, userRoleEnum]
+      [addPrismaModel, accountSchema],
+      [addPrismaModel, userSchema],
+      [addPrismaModel, tokenSchema],
+      [addPrismaEnum, tokenTypeEnum],
+      [addPrismaEnum, userRoleEnum]
     );
     console.log();
   },
@@ -160,4 +179,6 @@ export default {
       templates: allTemplates,
     };
   },
-} as Generator<Context>;
+};
+
+export default generator;

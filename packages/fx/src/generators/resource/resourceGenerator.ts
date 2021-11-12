@@ -1,7 +1,5 @@
-import fs from "fs";
 import prompts from "prompts";
 import { runTransforms, addPrismaModel } from "@founding/devkit";
-import { getSchema, printSchema } from "@mrleebo/prisma-ast";
 
 import { Generator } from "../../types";
 import { getProjectPath } from "../../config";
@@ -65,7 +63,7 @@ export default {
       properties: [primaryKey, ...properties, createdAt, updatedAt],
     };
 
-    await runTransforms(schemaPath, [addPrismaModel], [resourceSchema]);
+    await runTransforms(schemaPath, [addPrismaModel, resourceSchema]);
   },
   finish: async ({ name, attributes }) => {
     console.log(`Finish: ${name}, attributes: ${attributes}`);

@@ -139,8 +139,8 @@ export async function add(
         );
         await runTransforms(
           filePath,
-          [getEjsTransform(filePath), getPrettierTransform(filePath)],
-          context
+          [getEjsTransform(filePath), context],
+          [getPrettierTransform(filePath)]
         );
       }
     }
