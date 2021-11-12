@@ -9,6 +9,7 @@
     "dev": "lerna run dev --parallel",
     "test": "jest",
     "reset": "npm run clean && npm run reset:local && npm i",
+    "reset:link": "lerna link --force-local",
     "reset:local": "ts-node ./scripts/local.ts && lerna link --force-local"
   },
   "dependencies": {
