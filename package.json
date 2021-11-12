@@ -2,13 +2,14 @@
   "name": "fx",
   "private": true,
   "scripts": {
-    "postinstall": "ts-node ./scripts/postinstall.ts && lerna bootstrap --force-local && link-parent-bin",
+    "install:local": "ts-node ./scripts/local.ts",
+    "postinstall": "lerna bootstrap --force-local && link-parent-bin",
     "prepare": "husky install",
     "publish": "lerna publish --no-private",
-    "clean": "lerna clean && lerna run clean",
+    "clean": "lerna clean && lerna run clean && rimraf ./node_modules",
     "dev": "lerna run dev --parallel",
     "test": "jest",
-    "reset": "lerna clean && npm i"
+    "reset": "lerna clean && npm run install:local"
   },
   "dependencies": {
     "@types/jest": "^27.0.2",

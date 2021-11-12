@@ -5,5 +5,5 @@ const removeFolders = ["packages/local"];
 console.log(`Removing local fx app...`, removeFolders);
 removeFolders.forEach((folder) => rimraf.sync(folder));
 
-console.log(`Installing local fx app...`);
+console.log(`Adding new local fx app...`);
 execSync(`npx create-fx-app packages/local --noinstall`, { stdio: "inherit" });
