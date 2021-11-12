@@ -1,9 +1,17 @@
+import { addPrismaModel, runTransforms } from "@founding/devkit";
 import prompts from "prompts";
+import { getProjectPath } from "../../config";
 import { Generator } from "../../types";
-import { baseConfig, allDependencies, allTemplates } from "./paymentsConfig";
+import {
+  baseConfig,
+  allDependencies,
+  allTemplates,
+  paymentsScopeConfig,
+} from "./paymentsConfig";
+import customerSchema from "./schema/customer";
 
 type Config = {
-  scopes: (keyof typeof baseConfig)[];
+  scopes: (keyof typeof paymentsScopeConfig)[];
 };
 
 export default {
@@ -46,17 +54,31 @@ export default {
 
     return { ...res, ...options };
   },
-  install: async (_config) => {
+  install: async ({ scopes }) => {
     return {
-      dependencies: [...baseConfig.installations.dependencies],
-      devDependencies: [...baseConfig.installations.devDependencies],
+      dependencies: [
+        ...baseConfig.installations.dependencies,
+        ...scopes
+          .map((scope) => paymentsScopeConfig[scope].installations.dependencies)
+          .flat(),
+      ],
+      devDependencies: [
+        ...baseConfig.installations.devDependencies,
+        ...scopes
+          .map((scope) => paymentsScopeConfig[scope].installations.dependencies)
+          .flat(),
+      ],
     };
   },
-  scaffold: async (_config) => {
-    return [...baseConfig.templates];
+  scaffold: async ({ scopes }) => {
+    return [
+      ...baseConfig.templates,
+      ...scopes.map((scope) => paymentsScopeConfig[scope].templates).flat(),
+    ];
   },
   codemods: async (_config) => {
-    return;
+    const schemaPath = getProjectPath("prisma/schema.prisma");
+    await runTransforms(schemaPath, [addPrismaModel], [customerSchema]);
   },
   finish: async (_config) => {
     return;

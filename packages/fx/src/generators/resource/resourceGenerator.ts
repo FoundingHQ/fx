@@ -1,7 +1,6 @@
 import fs from "fs";
 import prompts from "prompts";
 import { runTransforms, addPrismaModel } from "@founding/devkit";
-import { getSchema, printSchema } from "@mrleebo/prisma-ast";
 
 import { Generator } from "../../types";
 import { getProjectPath } from "../../config";
