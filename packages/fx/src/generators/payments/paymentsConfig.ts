@@ -30,6 +30,14 @@ export const paymentsScopeConfig = {
         src: "templates/features/api/payments/checkout.ts",
         dest: "pages/api/payments/checkout.ts",
       },
+      {
+        src: "templates/features/pages/payments/checkout.tsx",
+        dest: "pages/payments/checkout.tsx",
+      },
+      {
+        src: "templates/features/payments/components/Checkout.tsx",
+        dest: "lib/payments/components/Checkout.tsx",
+      },
     ],
   },
   "custom-checkout": {
@@ -41,6 +49,14 @@ export const paymentsScopeConfig = {
       {
         src: "templates/features/api/payments/create-payment-intent.ts",
         dest: "pages/api/payments/create-payment-intent.ts",
+      },
+      {
+        src: "templates/features/pages/payments/custom-checkout.tsx",
+        dest: "pages/payments/custom-checkout.tsx",
+      },
+      {
+        src: "templates/features/payments/components/CustomCheckout.tsx",
+        dest: "lib/payments/components/CustomCheckout.tsx",
       },
     ],
   },
@@ -57,6 +73,14 @@ export const paymentsScopeConfig = {
       {
         src: "templates/features/api/payments/create-payment-intent.ts",
         dest: "pages/api/payments/create-payment-intent.ts",
+      },
+      {
+        src: "templates/features/pages/payments/subscription.tsx",
+        dest: "pages/payments/subscription.tsx",
+      },
+      {
+        src: "templates/features/payments/components/Subscription.tsx",
+        dest: "lib/payments/components/Subscription.tsx",
       },
     ],
   },
@@ -77,6 +101,18 @@ export const paymentsScopeConfig = {
       {
         src: "templates/features/api/payments/create-payment-intent.ts",
         dest: "pages/api/payments/create-payment-intent.ts",
+      },
+      {
+        src: "templates/features/pages/payments/connect.tsx",
+        dest: "pages/payments/connect.tsx",
+      },
+      {
+        src: "templates/features/payments/components/ConnectCheckout.tsx",
+        dest: "lib/payments/components/ConnectCheckout.tsx",
+      },
+      {
+        src: "templates/features/payments/components/ConnectOnboarding.tsx",
+        dest: "lib/payments/components/ConnectOnboarding.tsx",
       },
     ],
   },

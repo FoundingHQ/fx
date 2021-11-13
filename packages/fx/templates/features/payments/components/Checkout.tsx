@@ -1,0 +1,9 @@
+import { useCheckout } from "../data/paymentsHooks";
+
+export const Checkout = () => {
+  const { mutate: checkout } = useCheckout();
+
+  return (
+    <button onClick={() => checkout("")}>Checkout</button>
+  )
+};
