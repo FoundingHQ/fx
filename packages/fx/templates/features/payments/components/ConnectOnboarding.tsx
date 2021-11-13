@@ -1,4 +1,4 @@
-import { useConnectOnboarding } from "../data/paymentsHooks";
+import { useConnectOnboarding } from "@lib/payments/data/paymentsHooks";
 
 export const ConnectOnboarding = () => {
   const { mutate: connectOnboarding } = useConnectOnboarding();

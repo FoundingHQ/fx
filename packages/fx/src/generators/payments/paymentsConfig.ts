@@ -16,6 +16,10 @@ export const baseConfig = {
       src: "templates/features/api/payments/webhook.ts",
       dest: "pages/api/payments/webhook.ts",
     },
+    {
+      src: "templates/features/payments/data",
+      dest: "lib/payments/data",
+    },
   ],
 };
 

@@ -1,4 +1,4 @@
-import { useSubscription } from "../data/paymentsHooks";
+import { useSubscription } from "@lib/payments/data/paymentsHooks";
 
 export const Subscription = () => {
   const { mutate: subscription } = useSubscription();

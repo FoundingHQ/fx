@@ -1,4 +1,4 @@
-import { useCheckout } from "../data/paymentsHooks";
+import { useCheckout } from "@lib/payments/data/paymentsHooks";
 
 export const Checkout = () => {
   const { mutate: checkout } = useCheckout();

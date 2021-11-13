@@ -1,4 +1,4 @@
-import { useCustomCheckout } from "../data/paymentsHooks";
+import { useCustomCheckout } from "@lib/payments/data/paymentsHooks";
 
 export const CustomCheckout = () => {
   const { mutate: customCheckout } = useCustomCheckout();

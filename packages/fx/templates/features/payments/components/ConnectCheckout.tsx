@@ -1,4 +1,4 @@
-import { useConnectCheckout } from "../data/paymentsHooks";
+import { useConnectCheckout } from "@lib/payments/data/paymentsHooks";
 
 export const ConnectCheckout = () => {
   const { mutate: connectCheckout } = useConnectCheckout();
