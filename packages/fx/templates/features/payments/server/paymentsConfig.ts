@@ -7,6 +7,8 @@ export const paymentsRoutes = {
   subscription: "/api/payments/subscription/create-subscription",
 };
 
+export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+
 type PaymentsRoutes = typeof paymentsRoutes;
 
 export const clientPaymentsRoutes = Object.keys(paymentsRoutes).reduce((map, key) => {

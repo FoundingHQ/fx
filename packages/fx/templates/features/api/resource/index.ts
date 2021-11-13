@@ -1,4 +1,4 @@
-import { createHandler } from "@server/handler";
+import createHandler from "@server/handler";
 import {
   create<%= h.changeCase.pascalCase(name) %>,
   get<%= h.changeCase.pascalCase(name) %>,

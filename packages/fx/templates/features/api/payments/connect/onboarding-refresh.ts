@@ -1,4 +1,4 @@
-import { createHandler } from "@server/handler";
+import createHandler from "@server/handler";
 import { generateAccountLink } from "../../../payments/server/paymentsService";
 
 const handler = createHandler();

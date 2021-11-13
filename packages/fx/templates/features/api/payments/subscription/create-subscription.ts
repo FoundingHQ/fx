@@ -1,4 +1,4 @@
-import { createHandler } from "@server/handler";
+import createHandler from "@server/handler";
 import { stripe } from "@lib/payments/server/paymentsService";
 import { getCustomerId } from "../../../payments/server/paymentsService";
 
