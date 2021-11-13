@@ -11,9 +11,9 @@ handler.post(async (req, res) => {
     throw new Error("Missing parameter price");
   }
 
-  const userId = req.user?.id;
+  const email = req.user?.id;
 
-  const customerId = await getCustomerId(userId);
+  const customerId = await getCustomerId(email);
 
   try {
     // Create the subscription. Note we're expanding the Subscription's

@@ -10,9 +10,9 @@ handler.post(async (req, res) => {
     throw new Error("Missing parameter items");
   }
 
-  const userId = req.user?.id;
+  const email = req.user?.email;
 
-  const customerId = await getCustomerId(userId);
+  const customerId = await getCustomerId(email);
 
   const calculateOrderAmount = (_items) => {
     // Replace this constant with a calculation of the order's amount

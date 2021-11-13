@@ -10,9 +10,9 @@ handler.post(async (req, res) => {
     throw new Error("Missing parameter price");
   }
 
-  const userId = req.user?.id;
+  const email = req.user?.email;
 
-  const customerId = await getCustomerId(userId);
+  const customerId = await getCustomerId(email);
 
   let checkoutTypeConfig: any = {
     mode: "payment",
