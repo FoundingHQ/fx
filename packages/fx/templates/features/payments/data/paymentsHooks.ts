@@ -1,13 +1,13 @@
 import { useMutation } from "react-query";
 import { fetcher } from "@util/query";
 
-import { paymentsRoutes } from "../server/paymentsConfig";
+import { clientPaymentsRoutes } from "../server/paymentsConfig";
 
 export type PaymentsInput = { email: string };
 
 export const useCheckout = () => {
   return useMutation(
-    (data: PaymentsInput) => fetcher.post(paymentsRoutes.checkout, data),
+    (data: PaymentsInput) => fetcher.post(clientPaymentsRoutes.checkout, data),
     {
       onSuccess: () => {},
     }
@@ -16,7 +16,7 @@ export const useCheckout = () => {
 
 export const useCustomCheckout = () => {
   return useMutation(
-    (data: PaymentsInput) => fetcher.post(paymentsRoutes.checkout, data),
+    (data: PaymentsInput) => fetcher.post(clientPaymentsRoutes.checkout, data),
     {
       onSuccess: () => {},
     }
@@ -25,7 +25,7 @@ export const useCustomCheckout = () => {
 
 export const useConnectOnboarding = () => {
   return useMutation(
-    (data: PaymentsInput) => fetcher.post(paymentsRoutes.customCheckout, data),
+    (data: PaymentsInput) => fetcher.post(clientPaymentsRoutes.customCheckout, data),
     {
       onSuccess: () => {},
     }
@@ -34,7 +34,7 @@ export const useConnectOnboarding = () => {
 
 export const useConnectCheckout = () => {
   return useMutation(
-    (data: PaymentsInput) => fetcher.post(paymentsRoutes.connectCheckout, data),
+    (data: PaymentsInput) => fetcher.post(clientPaymentsRoutes.connectCheckout, data),
     {
       onSuccess: () => {},
     }
@@ -43,10 +43,9 @@ export const useConnectCheckout = () => {
 
 export const useSubscription = () => {
   return useMutation(
-    (data: PaymentsInput) => fetcher.post(paymentsRoutes.subscription, data),
+    (data: PaymentsInput) => fetcher.post(clientPaymentsRoutes.subscription, data),
     {
       onSuccess: () => {},
     }
   );
 };
-

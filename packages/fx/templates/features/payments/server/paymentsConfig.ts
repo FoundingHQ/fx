@@ -6,3 +6,13 @@ export const paymentsRoutes = {
   connectCheckout: "/api/payments/create-payment-intent",
   subscription: "/api/payments/subscription/create-subscription",
 };
+
+type PaymentsRoutes = typeof paymentsRoutes;
+
+export const clientPaymentsRoutes = Object.keys(paymentsRoutes).reduce((map, key) => {
+  map[key as keyof PaymentsRoutes] = paymentsRoutes[key as keyof PaymentsRoutes].replace(
+    "/api",
+    ""
+  );
+  return map;
+}, {} as PaymentsRoutes);
