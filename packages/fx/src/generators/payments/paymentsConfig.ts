@@ -20,6 +20,10 @@ export const baseConfig = {
       src: "templates/features/payments/data",
       dest: "lib/payments/data",
     },
+    {
+      src: "templates/features/payments/util",
+      dest: "lib/payments/util",
+    },
   ],
 };
 
