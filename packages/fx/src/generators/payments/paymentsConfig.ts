@@ -24,6 +24,10 @@ export const baseConfig = {
       src: "templates/features/payments/util",
       dest: "lib/payments/util",
     },
+    {
+      src: "templates/features/pages/payments/success.tsx",
+      dest: "pages/payments/success.tsx",
+    },
   ],
 };
 
