@@ -10,7 +10,7 @@ handler.post(async (req, res) => {
     const origin = `${req.headers.origin}`;
     const accountLinkUrl = await generateAccountLink(account.id, origin);
     res.send({ url: accountLinkUrl, accountId: account.id });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send({
       error: err.message,
     });

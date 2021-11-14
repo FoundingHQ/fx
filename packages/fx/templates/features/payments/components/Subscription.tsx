@@ -4,6 +4,6 @@ export const Subscription = () => {
   const { mutate: subscription } = useSubscription();
 
   return (
-    <button onClick={() => subscription("")}>Create Subscription</button>
+    <button onClick={() => subscription({email: ""})}>Create Subscription</button>
   )
 };

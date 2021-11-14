@@ -31,7 +31,7 @@ handler.post(async (req, res) => {
     payment_method_types: ["card"],
     billing_address_collection: "required",
     customer: customerId,
-    client_reference_id: userId,
+    client_reference_id: customerId,
     line_items: [
       {
         price: price,

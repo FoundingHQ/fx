@@ -104,6 +104,10 @@ export const paymentsScopeConfig = {
       },
       {
         src: "templates/features/api/payments/connect/onboarding-refresh.ts",
+        dest: "pages/api/payments/connect/onboarding-refresh.ts",
+      },
+      {
+        src: "templates/features/api/payments/connect/onboarding-refresh.ts",
         dest: "pages/api/payments/connect/onboarding.ts",
       },
       {

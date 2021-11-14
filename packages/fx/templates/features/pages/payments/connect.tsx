@@ -1,12 +1,14 @@
 import { SEO } from "@components";
-import { Connect } from "@lib/payments/components/Connect";
+import { ConnectOnboarding } from "@lib/payments/components/ConnectOnboarding";
+import { ConnectCheckout } from "@lib/payments/components/ConnectCheckout";
 
 export const ConnectPage = () => {
   return (
     <>
       <SEO title="Connect" />
       <h1>Connect</h1>
-      <Connect />
+      <ConnectOnboarding />
+      <ConnectCheckout />
     </>
   );
 };

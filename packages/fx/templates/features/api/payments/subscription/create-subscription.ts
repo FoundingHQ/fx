@@ -1,6 +1,7 @@
 import createHandler from "@server/handler";
 import { stripe } from "@lib/payments/server/paymentsService";
 import { getCustomerId } from "@lib/payments/server/paymentsService";
+import { Stripe } from "stripe";
 
 const handler = createHandler();
 
@@ -21,19 +22,24 @@ handler.post(async (req, res) => {
     // so we can pass it to the front end to confirm the payment
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
-      items: [{
-        price: price,
-        quantity: quantity,
-      }],
-      payment_behavior: 'default_incomplete',
-      expand: ['latest_invoice.payment_intent'],
+      items: [
+        {
+          price: price,
+          quantity: quantity,
+        },
+      ],
+      payment_behavior: "default_incomplete",
+      expand: ["latest_invoice.payment_intent"],
     });
+
+    const latestInvoice = subscription?.latest_invoice as Stripe.Invoice;
+    const paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent;
 
     res.send({
       subscriptionId: subscription.id,
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+      clientSecret: paymentIntent.client_secret,
     });
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ error: { message: error.message } });
   }
 });

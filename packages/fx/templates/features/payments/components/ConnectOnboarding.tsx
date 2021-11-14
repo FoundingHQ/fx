@@ -4,6 +4,6 @@ export const ConnectOnboarding = () => {
   const { mutate: connectOnboarding } = useConnectOnboarding();
 
   return (
-    <button onClick={() => connectOnboarding("")}>Connect Onboarding</button>
+    <button onClick={() => connectOnboarding({email: ""})}>Connect Onboarding</button>
   )
 };

@@ -4,6 +4,6 @@ export const CustomCheckout = () => {
   const { mutate: customCheckout } = useCustomCheckout();
 
   return (
-    <button onClick={() => customCheckout("")}>Custom Checkout</button>
+    <button onClick={() => customCheckout({email: ""})}>Custom Checkout</button>
   )
 };

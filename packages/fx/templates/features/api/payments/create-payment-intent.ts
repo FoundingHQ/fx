@@ -12,7 +12,7 @@ handler.post(async (req, res) => {
 
   const customerId = await getCustomerId(email);
 
-  const calculateOrderAmount = (_items) => {
+  const calculateOrderAmount = (_items: any) => {
     // Replace this constant with a calculation of the order's amount
     // Calculate the order total on the server to prevent
     // people from directly manipulating the amount on the client
