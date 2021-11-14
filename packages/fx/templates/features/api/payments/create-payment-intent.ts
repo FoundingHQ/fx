@@ -4,13 +4,11 @@ import { stripe, getCustomerId } from "@lib/payments/server/paymentsService";
 const handler = createHandler();
 
 handler.post(async (req, res) => {
-  const { items } = req.body;
+  const { email, items } = req.body;
 
   if (!items) {
     throw new Error("Missing parameter items");
   }
-
-  const email = req.user?.email;
 
   const customerId = await getCustomerId(email);
 

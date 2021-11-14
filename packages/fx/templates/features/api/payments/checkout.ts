@@ -5,13 +5,11 @@ import { APP_URL } from "@lib/payments/server/paymentsConfig";
 const handler = createHandler();
 
 handler.post(async (req, res) => {
-  const { price, quantity = 1, isSubscription } = req.body;
+  const { email, price, quantity = 1, isSubscription } = req.body;
 
   if (!price) {
     throw new Error("Missing parameter price");
   }
-
-  const email = req.user?.email;
 
   const customerId = await getCustomerId(email);
 

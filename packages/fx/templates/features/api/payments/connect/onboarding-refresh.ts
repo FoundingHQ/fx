@@ -1,5 +1,5 @@
 import createHandler from "@server/handler";
-import { generateAccountLink } from "../../../payments/server/paymentsService";
+import { generateAccountLink } from "@lib/payments/server/paymentsService";
 
 const handler = createHandler();
 
