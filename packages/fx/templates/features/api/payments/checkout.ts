@@ -7,9 +7,7 @@ const handler = createHandler();
 handler.post(async (req, res) => {
   const { email, price, quantity = 1 } = req.body;
 
-  console.log("REQ.body", req.body);
   const customerId = await getCustomerId(email);
-  console.log("customerId", customerId);
 
   let checkoutTypeConfig: any = {
     mode: "payment",
@@ -22,7 +20,7 @@ handler.post(async (req, res) => {
     client_reference_id: customerId,
     line_items: [
       {
-        price: "price_1JvfzAHt7fGQ7D9x7oD5do0x",
+        price: price,
         quantity: quantity,
       },
     ],
