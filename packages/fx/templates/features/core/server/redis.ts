@@ -1,13 +1,9 @@
-import { createClient, RedisClient } from "redis";
+import RedisClient, { Redis } from "ioredis";
 
 declare global {
-  var redis: RedisClient | undefined;
+  var redis: Redis | undefined;
 }
 
-export const redis =
-  global.redis ||
-  createClient({
-    url: process.env.REDIS_URL,
-  });
+export const redis = global.redis || new RedisClient(process.env.REDIS_URL);
 
 if (process.env.NODE_ENV !== "production") global.redis = redis;

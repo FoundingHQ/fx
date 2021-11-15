@@ -47,8 +47,8 @@ export const baseConfig = {
 export const authTypeConfig = {
   session: {
     installations: {
-      dependencies: ["next-session", "redis", "connect-redis"],
-      devDependencies: ["@types/redis", "@types/connect-redis"],
+      dependencies: ["next-session", "ioredis", "connect-redis"],
+      devDependencies: ["@types/connect-redis"],
     },
     templates: [
       {
