@@ -4,6 +4,11 @@
 import { execSync } from "child_process";
 import rimraf from "rimraf";
 
+console.log("Stopping Docker containers");
+execSync(`npx lerna run --scope @founding/template docker:stop`, {
+  stdio: "inherit",
+});
+
 const removeFolders = ["packages/local"];
 console.log(`Removing local fx app...`, removeFolders);
 removeFolders.forEach((folder) => rimraf.sync(folder));
