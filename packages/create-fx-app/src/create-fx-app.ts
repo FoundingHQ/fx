@@ -31,7 +31,7 @@ async function main() {
       use any branch and/or subdirectory.
   `
     )
-    .option("--noinstall", "Skip installing dependencies")
+    .option("--skipInstall", "Skip installing dependencies")
     .allowUnknownOption()
     .action(run);
 
@@ -124,7 +124,7 @@ async function run(
   await scaffold({
     appPath: resolvedProjectPath,
     preset: preset || undefined,
-    shouldNpmInstall: !options.noinstall,
+    shouldNpmInstall: !options.skipInstall,
   });
 }
 
