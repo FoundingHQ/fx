@@ -1,20 +1,18 @@
-import { createHandler } from "@server/handler";
+import createHandler from "@server/handler";
 import { stripe, getCustomerId } from "@lib/payments/server/paymentsService";
 
 const handler = createHandler();
 
 handler.post(async (req, res) => {
-  const { items } = req.body;
+  const { email, items } = req.body;
 
   if (!items) {
     throw new Error("Missing parameter items");
   }
 
-  const userId = req.user?.id;
+  const customerId = await getCustomerId(email);
 
-  const customerId = await getCustomerId(userId);
-
-  const calculateOrderAmount = (_items) => {
+  const calculateOrderAmount = (_items: any) => {
     // Replace this constant with a calculation of the order's amount
     // Calculate the order total on the server to prevent
     // people from directly manipulating the amount on the client

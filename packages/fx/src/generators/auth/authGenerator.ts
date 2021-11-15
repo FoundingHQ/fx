@@ -42,7 +42,7 @@ const generator: Generator<Context> = {
             {
               title: "Session",
               description:
-                "Traditional database based session authentication. Best used for security first applications such as heealthcare",
+                "Traditional database based session authentication. Best used for security first applications such as healthcare",
               value: "session",
             },
             {

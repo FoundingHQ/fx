@@ -1,46 +1,28 @@
 import Stripe from "stripe";
-import { prisma } from "@server/prisma";
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2020-08-27",
 });
 
-export const getCustomerId = async (userId: string) => {
-  const customer = await prisma.customer.findFirst({
-    where: {
-      userId: userId,
-    },
+export const getCustomerId = async (email: string) => {
+  const customer = await stripe.customers.list({
+    email: email,
+    limit: 1
   });
 
-  if (!!customer) {
-    return customer.id;
+  if(customer.data.length !== 0){
+    return customer.data[0].id;
   }
 
-  const newCustomer = await stripe.customers.create({
-    metadata: {
-      userId: userId,
-    },
-  });
-
-  await prisma.customer.create({
-    data: {
-      id: newCustomer.id,
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
-    },
-  });
-
+  const newCustomer = await stripe.customers.create({ email });
   return newCustomer.id;
 };
 
-export const generateAccountLink = (accountID, origin) => {
+export const generateAccountLink = (accountId: string, origin: string) => {
   return stripe.accountLinks
     .create({
       type: "account_onboarding",
-      account: accountID,
+      account: accountId,
       refresh_url: `${origin}/onboard-user/refresh`,
       return_url: `${origin}/success.html`,
     })

@@ -1,5 +1,5 @@
-import { createHandler } from "@server/handler";
-import { generateAccountLink } from "../../../payments/server/paymentsService";
+import createHandler from "@server/handler";
+import { generateAccountLink } from "@lib/payments/server/paymentsService";
 
 const handler = createHandler();
 
@@ -11,11 +11,11 @@ handler.post(async (req, res) => {
   }
 
   try {
-    const origin = `${req.secure ? "https://" : "https://"}${req.headers.host}`;
+    const origin = `https://${req.headers.host}`;
 
     const accountLinkUrl = await generateAccountLink(accountId, origin);
     res.redirect(accountLinkUrl);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send({
       error: err.message,
     });

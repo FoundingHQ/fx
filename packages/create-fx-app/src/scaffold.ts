@@ -104,7 +104,7 @@ export async function scaffold({
     "    Starts a docker instance containing your database and other third party software."
   );
   console.log();
-  console.log(chalk.cyan(`  npm run prisma:migrate`));
+  console.log(chalk.cyan(`  npm run prisma:migrate:dev`));
   console.log("    Runs your database migrations.");
   console.log();
   console.log(chalk.cyan(`  npm run dev`));
@@ -117,7 +117,7 @@ export async function scaffold({
   console.log();
   console.log(chalk.cyan("  cd"), cdpath);
   console.log(`  ${chalk.cyan(`npm run docker:start`)}`);
-  console.log(`  ${chalk.cyan(`npm run prisma:migrate`)}`);
+  console.log(`  ${chalk.cyan(`npm run prisma:migrate:dev`)}`);
   console.log(`  ${chalk.cyan(`npm run dev`)}`);
   console.log();
 }

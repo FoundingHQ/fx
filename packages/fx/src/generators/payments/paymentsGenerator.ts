@@ -1,6 +1,4 @@
-import { addPrismaModel, runTransforms } from "@founding/devkit";
 import prompts from "prompts";
-import { getProjectPath } from "../../config";
 import { Generator } from "../../types";
 import {
   baseConfig,
@@ -77,8 +75,7 @@ export default {
     ];
   },
   codemods: async (_config) => {
-    const schemaPath = getProjectPath("prisma/schema.prisma");
-    await runTransforms(schemaPath, [addPrismaModel, customerSchema]);
+    return;
   },
   finish: async (_config) => {
     return;
