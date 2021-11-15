@@ -17,13 +17,8 @@ async function buffer(readable: any) {
 }
 
 const relevantEvents = new Set([
-  "product.created",
-  "product.updated",
-  "price.created",
-  "price.updated",
+  "payment_intent.succeeded",
   "checkout.session.completed",
-  "customer.subscription.updated",
-  "customer.subscription.deleted",
 ]);
 
 const handler = createHandler();

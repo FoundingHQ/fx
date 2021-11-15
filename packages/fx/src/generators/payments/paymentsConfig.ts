@@ -70,6 +70,10 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/CustomCheckout.tsx",
         dest: "lib/payments/components/CustomCheckout.tsx",
       },
+      {
+        src: "templates/features/payments/components/CheckoutForm.tsx",
+        dest: "lib/payments/components/CheckoutForm.tsx",
+      },
     ],
   },
   subscription: {

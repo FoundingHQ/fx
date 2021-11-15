@@ -6,10 +6,6 @@ const handler = createHandler();
 handler.post(async (req, res) => {
   const { email, items } = req.body;
 
-  if (!items) {
-    throw new Error("Missing parameter items");
-  }
-
   const customerId = await getCustomerId(email);
 
   const calculateOrderAmount = (_items: any) => {

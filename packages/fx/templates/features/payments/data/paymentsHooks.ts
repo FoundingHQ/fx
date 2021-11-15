@@ -16,11 +16,15 @@ export const useCheckout = (handleCheckout: any) => {
   );
 };
 
-export const useCustomCheckout = () => {
+export type CustomPaymentsInput = { email: string; items: Array<any>;};
+
+export const useCustomCheckout = (handleCustomCheckout: any) => {
   return useMutation(
-    (data: PaymentsInput) => fetcher.post(clientPaymentsRoutes.checkout, data),
+    (data: CustomPaymentsInput) => fetcher.post(clientPaymentsRoutes.customCheckout, data),
     {
-      onSuccess: () => {},
+      onSuccess: (res: any) => {
+        handleCustomCheckout(res);
+      },
     }
   );
 };
@@ -28,7 +32,7 @@ export const useCustomCheckout = () => {
 export const useConnectOnboarding = () => {
   return useMutation(
     (data: PaymentsInput) =>
-      fetcher.post(clientPaymentsRoutes.customCheckout, data),
+      fetcher.post(clientPaymentsRoutes.connectOnboarding, data),
     {
       onSuccess: () => {},
     }

@@ -13,7 +13,11 @@ export const Checkout = () => {
   });
 
   const onClick = async () => {
-    checkout({ email: "test@example.com", price: "price_STRIPE_PRICE_ID", quantity: 2 })
+    checkout({
+      email: "test@example.com",
+      price: "price_STRIPE_PRICE_ID",
+      quantity: 2,
+    });
   };
 
   return <button onClick={onClick}>Checkout</button>;
