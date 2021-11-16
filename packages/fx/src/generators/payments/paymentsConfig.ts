@@ -50,6 +50,14 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/Checkout.tsx",
         dest: "lib/payments/components/Checkout.tsx",
       },
+      {
+        src: "templates/features/payments/expo/screens/CheckoutScreen.tsx",
+        dest: "expo/screens/CheckoutScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/Checkout.tsx",
+        dest: "expo/lib/payments/components/Checkout.tsx",
+      },
     ],
   },
   "custom-checkout": {
@@ -74,6 +82,14 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/CheckoutForm.tsx",
         dest: "lib/payments/components/CheckoutForm.tsx",
       },
+      {
+        src: "templates/features/payments/expo/screens/CustomCheckoutScreen.tsx",
+        dest: "expo/screens/CustomCheckoutScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/CustomCheckout.tsx",
+        dest: "expo/lib/payments/components/CustomCheckout.tsx",
+      },
     ],
   },
   subscription: {
@@ -97,6 +113,14 @@ export const paymentsScopeConfig = {
       {
         src: "templates/features/payments/components/Subscription.tsx",
         dest: "lib/payments/components/Subscription.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/screens/SubscriptionScreen.tsx",
+        dest: "expo/screens/SubscriptionScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/Subscription.tsx",
+        dest: "expo/lib/payments/components/Subscription.tsx",
       },
     ],
   },
@@ -133,6 +157,22 @@ export const paymentsScopeConfig = {
       {
         src: "templates/features/payments/components/ConnectOnboarding.tsx",
         dest: "lib/payments/components/ConnectOnboarding.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/screens/ConnectOnboardingScreen.tsx",
+        dest: "expo/screens/ConnectOnboardingScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/ConnectOnboarding.tsx",
+        dest: "expo/lib/payments/components/ConnectOnboarding.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/screens/ConnectCheckoutScreen.tsx",
+        dest: "expo/screens/ConnectCheckoutScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/ConnectCheckout.tsx",
+        dest: "expo/lib/payments/components/ConnectCheckout.tsx",
       },
     ],
   },
