@@ -8,7 +8,6 @@ import {
   allTemplates,
   paymentsScopeConfig,
 } from "./paymentsConfig";
-import customerSchema from "./schema/customer";
 
 type Config = {
   scopes: (keyof typeof paymentsScopeConfig)[];
