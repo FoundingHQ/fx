@@ -40,6 +40,14 @@ export const baseConfig = {
       src: "templates/features/pages/protected",
       dest: "pages/protected",
     },
+    {
+      src: "templates/features/auth/expo/screens",
+      dest: "expo/screens",
+    },
+    {
+      src: "templates/features/auth/expo/components",
+      dest: "expo/lib/auth/components",
+    },
   ],
 };
 

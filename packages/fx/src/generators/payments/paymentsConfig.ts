@@ -2,6 +2,7 @@ export const baseConfig = {
   installations: {
     dependencies: ["@stripe/stripe-js", "stripe", "@stripe/react-stripe-js"],
     devDependencies: [],
+    expoDependencies: ["@stripe/stripe-react-native"],
   },
   templates: [
     {
@@ -36,6 +37,7 @@ export const paymentsScopeConfig = {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -50,12 +52,21 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/Checkout.tsx",
         dest: "lib/payments/components/Checkout.tsx",
       },
+      {
+        src: "templates/features/payments/expo/screens/CheckoutScreen.tsx",
+        dest: "expo/screens/CheckoutScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/Checkout.tsx",
+        dest: "expo/lib/payments/components/Checkout.tsx",
+      },
     ],
   },
   "custom-checkout": {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -74,12 +85,21 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/CheckoutForm.tsx",
         dest: "lib/payments/components/CheckoutForm.tsx",
       },
+      {
+        src: "templates/features/payments/expo/screens/CustomCheckoutScreen.tsx",
+        dest: "expo/screens/CustomCheckoutScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/CustomCheckout.tsx",
+        dest: "expo/lib/payments/components/CustomCheckout.tsx",
+      },
     ],
   },
   subscription: {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -98,12 +118,21 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/Subscription.tsx",
         dest: "lib/payments/components/Subscription.tsx",
       },
+      {
+        src: "templates/features/payments/expo/screens/SubscriptionScreen.tsx",
+        dest: "expo/screens/SubscriptionScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/Subscription.tsx",
+        dest: "expo/lib/payments/components/Subscription.tsx",
+      },
     ],
   },
   connect: {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -134,6 +163,22 @@ export const paymentsScopeConfig = {
         src: "templates/features/payments/components/ConnectOnboarding.tsx",
         dest: "lib/payments/components/ConnectOnboarding.tsx",
       },
+      {
+        src: "templates/features/payments/expo/screens/ConnectOnboardingScreen.tsx",
+        dest: "expo/screens/ConnectOnboardingScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/ConnectOnboarding.tsx",
+        dest: "expo/lib/payments/components/ConnectOnboarding.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/screens/ConnectCheckoutScreen.tsx",
+        dest: "expo/screens/ConnectCheckoutScreen.tsx",
+      },
+      {
+        src: "templates/features/payments/expo/components/ConnectCheckout.tsx",
+        dest: "expo/lib/payments/components/ConnectCheckout.tsx",
+      },
     ],
   },
 };
@@ -141,11 +186,13 @@ export const paymentsScopeConfig = {
 export const allDependencies = [
   ...baseConfig.installations.dependencies,
   ...baseConfig.installations.devDependencies,
+  ...baseConfig.installations.expoDependencies,
   ...Object.values(paymentsScopeConfig)
     .map((c) => {
       return [
         ...c.installations.dependencies,
         ...c.installations.devDependencies,
+        ...c.installations.expoDependencies,
       ];
     })
     .flat(),

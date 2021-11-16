@@ -17,6 +17,10 @@ interface InstallArgs {
    * Indicate whether the given dependencies are devDependencies.
    */
   devDependencies?: boolean;
+  /**
+   * Indicate whether the given dependencies are expoDependencies.
+   */
+  expoDependencies?: boolean;
 }
 
 /**
@@ -100,6 +104,36 @@ export function install(
       stdio: "inherit",
       env: { ...process.env, ADBLOCK: "1", DISABLE_OPENCOLLECTIVE: "1" },
     });
+    child.on("close", (code) => {
+      if (code !== 0) {
+        reject({ command: `${command} ${args.join(" ")}` });
+        return;
+      }
+      resolve();
+    });
+  });
+}
+
+/**
+ * Spawn a package manager installation with Expo
+ *
+ * @returns A Promise that resolves once the installation is finished.
+ */
+export function expoInstall(dependencies: string[] | null): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let args: string[] = [];
+    const command: string = "expo";
+
+    if (dependencies && dependencies.length) {
+      args = ["install"];
+      args.push(...dependencies);
+    }
+
+    const child = spawn(command, args, {
+      stdio: "inherit",
+      env: { ...process.env, ADBLOCK: "1", DISABLE_OPENCOLLECTIVE: "1" },
+    });
+
     child.on("close", (code) => {
       if (code !== 0) {
         reject({ command: `${command} ${args.join(" ")}` });

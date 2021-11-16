@@ -1,4 +1,6 @@
 import prompts from "prompts";
+import fs from "fs";
+
 import { Generator } from "../../types";
 import {
   baseConfig,
@@ -66,6 +68,14 @@ export default {
           .map((scope) => paymentsScopeConfig[scope].installations.dependencies)
           .flat(),
       ],
+      expoDependencies: [
+        ...baseConfig.installations.expoDependencies,
+        ...scopes
+          .map(
+            (scope) => paymentsScopeConfig[scope].installations.expoDependencies
+          )
+          .flat(),
+      ],
     };
   },
   scaffold: async ({ scopes }) => {
@@ -75,6 +85,33 @@ export default {
     ];
   },
   codemods: async (_config) => {
+    const source = fs.readFileSync("app.json", "utf8");
+    const appJson = JSON.parse(source);
+    const newAppJson = {
+      ...appJson,
+      ["expo"]: {
+        ...appJson["expo"],
+        ["plugins"]: [
+          ...(appJson["expo"]["plugins"] || []),
+          [
+            "@stripe/stripe-react-native",
+            {
+              merchantIdentifier: "",
+              enableGooglePay: true,
+            },
+          ],
+        ],
+      },
+    };
+    fs.writeFile("app.json", JSON.stringify(newAppJson, null, 2), (err) => {
+      if (err) {
+        throw {
+          command: "add",
+          message: "Failed to write to app.json",
+        };
+      }
+    });
+
     return;
   },
   finish: async (_config) => {

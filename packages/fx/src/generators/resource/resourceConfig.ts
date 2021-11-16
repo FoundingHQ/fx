@@ -24,5 +24,21 @@ export const baseConfig = {
       src: "templates/features/pages/resource",
       dest: "pages/${h.changeCase.camelCase(h.inflection.pluralize(name))}",
     },
+    {
+      src: "templates/features/resource/expo/screens/ResourceListScreen.tsx",
+      dest: "expo/screens/${h.changeCase.pascalCase(name)}ListScreen.tsx",
+    },
+    {
+      src: "templates/features/resource/expo/components/ResourceList.tsx",
+      dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}List.tsx",
+    },
+    {
+      src: "templates/features/resource/expo/screens/ResourceEditScreen.tsx",
+      dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
+    },
+    {
+      src: "templates/features/resource/expo/components/ResourceEdit.tsx",
+      dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}Edit.tsx",
+    },
   ],
 };
