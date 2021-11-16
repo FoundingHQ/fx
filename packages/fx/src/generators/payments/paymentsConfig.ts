@@ -2,6 +2,7 @@ export const baseConfig = {
   installations: {
     dependencies: ["@stripe/stripe-js", "stripe", "@stripe/react-stripe-js"],
     devDependencies: [],
+    expoDependencies: ["@stripe/stripe-react-native"],
   },
   templates: [
     {
@@ -36,6 +37,7 @@ export const paymentsScopeConfig = {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -64,6 +66,7 @@ export const paymentsScopeConfig = {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -96,6 +99,7 @@ export const paymentsScopeConfig = {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -128,6 +132,7 @@ export const paymentsScopeConfig = {
     installations: {
       dependencies: [],
       devDependencies: [],
+      expoDependencies: [],
     },
     templates: [
       {
@@ -181,11 +186,13 @@ export const paymentsScopeConfig = {
 export const allDependencies = [
   ...baseConfig.installations.dependencies,
   ...baseConfig.installations.devDependencies,
+  ...baseConfig.installations.expoDependencies,
   ...Object.values(paymentsScopeConfig)
     .map((c) => {
       return [
         ...c.installations.dependencies,
         ...c.installations.devDependencies,
+        ...c.installations.expoDependencies,
       ];
     })
     .flat(),

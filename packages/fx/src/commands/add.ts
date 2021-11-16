@@ -5,6 +5,7 @@ import {
   runTransforms,
   getFiles,
   install,
+  expoInstall,
   getOnline,
   getEjsTransform,
   getPrettierTransform,
@@ -74,11 +75,10 @@ export async function add(
 
   // Install required dependencies
   try {
-    const { dependencies, devDependencies } = await featureGenerator.install(
-      context
-    );
+    const { dependencies, devDependencies, expoDependencies } =
+      await featureGenerator.install(context);
 
-    if (!dependencies.length && !devDependencies.length) {
+    if (!dependencies.length && !devDependencies.length && !expoDependencies) {
       console.log("No dependencies to install.");
       console.log();
     } else {
@@ -112,6 +112,19 @@ export async function add(
             devDependencies: true,
             isOnline,
           });
+          console.log();
+        }
+      }
+
+      if (expoDependencies && expoDependencies.length) {
+        console.log("Installing expoDependencies:");
+        console.log(chalk.green(expoDependencies.join("\n")));
+        if (dryRun) {
+          console.log();
+          console.log(chalk.yellow("Dry run: skipping install"));
+          console.log();
+        } else {
+          await expoInstall(expoDependencies);
           console.log();
         }
       }

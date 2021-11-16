@@ -9,6 +9,7 @@ export type Generator<T = any> = {
   install: (context: T) => Promise<{
     dependencies: string[];
     devDependencies: string[];
+    expoDependencies?: string[];
   }>;
   scaffold: (context: T) => Promise<ScaffoldPath<T>[]>;
   codemods: (context: T) => Promise<void>;

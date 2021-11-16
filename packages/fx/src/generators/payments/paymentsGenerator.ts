@@ -66,6 +66,14 @@ export default {
           .map((scope) => paymentsScopeConfig[scope].installations.dependencies)
           .flat(),
       ],
+      expoDependencies: [
+        ...baseConfig.installations.expoDependencies,
+        ...scopes
+          .map(
+            (scope) => paymentsScopeConfig[scope].installations.expoDependencies
+          )
+          .flat(),
+      ],
     };
   },
   scaffold: async ({ scopes }) => {
