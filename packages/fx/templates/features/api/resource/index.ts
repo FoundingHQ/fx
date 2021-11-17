@@ -12,8 +12,8 @@ const handler = createHandler({ attachParams: true });
 
 handler
   .get(<%= h.changeCase.camelCase(name) %>Routes.index, async (_req, res) => {
-    const <%= h.changeCase.camelCase(name) %> = await get<%= h.changeCase.pascalCase(name) %>List();
-    res.status(200).json({ <%= h.changeCase.camelCase(name) %>: <%= h.changeCase.camelCase(name) %> });
+    const <%= h.pluralizedCamelCase(name) %> = await get<%= h.changeCase.pascalCase(name) %>List();
+    res.status(200).json({ <%= h.pluralizedCamelCase(name) %>: <%= h.pluralizedCamelCase(name) %> });
   })
   .post(<%= h.changeCase.camelCase(name) %>Routes.create, async (req: any, res) => {
     const new<%= h.changeCase.pascalCase(name) %> = await create<%= h.changeCase.pascalCase(name) %>(req.<%= h.changeCase.camelCase(name) %>);

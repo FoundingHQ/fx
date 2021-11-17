@@ -26,6 +26,10 @@ const attributeKeys = (attributes: string) => {
   return attrsKeys;
 };
 
+const pluralizedCamelCase = (s: string) => {
+  return changeCase.camelCase(inflection.pluralize(s));
+};
+
 const helpers = {
   capitalize: (text: string) => text.charAt(0).toUpperCase() + text.slice(1),
   inflection,
@@ -34,6 +38,7 @@ const helpers = {
   prismaToTypescript,
   destructureAttributes,
   attributeKeys,
+  pluralizedCamelCase,
 };
 
 export const extendContext = (context: any) => {

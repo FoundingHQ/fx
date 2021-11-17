@@ -1,9 +1,9 @@
 export const <%= h.changeCase.camelCase(name) %>Routes = {
-  index: "/api/<%= h.changeCase.camelCase(h.inflection.pluralize(name)) %>",
-  create: "/api/<%= h.changeCase.camelCase(h.inflection.pluralize(name)) %>",
-  show: "/api/<%= h.changeCase.camelCase(h.inflection.pluralize(name)) %>/:id",
-  update: "/api/<%= h.changeCase.camelCase(h.inflection.pluralize(name)) %>/:id",
-  destroy: "/api/<%= h.changeCase.camelCase(h.inflection.pluralize(name)) %>",
+  index: "/api/<%= h.pluralizedCamelCase(name) %>",
+  create: "/api/<%= h.pluralizedCamelCase(name) %>",
+  show: "/api/<%= h.pluralizedCamelCase(name) %>/:id",
+  update: "/api/<%= h.pluralizedCamelCase(name) %>/:id",
+  destroy: "/api/<%= h.pluralizedCamelCase(name) %>",
 };
 
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;

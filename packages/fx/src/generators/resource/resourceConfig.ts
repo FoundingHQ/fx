@@ -18,11 +18,11 @@ export const baseConfig = {
     },
     {
       src: "templates/features/api/resource/index.ts",
-      dest: "pages/api/${h.changeCase.camelCase(h.inflection.pluralize(name))}/index.ts",
+      dest: "pages/api/${h.pluralizedCamelCase(name)}/index.ts",
     },
     {
       src: "templates/features/pages/resource",
-      dest: "pages/${h.changeCase.camelCase(h.inflection.pluralize(name))}",
+      dest: "pages/${h.pluralizedCamelCase(name)}",
     },
     {
       src: "templates/features/resource/expo/screens/ResourceListScreen.tsx",
