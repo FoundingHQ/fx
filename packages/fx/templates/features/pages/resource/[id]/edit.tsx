@@ -1,5 +1,5 @@
 import { SEO } from "@components";
-import <%= h.changeCase.pascalCase(name) %>Form from "@lib/post/components/<%= h.changeCase.pascalCase(name) %>Form";
+import <%= h.changeCase.pascalCase(name) %>Form from "@lib/<%= h.changeCase.camelCase(name) %>/components/<%= h.changeCase.pascalCase(name) %>Form";
 
 export const EditPage = () => {
   return (
