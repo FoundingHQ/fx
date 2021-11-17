@@ -2,6 +2,7 @@ import { prisma } from "@server/prisma";
 
 const defaultSelect = {
   id: true,
+  <% h.attributeKeys(attributes).forEach((attr) => { %><%= attr %>: true,<% }); %>
 };
 
 type Create<%= h.changeCase.pascalCase(name) %>Input = {
