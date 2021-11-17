@@ -37,6 +37,10 @@ export const baseConfig = {
       dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
     },
     {
+      src: "templates/features/resource/expo/screens/ResourceNewScreen.tsx",
+      dest: "expo/screens/${h.changeCase.pascalCase(name)}NewScreen.tsx",
+    },
+    {
       src: "templates/features/resource/expo/components/ResourceEdit.tsx",
       dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}Edit.tsx",
     },
