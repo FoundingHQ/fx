@@ -1,11 +1,14 @@
 import { use<%= h.changeCase.pascalCase(name) %>Create, use<%= h.changeCase.pascalCase(name) %>Update } from "../data/<%= h.changeCase.camelCase(name) %>Hooks";
+import { <%= h.changeCase.pascalCase(name) %> } from "@prisma/client"
 
 type <%= h.changeCase.pascalCase(name) %>FormProps = {
+  <%= h.changeCase.camelCase(name) %>Id?: <%= h.changeCase.pascalCase(name) %>["id"];
   submitType: "create" | "update";
   submitText: string;
 }
 
 export const <%= h.changeCase.pascalCase(name) %>Form = ({
+  <%= h.changeCase.camelCase(name) %>Id,
   submitType,
   submitText
 }: <%= h.changeCase.pascalCase(name) %>FormProps) => {
@@ -19,10 +22,17 @@ export const <%= h.changeCase.pascalCase(name) %>Form = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // @ts-expect-error
-    const { <%= h.destructureAttributes(attributes) %> } = e.currentTarget.elements;
-    const action = submitType === "create" ? create : update;
+    const { <%= Object.keys(attributes).join(", ") %> } = e.currentTarget.elements;
 
-    action({<% Object.keys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
+    if (submitType === "create") {
+      create({<% Object.keys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
+      return;
+    }
+
+    if (userId) {
+      update({ id: <%= h.changeCase.camelCase(name) %>Id,<% Object.keys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
+      return;
+    }
   };
 
   return (
