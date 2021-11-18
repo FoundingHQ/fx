@@ -1,41 +1,25 @@
 import { prisma } from "@server/prisma";
+import { <%= h.changeCase.pascalCase(name) %> } from "@prisma/client";
 
-const defaultSelect = {
-  id: true,
-  <% h.attributeKeys(attributes).forEach((attr) => { %><%= attr %>: true,<% }); %>
-};
-
-type Create<%= h.changeCase.pascalCase(name) %>Input = {
-  id?: string;
-  <% attributes.split(" ").forEach((attr) => { %><%= h.prismaToTypescript(attr) %>;<% }); %>
-};
-
-export const create<%= name %> = async (input: Create<%= h.changeCase.pascalCase(name) %>Input) => {
+export const create<%= name %> = async (input: <%= h.changeCase.pascalCase(name) %>) => {
   return prisma.<%= h.changeCase.camelCase(name) %>.create({
     data: input,
-    select: defaultSelect,
   });
 };
 
-type Get<%= h.changeCase.pascalCase(name) %>Input = {
-  id?: string;
-  <% attributes.split(" ").forEach((attr) => { %><%= h.prismaToTypescript(attr) %>;<% }); %>
-};
-
-export const get<%= h.changeCase.pascalCase(name) %> = async (input: Get<%= h.changeCase.pascalCase(name) %>Input) => {
+export const get<%= h.changeCase.pascalCase(name) %> = async (input: <%= h.changeCase.pascalCase(name) %>) => {
   return prisma.<%= h.changeCase.camelCase(name) %>.findUnique({
     where: input,
-    select: defaultSelect,
   });
 };
 
 export const get<%= h.changeCase.pascalCase(name) %>List = async () => {
-  return prisma.<%= h.changeCase.camelCase(name) %>.findMany({ select: defaultSelect });
+  return prisma.<%= h.changeCase.camelCase(name) %>.findMany();
 };
 
 interface Update<%= h.changeCase.pascalCase(name) %>Input {
   <%= h.changeCase.camelCase(name) %>Id: string;
-  <%= h.changeCase.camelCase(name) %>Input: Create<%= h.changeCase.pascalCase(name) %>Input;
+  <%= h.changeCase.camelCase(name) %>Input: <%= h.changeCase.pascalCase(name) %>;
 }
 
 export const update<%= h.changeCase.pascalCase(name) %> = async ({

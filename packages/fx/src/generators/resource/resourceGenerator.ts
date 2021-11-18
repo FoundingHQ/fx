@@ -1,3 +1,5 @@
+import fs from "fs";
+import { getSchema, Model } from "@mrleebo/prisma-ast";
 import prompts from "prompts";
 import { Generator, runTransforms, addPrismaModel } from "@founding/devkit";
 import { getProjectPath } from "../../config";
@@ -23,12 +25,6 @@ const generator: Generator<Context> = {
           name: "name",
           message: "What is the name of the resource?",
         },
-        {
-          type: () => (options.attributes ? null : "text"),
-          name: "attributes",
-          message:
-            "What are the attributes of the resource?\n\nAttribute consists of prisma fieldName and fieldType\n\n(i.e. name:String ordinal:Int)\n\n",
-        },
       ],
       {
         onCancel: () => {
@@ -40,7 +36,28 @@ const generator: Generator<Context> = {
       }
     );
 
-    return { ...res, ...options };
+    const schemaPath = getProjectPath("prisma/schema.prisma");
+    const source = fs.readFileSync(schemaPath, "utf8");
+    const schema = getSchema(source);
+
+    const list = schema["list"];
+    const [existingModel] = list.filter((item) => {
+      return item.type === "model" && item.name === res.name;
+    });
+
+    const attributes: any = {};
+    if (existingModel) {
+      const properties = (existingModel as Model).properties;
+      properties.forEach((property) => {
+        if (property["type"] === "field") {
+          const propertyName = property["name"];
+          const propertyFieldType = property["fieldType"];
+          attributes[propertyName] = propertyFieldType;
+        }
+      });
+    }
+
+    return { ...res, ...options, attributes };
   },
   install: async () => {
     return [];
@@ -48,17 +65,8 @@ const generator: Generator<Context> = {
   scaffold: async ({ name }) => {
     return [...baseConfig.templates];
   },
-  codemods: async ({ name, attributes }) => {
-    const schemaPath = getProjectPath("prisma/schema.prisma");
-    const properties = attributesToProperties(attributes);
-
-    const resourceSchema = {
-      type: "model",
-      name,
-      properties: [primaryKey, ...properties, createdAt, updatedAt],
-    };
-
-    await runTransforms(schemaPath, [addPrismaModel, resourceSchema]);
+  codemods: async () => {
+    return;
   },
   finish: async ({ name, attributes }) => {
     console.log(`Finish: ${name}, attributes: ${attributes}`);
