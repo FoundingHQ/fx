@@ -27,8 +27,7 @@ export const <%= h.changeCase.pascalCase(name) %>Form = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="name" type="name" placeholder="Name" />
-      <input name="description" type="description" placeholder="Description" />
+      <% h.attributeKeys(attributes).forEach((attributeKey) => { %><input name ="<%= attributeKey %>" type="text" placeholder="<%= h.changeCase.pascalCase(attributeKey) %>" /><% }) %>
       <button type="submit">{submitText}</button>
     </form>
   );
