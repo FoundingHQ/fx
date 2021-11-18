@@ -10,7 +10,7 @@ export type <%= h.changeCase.pascalCase(name) %>Input = {
 
 export const use<%= h.changeCase.pascalCase(name) %>List = () => {
   return useQuery("<%= h.changeCase.camelCase(name) %>List", () =>
-    fetcher.post(client<%= h.changeCase.pascalCase(name) %>Routes.index)
+    fetcher.get(client<%= h.changeCase.pascalCase(name) %>Routes.index)
   );
 };
 

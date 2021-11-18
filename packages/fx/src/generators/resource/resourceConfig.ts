@@ -18,11 +18,11 @@ export const baseConfig = {
     },
     {
       src: "templates/features/api/resource/index.ts",
-      dest: "pages/api/${h.changeCase.camelCase(name)}/index.ts",
+      dest: "pages/api/${h.pluralizedCamelCase(name)}/index.ts",
     },
     {
       src: "templates/features/pages/resource",
-      dest: "pages/${h.changeCase.camelCase(h.inflection.pluralize(name))}",
+      dest: "pages/${h.pluralizedCamelCase(name)}",
     },
     {
       src: "templates/features/resource/expo/screens/ResourceListScreen.tsx",
@@ -35,6 +35,10 @@ export const baseConfig = {
     {
       src: "templates/features/resource/expo/screens/ResourceEditScreen.tsx",
       dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
+    },
+    {
+      src: "templates/features/resource/expo/screens/ResourceNewScreen.tsx",
+      dest: "expo/screens/${h.changeCase.pascalCase(name)}NewScreen.tsx",
     },
     {
       src: "templates/features/resource/expo/components/ResourceEdit.tsx",

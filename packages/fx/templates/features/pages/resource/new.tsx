@@ -1,14 +1,14 @@
 import { SEO } from "@components";
 import <%= h.changeCase.pascalCase(name) %>Form from "@lib/<%= h.changeCase.camelCase(name) %>/components/<%= h.changeCase.pascalCase(name) %>Form";
 
-export const EditPage = () => {
+export const NewPage = () => {
   return (
     <>
-      <SEO title="Edit" />
-      <h1>Edit</h1>
-      <<%= h.changeCase.pascalCase(name) %>Form submitType="update" submitText="Update" />
+      <SEO title="New" />
+      <h1>New</h1>
+      <<%= h.changeCase.pascalCase(name) %>Form submitType="create" submitText="Create" />
     </>
   );
 };
 
-export default EditPage;
+export default NewPage;

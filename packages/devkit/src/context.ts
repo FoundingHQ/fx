@@ -13,12 +13,32 @@ const prismaToTypescript = (attr: string) => {
   return `${key}: ${prismaToTypescriptMap[val]}`;
 };
 
+const destructureAttributes = (attributes: string) => {
+  return attributeKeys(attributes).join(", ");
+};
+
+const attributeKeys = (attributes: string) => {
+  const attrs = attributes.split(" ");
+  const attrsKeys = attrs.map((attr) => {
+    const [key, _val] = attr.split(":");
+    return key;
+  });
+  return attrsKeys;
+};
+
+const pluralizedCamelCase = (s: string) => {
+  return changeCase.camelCase(inflection.pluralize(s));
+};
+
 const helpers = {
   capitalize: (text: string) => text.charAt(0).toUpperCase() + text.slice(1),
   inflection,
   changeCase,
   path,
   prismaToTypescript,
+  destructureAttributes,
+  attributeKeys,
+  pluralizedCamelCase,
 };
 
 export const extendContext = (context: any) => {
