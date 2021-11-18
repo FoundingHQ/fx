@@ -45,5 +45,7 @@ export const convertTemplateDestPaths = (
   path: string,
   context: Record<string, any> = {}
 ) => {
-  return resolve(config.projectRoot, interpolate(path, context));
+  const dest = resolve(config.projectRoot, interpolate(path, context));
+  if (dest.endsWith(".ejs")) return dest.slice(0, -4);
+  return dest;
 };
