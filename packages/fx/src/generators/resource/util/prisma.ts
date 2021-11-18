@@ -82,12 +82,12 @@ export const updatedAt: Property = {
 };
 
 export const attributesToProperties = (attributes: string) => {
-  const properties: Array<Property> = attributes
-    .split(" ")
-    .map((attribute: string) => {
+  const properties: Array<Property> = Object.keys(attributes).map(
+    (attribute: string) => {
       const [fieldName, fieldType] = attribute.split(":");
       return { type: "field", name: fieldName, fieldType };
-    });
+    }
+  );
 
   return properties;
 };

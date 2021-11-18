@@ -22,12 +22,12 @@ export const <%= h.changeCase.pascalCase(name) %>Form = ({
     const { <%= h.destructureAttributes(attributes) %> } = e.currentTarget.elements;
     const action = submitType === "create" ? create : update;
 
-    action({<% h.attributeKeys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
+    action({<% Object.keys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <% h.attributeKeys(attributes).forEach((attributeKey) => { %><input name ="<%= attributeKey %>" type="text" placeholder="<%= h.changeCase.pascalCase(attributeKey) %>" /><% }) %>
+      <% Object.keys(attributes).forEach((attributeKey) => { %><input name ="<%= attributeKey %>" type="text" placeholder="<%= h.changeCase.pascalCase(attributeKey) %>" /><% }) %>
       <button type="submit">{submitText}</button>
     </form>
   );

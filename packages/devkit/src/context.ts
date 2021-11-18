@@ -13,12 +13,12 @@ const prismaToTypescript = (attr: string) => {
   return `${key}: ${prismaToTypescriptMap[val]}`;
 };
 
-const destructureAttributes = (attributes: string) => {
-  return attributeKeys(attributes).join(", ");
+const destructureAttributes = (attributes: any) => {
+  return Object.keys(attributes).join(", ");
 };
 
 const attributeKeys = (attributes: string) => {
-  const attrs = attributes.split(" ");
+  const attrs = Object.keys(attributes);
   const attrsKeys = attrs.map((attr) => {
     const [key, _val] = attr.split(":");
     return key;

@@ -9,11 +9,11 @@ export const ListPage = () => {
     <>
       <SEO title="List" />
       <h1>List</h1>
-      <ul>
-        {list.map((item: any) => (
-          <li>{item.id}</li>
-        ))}
-      </ul>
+      {list.map((item: any) => (
+        <ul>
+        <% Object.keys(attributes).forEach((attributeKey) => { %><li>{item.<%= attributeKey %>}</li><% }) %>
+        </ul>
+      ))}
     </>
   );
 };
