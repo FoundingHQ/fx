@@ -46,13 +46,18 @@ const generator: Generator<Context> = {
     });
 
     const attributes: any = {};
+    const systemFields = ["id", "createdAt", "updatedAt"];
+
     if (existingModel) {
       const properties = (existingModel as Model).properties;
       properties.forEach((property) => {
         if (property["type"] === "field") {
           const propertyName = property["name"];
           const propertyFieldType = property["fieldType"];
-          attributes[propertyName] = propertyFieldType;
+
+          if (!systemFields.includes(propertyName)) {
+            attributes[propertyName] = propertyFieldType;
+          }
         }
       });
     }
