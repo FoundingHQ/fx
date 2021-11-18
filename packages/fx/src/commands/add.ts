@@ -5,8 +5,6 @@ import {
   runTransforms,
   getFiles,
   install,
-  expoInstall,
-  getOnline,
   getEjsTransform,
   getPrettierTransform,
   extendContext,
@@ -75,56 +73,25 @@ export async function add(
 
   // Install required dependencies
   try {
-    const { dependencies, devDependencies, expoDependencies } =
-      await featureGenerator.install(context);
+    const dependencies = await featureGenerator.install(context);
 
-    if (!dependencies.length && !devDependencies.length && !expoDependencies) {
+    if (!dependencies.length) {
       console.log("No dependencies to install.");
       console.log();
     } else {
-      const isOnline = await getOnline();
       console.log();
 
       if (dependencies.length) {
         console.log("Installing dependencies:");
-        console.log(chalk.green(dependencies.join("\n")));
+        dependencies.forEach((d) => {
+          console.log(`▶ ${chalk.green(d.name)}`);
+        });
         if (dryRun) {
           console.log();
           console.log(chalk.yellow("Dry run: skipping install"));
           console.log();
         } else {
-          await install(config.projectRoot, dependencies, {
-            isOnline,
-          });
-          console.log();
-        }
-      }
-
-      if (devDependencies.length) {
-        console.log("Installing devDependencies:");
-        console.log(chalk.green(devDependencies.join("\n")));
-        if (dryRun) {
-          console.log();
-          console.log(chalk.yellow("Dry run: skipping install"));
-          console.log();
-        } else {
-          await install(config.projectRoot, devDependencies, {
-            devDependencies: true,
-            isOnline,
-          });
-          console.log();
-        }
-      }
-
-      if (expoDependencies && expoDependencies.length) {
-        console.log("Installing expoDependencies:");
-        console.log(chalk.green(expoDependencies.join("\n")));
-        if (dryRun) {
-          console.log();
-          console.log(chalk.yellow("Dry run: skipping install"));
-          console.log();
-        } else {
-          await expoInstall(expoDependencies);
+          await install(config.projectRoot, dependencies);
           console.log();
         }
       }

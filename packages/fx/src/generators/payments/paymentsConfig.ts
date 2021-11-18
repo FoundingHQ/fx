@@ -1,9 +1,12 @@
-export const baseConfig = {
-  installations: {
-    dependencies: ["@stripe/stripe-js", "stripe", "@stripe/react-stripe-js"],
-    devDependencies: [],
-    expoDependencies: ["@stripe/stripe-react-native"],
-  },
+import { GeneratorConfigDefinition } from "@founding/devkit";
+
+export const baseConfig: GeneratorConfigDefinition = {
+  dependencies: [
+    { name: "@stripe/stripe-js" },
+    { name: "stripe" },
+    { name: "@stripe/react-stripe-js" }, // is this required for all stripe templates?
+    { name: "@stripe/stripe-react-native", isExpoDep: true },
+  ],
   templates: [
     {
       src: "templates/features/payments/server/paymentsConfig.ts",
@@ -32,13 +35,9 @@ export const baseConfig = {
   ],
 };
 
-export const paymentsScopeConfig = {
+export const paymentsScopeConfig: Record<string, GeneratorConfigDefinition> = {
   checkout: {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-      expoDependencies: [],
-    },
+    dependencies: [],
     templates: [
       {
         src: "templates/features/api/payments/checkout.ts",
@@ -63,11 +62,7 @@ export const paymentsScopeConfig = {
     ],
   },
   "custom-checkout": {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-      expoDependencies: [],
-    },
+    dependencies: [],
     templates: [
       {
         src: "templates/features/api/payments/create-payment-intent.ts",
@@ -96,11 +91,7 @@ export const paymentsScopeConfig = {
     ],
   },
   subscription: {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-      expoDependencies: [],
-    },
+    dependencies: [],
     templates: [
       {
         src: "templates/features/api/payments/subscription/create-subscription.ts",
@@ -129,11 +120,7 @@ export const paymentsScopeConfig = {
     ],
   },
   connect: {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-      expoDependencies: [],
-    },
+    dependencies: [],
     templates: [
       {
         src: "templates/features/api/payments/connect/onboarding.ts",
@@ -184,17 +171,9 @@ export const paymentsScopeConfig = {
 };
 
 export const allDependencies = [
-  ...baseConfig.installations.dependencies,
-  ...baseConfig.installations.devDependencies,
-  ...baseConfig.installations.expoDependencies,
+  ...baseConfig.dependencies.map((d) => d.name),
   ...Object.values(paymentsScopeConfig)
-    .map((c) => {
-      return [
-        ...c.installations.dependencies,
-        ...c.installations.devDependencies,
-        ...c.installations.expoDependencies,
-      ];
-    })
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
     .flat(),
 ];
 

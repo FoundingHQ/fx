@@ -2,25 +2,20 @@ import retry from "async-retry";
 import chalk from "chalk";
 import path from "path";
 import {
-  downloadAndExtractRepo,
+  cloneRepo,
   makeDir,
   tryGitInit,
   install,
   isFolderEmpty,
-  getOnline,
   isWriteable,
 } from "@founding/devkit";
 
-export class DownloadError extends Error {}
-
 export async function scaffold({
   appPath,
-  preset,
-  shouldNpmInstall,
+  skipInstall,
 }: {
   appPath: string;
-  preset?: string;
-  shouldNpmInstall?: boolean;
+  skipInstall?: boolean;
 }): Promise<void> {
   const root = path.resolve(appPath);
 
@@ -41,7 +36,6 @@ export async function scaffold({
     process.exit(1);
   }
 
-  const isOnline = await getOnline();
   const originalDirectory = process.cwd();
 
   console.log(`Creating a new Fx app in ${chalk.green(root)}.`);
@@ -53,19 +47,12 @@ export async function scaffold({
   try {
     console.log(`Downloading template files. This might take a moment.`);
     console.log();
-    await retry(() => downloadAndExtractRepo(root), {
+    await retry(() => cloneRepo(root), {
       retries: 3,
     });
   } catch (reason) {
-    console.log(reason);
-    function isErrorLike(err: unknown): err is { message: string } {
-      return (
-        typeof err === "object" &&
-        err !== null &&
-        typeof (err as { message?: unknown }).message === "string"
-      );
-    }
-    throw new DownloadError(isErrorLike(reason) ? reason.message : reason + "");
+    console.error(reason);
+    throw new Error();
   }
 
   if (tryGitInit(root)) {
@@ -73,20 +60,15 @@ export async function scaffold({
     console.log();
   }
 
-  if (shouldNpmInstall) {
+  if (!skipInstall) {
     console.log("Installing packages. This might take a couple of minutes.");
     console.log();
     try {
-      await install(root, null, { isOnline });
+      await install(root, null);
       console.log();
     } catch (error) {
       console.log();
     }
-  }
-
-  if (preset) {
-    console.log("Bootstrapping your preset...");
-    console.log();
   }
 
   let cdpath: string;

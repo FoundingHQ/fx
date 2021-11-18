@@ -1,7 +1,5 @@
 import prompts from "prompts";
-import { runTransforms, addPrismaModel } from "@founding/devkit";
-
-import { Generator } from "../../types";
+import { Generator, runTransforms, addPrismaModel } from "@founding/devkit";
 import { getProjectPath } from "../../config";
 import { baseConfig } from "./resourceConfig";
 import {
@@ -16,7 +14,7 @@ type Context = {
   attributes: string;
 };
 
-export default {
+const generator: Generator<Context> = {
   setup: async (options = {}) => {
     const res = await prompts(
       [
@@ -45,10 +43,7 @@ export default {
     return { ...res, ...options };
   },
   install: async () => {
-    return {
-      dependencies: [],
-      devDependencies: [],
-    };
+    return [];
   },
   scaffold: async ({ name }) => {
     return [...baseConfig.templates];
@@ -76,4 +71,6 @@ export default {
       templates: [],
     };
   },
-} as Generator<Context>;
+};
+
+export default generator;

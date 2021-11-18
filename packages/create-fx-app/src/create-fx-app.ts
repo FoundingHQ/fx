@@ -18,19 +18,6 @@ async function main() {
     .version(packageJson.version)
     .arguments("[project-directory]")
     .usage(`${chalk.green("[project-directory]")} [options]`)
-    .option(
-      "-p, --preset [name]|[github-url]",
-      `
-
-      Presets act as sharable set of feature configurations. You may want to
-      bootstrap your application as an Ecommerce app, or a Marketplace app;
-      presets allow you to do that by cloning the template and scaffolding
-      a set of preconfigured features.
-
-      You can use an example name from the Fx repo or a GitHub URL. The URL can
-      use any branch and/or subdirectory.
-  `
-    )
     .option("--skipInstall", "Skip installing dependencies")
     .allowUnknownOption()
     .action(run);
@@ -112,19 +99,9 @@ async function run(
     process.exit(1);
   }
 
-  if (options.preset === true) {
-    console.error(
-      "Please provide an preset name, otherwise remove the preset option."
-    );
-    process.exit(1);
-  }
-
-  const preset = typeof options.preset === "string" && options.preset.trim();
-
   await scaffold({
     appPath: resolvedProjectPath,
-    preset: preset || undefined,
-    shouldNpmInstall: !options.skipInstall,
+    skipInstall: !!options.skipInstall,
   });
 }
 

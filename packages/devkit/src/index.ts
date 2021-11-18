@@ -1,7 +1,6 @@
 export * from "./repo";
 export * from "./fs";
 export * from "./git";
-export * from "./network";
 export * from "./package";
 export * from "./context";
 export * from "./transforms";
@@ -9,3 +8,4 @@ export * from "./prettier";
 export * from "./ejs";
 export * from "./db";
 export * from "./docker";
+export * from "./generator";

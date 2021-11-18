@@ -1,8 +1,13 @@
-export const baseConfig = {
-  installations: {
-    dependencies: ["nodemailer", "passport", "bcrypt"],
-    devDependencies: ["@types/bcrypt", "@types/passport"],
-  },
+import { GeneratorConfigDefinition } from "@founding/devkit";
+
+export const baseConfig: GeneratorConfigDefinition = {
+  dependencies: [
+    { name: "nodemailer" },
+    { name: "passport" },
+    { name: "bcrypt" },
+    { name: "@types/bcrypt", isDevDep: true },
+    { name: "@types/passport", isDevDep: true },
+  ],
   templates: [
     {
       src: "templates/features/auth/components",
@@ -52,12 +57,14 @@ export const baseConfig = {
 };
 
 // session | jwt auth types
-export const authTypeConfig = {
+export const authTypeConfig: Record<string, GeneratorConfigDefinition> = {
   session: {
-    installations: {
-      dependencies: ["next-session", "ioredis", "connect-redis"],
-      devDependencies: ["@types/connect-redis"],
-    },
+    dependencies: [
+      { name: "next-session" },
+      { name: "ioredis" },
+      { name: "connect-redis" },
+      { name: "@types/connect-redis", isDevDep: true },
+    ],
     templates: [
       {
         src: "templates/features/auth/server/middlewares/session.ts",
@@ -70,10 +77,11 @@ export const authTypeConfig = {
     ],
   },
   jwt: {
-    installations: {
-      dependencies: ["passport-jwt", "jsonwebtoken"],
-      devDependencies: ["@types/passport-jwt"],
-    },
+    dependencies: [
+      { name: "passport-jwt" },
+      { name: "jsonwebtoken" },
+      { name: "@types/jsonwebtoken", isDevDep: true },
+    ],
     templates: [
       {
         src: "templates/features/auth/server/strategy/jwt.ts",
@@ -83,12 +91,12 @@ export const authTypeConfig = {
   },
 };
 
-export const authScopeConfig = {
+export const authScopeConfig: Record<string, GeneratorConfigDefinition> = {
   local: {
-    installations: {
-      dependencies: ["passport-local"],
-      devDependencies: ["@types/passport-local"],
-    },
+    dependencies: [
+      { name: "passport-local" },
+      { name: "@types/passport-local", isDevDep: true },
+    ],
     templates: [
       {
         src: "templates/features/auth/server/strategy/local.ts",
@@ -97,10 +105,10 @@ export const authScopeConfig = {
     ],
   },
   google: {
-    installations: {
-      dependencies: ["passport-google-oauth20"],
-      devDependencies: ["@types/passport-google-oauth20"],
-    },
+    dependencies: [
+      { name: "passport-google-oauth20" },
+      { name: "@types/passport-google-oauth20", isDevDep: true },
+    ],
     templates: [
       {
         src: "templates/features/auth/server/strategy/google.ts",
@@ -109,32 +117,18 @@ export const authScopeConfig = {
     ],
   },
   magic: {
-    installations: {
-      dependencies: [],
-      devDependencies: [],
-    },
+    dependencies: [],
     templates: [],
   },
 };
 
 export const allDependencies = [
-  ...baseConfig.installations.dependencies,
-  ...baseConfig.installations.devDependencies,
+  ...baseConfig.dependencies.map((d) => d.name),
   ...Object.values(authTypeConfig)
-    .map((c) => {
-      return [
-        ...c.installations.dependencies,
-        ...c.installations.devDependencies,
-      ];
-    })
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
     .flat(),
   ...Object.values(authScopeConfig)
-    .map((c) => {
-      return [
-        ...c.installations.dependencies,
-        ...c.installations.devDependencies,
-      ];
-    })
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
     .flat(),
 ];
 

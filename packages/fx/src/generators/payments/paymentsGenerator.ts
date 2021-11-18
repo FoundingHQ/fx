@@ -1,7 +1,6 @@
 import prompts from "prompts";
 import fs from "fs";
-
-import { Generator } from "../../types";
+import { Generator } from "@founding/devkit";
 import {
   baseConfig,
   allDependencies,
@@ -13,7 +12,7 @@ type Config = {
   scopes: (keyof typeof paymentsScopeConfig)[];
 };
 
-export default {
+const generator: Generator<Config> = {
   setup: async (options = {}) => {
     const res = await prompts([
       {
@@ -54,28 +53,10 @@ export default {
     return { ...res, ...options };
   },
   install: async ({ scopes }) => {
-    return {
-      dependencies: [
-        ...baseConfig.installations.dependencies,
-        ...scopes
-          .map((scope) => paymentsScopeConfig[scope].installations.dependencies)
-          .flat(),
-      ],
-      devDependencies: [
-        ...baseConfig.installations.devDependencies,
-        ...scopes
-          .map((scope) => paymentsScopeConfig[scope].installations.dependencies)
-          .flat(),
-      ],
-      expoDependencies: [
-        ...baseConfig.installations.expoDependencies,
-        ...scopes
-          .map(
-            (scope) => paymentsScopeConfig[scope].installations.expoDependencies
-          )
-          .flat(),
-      ],
-    };
+    return [
+      ...baseConfig.dependencies,
+      ...scopes.map((scope) => paymentsScopeConfig[scope].dependencies).flat(),
+    ];
   },
   scaffold: async ({ scopes }) => {
     return [
@@ -122,4 +103,6 @@ export default {
       templates: allTemplates,
     };
   },
-} as Generator<Config>;
+};
+
+export default generator;

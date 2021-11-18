@@ -8,8 +8,9 @@ import {
   getPrettierTransform,
   startDocker,
   runMigrations,
+  Generator,
+  sleep,
 } from "@founding/devkit";
-import { Generator } from "../../types";
 import { getProjectPath } from "../../config";
 import {
   baseConfig,
@@ -101,22 +102,11 @@ const generator: Generator<Context> = {
     return { ...res, ...options };
   },
   install: async ({ type, scopes }) => {
-    return {
-      dependencies: [
-        ...baseConfig.installations.dependencies,
-        ...authTypeConfig[type].installations.dependencies,
-        ...scopes
-          .map((scope) => authScopeConfig[scope].installations.dependencies)
-          .flat(),
-      ],
-      devDependencies: [
-        ...baseConfig.installations.devDependencies,
-        ...authTypeConfig[type].installations.devDependencies,
-        ...scopes
-          .map((scope) => authScopeConfig[scope].installations.devDependencies)
-          .flat(),
-      ],
-    };
+    return [
+      ...baseConfig.dependencies,
+      ...authTypeConfig[type].dependencies,
+      ...scopes.map((scope) => authScopeConfig[scope].dependencies).flat(),
+    ];
   },
   scaffold: async ({ type, scopes }) => {
     return [
@@ -176,6 +166,7 @@ const generator: Generator<Context> = {
     console.log("Checking your db");
     startDocker();
     console.log();
+    sleep(2000);
     runMigrations("fx add auth");
     console.log();
     return;
