@@ -42,7 +42,6 @@ export async function scaffold({
   console.log();
 
   await makeDir(root);
-  process.chdir(root);
 
   try {
     console.log(`Downloading template files. This might take a moment.`);

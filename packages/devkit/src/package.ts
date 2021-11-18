@@ -24,6 +24,8 @@ export async function install(
   let command: string;
   let args: string[];
 
+  process.chdir(root);
+
   if (dependencies && dependencies.length) {
     const deps = dependencies
       .filter((p) => !p.isDevDep && !p.isExpoDep)
