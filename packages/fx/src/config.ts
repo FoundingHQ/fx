@@ -1,6 +1,6 @@
 import { cwd } from "process";
 import { resolve } from "path";
-import { Generator } from "./types";
+import { Generator } from "@founding/devkit";
 
 // Import your feature generators:
 import authGenerator from "./generators/auth/authGenerator";
@@ -8,12 +8,12 @@ import paymentsGenerator from "./generators/payments/paymentsGenerator";
 import resourceGenerator from "./generators/resource/resourceGenerator";
 
 // Export it for use in the CLI:
-export const featureGenerators = {
+export const featureGenerators: Record<string, Generator> = {
   // { Feature name: generator module }
   auth: authGenerator,
   payments: paymentsGenerator,
   resource: resourceGenerator,
-} as Record<string, Generator>;
+};
 
 export const config = {
   cliRoot: resolve(__dirname, "../"),

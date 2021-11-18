@@ -6,3 +6,7 @@ export const runMigrations = (name?: string) => {
     stdio: "inherit",
   });
 };
+
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
