@@ -4,13 +4,10 @@
     "target": "ES2020",
     "moduleResolution": "node",
     "strict": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": false,
-    "declaration": true,
-    "outDir": "./dist"
+    "skipLibCheck": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/templates"]
+  "include": ["*/**/*.ts"],
+  "exclude": ["node_modules", "templates"]
 }

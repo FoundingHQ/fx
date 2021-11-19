@@ -8,6 +8,7 @@ import {
   baseConfig,
   resourcePlatformConfig,
   allTemplates,
+  allDependencies,
 } from "./resourceConfig";
 
 type Context = {
@@ -127,8 +128,8 @@ const generator: Generator<Context> = {
   },
   uninstall: async () => {
     return {
-      dependencies: [],
-      templates: [allTemplates],
+      dependencies: allDependencies,
+      templates: allTemplates,
     };
   },
 };
