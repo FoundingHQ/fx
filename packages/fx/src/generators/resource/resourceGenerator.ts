@@ -1,19 +1,20 @@
 import fs from "fs";
 import { getSchema, Model } from "@mrleebo/prisma-ast";
 import prompts from "prompts";
-import { Generator, runTransforms, addPrismaModel } from "@founding/devkit";
+
+import { Generator } from "@founding/devkit";
 import { getProjectPath } from "../../config";
-import { baseConfig } from "./resourceConfig";
 import {
-  primaryKey,
-  createdAt,
-  updatedAt,
-  attributesToProperties,
-} from "./util/prisma";
+  baseConfig,
+  resourcePlatformConfig,
+  allTemplates,
+} from "./resourceConfig";
 
 type Context = {
   name: string;
   attributes: string;
+  stack: string;
+  platform: Array<string>;
 };
 
 const generator: Generator<Context> = {
@@ -24,6 +25,24 @@ const generator: Generator<Context> = {
           type: () => (options.name ? null : "text"),
           name: "name",
           message: "What is the name of the resource?",
+        },
+        {
+          type: () => (options.stack ? null : "select"),
+          name: "stack",
+          message: "What do you want to generate?",
+          initial: 0,
+          choices: [
+            {
+              title: "Full Stack",
+              description: "Frontend and backend",
+              value: "full-stack",
+            },
+            {
+              title: "API only",
+              description: "Backend only",
+              value: "api",
+            },
+          ],
         },
       ],
       {
@@ -36,6 +55,7 @@ const generator: Generator<Context> = {
       }
     );
 
+    // Get attributes by introspecting Prisma schema
     const schemaPath = getProjectPath("prisma/schema.prisma");
     const source = fs.readFileSync(schemaPath, "utf8");
     const schema = getSchema(source);
@@ -62,13 +82,40 @@ const generator: Generator<Context> = {
       });
     }
 
-    return { ...res, ...options, attributes };
+    // Detect if app is mobile by looking for react-native
+    const platform = ["web"];
+    const packageJsonPath = getProjectPath("package.json");
+    const packageJsonRaw = fs.readFileSync(packageJsonPath, "utf8");
+    const packageJson = JSON.parse(packageJsonRaw);
+    if (packageJson["dependencies"]["react-native"]) {
+      platform.push("mobile");
+    }
+
+    return { ...res, ...options, attributes, platform };
   },
   install: async () => {
     return [];
   },
-  scaffold: async ({ name }) => {
-    return [...baseConfig.templates];
+  scaffold: async ({ stack, platform }) => {
+    if (stack === "full-stack") {
+      let templates = [...baseConfig.templates];
+
+      if (platform.includes("web")) {
+        templates = templates.concat(resourcePlatformConfig.web.templates);
+      }
+
+      if (platform.includes("mobile")) {
+        templates = templates.concat(resourcePlatformConfig.mobile.templates);
+      }
+
+      return templates;
+    }
+
+    if (stack === "api") {
+      return [...baseConfig.templates];
+    }
+
+    return [];
   },
   codemods: async () => {
     return;
@@ -81,7 +128,7 @@ const generator: Generator<Context> = {
   uninstall: async () => {
     return {
       dependencies: [],
-      templates: [],
+      templates: [allTemplates],
     };
   },
 };

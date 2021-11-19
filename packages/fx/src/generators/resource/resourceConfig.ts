@@ -1,9 +1,8 @@
-export const baseConfig = {
+import { GeneratorConfigDefinition } from "@founding/devkit";
+
+export const baseConfig: GeneratorConfigDefinition = {
+  dependencies: [],
   templates: [
-    {
-      src: "templates/features/resource/components/ResourceForm.tsx",
-      dest: "lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Form.tsx",
-    },
     {
       src: "templates/features/resource/data/resourceHooks.ts",
       dest: "lib/${h.changeCase.camelCase(name)}/data/${h.changeCase.camelCase(name)}Hooks.ts",
@@ -24,29 +23,57 @@ export const baseConfig = {
       src: "templates/features/api/resource/[id]/index.ts",
       dest: "pages/api/${h.pluralizedCamelCase(name)}/[id]/index.ts",
     },
-    {
-      src: "templates/features/pages/resource",
-      dest: "pages/${h.pluralizedCamelCase(name)}",
-    },
-    {
-      src: "templates/features/resource/expo/screens/ResourceListScreen.tsx",
-      dest: "expo/screens/${h.changeCase.pascalCase(name)}ListScreen.tsx",
-    },
-    {
-      src: "templates/features/resource/expo/components/ResourceList.tsx",
-      dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}List.tsx",
-    },
-    {
-      src: "templates/features/resource/expo/screens/ResourceEditScreen.tsx",
-      dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
-    },
-    {
-      src: "templates/features/resource/expo/screens/ResourceNewScreen.tsx",
-      dest: "expo/screens/${h.changeCase.pascalCase(name)}NewScreen.tsx",
-    },
-    {
-      src: "templates/features/resource/expo/components/ResourceEdit.tsx",
-      dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}Edit.tsx",
-    },
   ],
 };
+
+export const resourcePlatformConfig: Record<string, GeneratorConfigDefinition> =
+  {
+    web: {
+      dependencies: [],
+      templates: [
+        {
+          src: "templates/features/resource/components/ResourceForm.tsx",
+          dest: "lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Form.tsx",
+        },
+        {
+          src: "templates/features/pages/resource",
+          dest: "pages/${h.pluralizedCamelCase(name)}",
+        },
+      ],
+    },
+    mobile: {
+      dependencies: [],
+      templates: [
+        {
+          src: "templates/features/resource/expo/components/ResourceList.tsx",
+          dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}List.tsx",
+        },
+        {
+          src: "templates/features/resource/expo/screens/ResourceEditScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
+        },
+        {
+          src: "templates/features/resource/expo/screens/ResourceNewScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(name)}NewScreen.tsx",
+        },
+        {
+          src: "templates/features/resource/expo/components/ResourceEdit.tsx",
+          dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}Edit.tsx",
+        },
+      ],
+    },
+  };
+
+export const allDependencies = [
+  ...baseConfig.dependencies.map((d) => d.name),
+  ...Object.values(resourcePlatformConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+];
+
+export const allTemplates = [
+  ...baseConfig.templates.map((t) => t.dest),
+  ...Object.values(resourcePlatformConfig)
+    .map((c) => c.templates.map((t) => t.dest))
+    .flat(),
+];
