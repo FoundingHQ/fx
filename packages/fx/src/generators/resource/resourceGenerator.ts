@@ -3,7 +3,7 @@ import { getSchema, Model } from "@mrleebo/prisma-ast";
 import prompts from "prompts";
 
 import { Generator } from "@founding/devkit";
-import { getProjectPath } from "../../config";
+import { getProjectPath, getPlatform } from "../../config";
 import {
   baseConfig,
   resourcePlatformConfig,
@@ -83,14 +83,7 @@ const generator: Generator<Context> = {
       });
     }
 
-    // Detect if app is mobile by looking for react-native
-    const platform = ["web"];
-    const packageJsonPath = getProjectPath("package.json");
-    const packageJsonRaw = fs.readFileSync(packageJsonPath, "utf8");
-    const packageJson = JSON.parse(packageJsonRaw);
-    if (packageJson["dependencies"]["react-native"]) {
-      platform.push("mobile");
-    }
+    const platform = getPlatform();
 
     return { ...res, ...options, attributes, platform };
   },
