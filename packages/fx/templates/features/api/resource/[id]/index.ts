@@ -17,7 +17,7 @@ handler
     res.status(200).json({ <%= h.changeCase.camelCase(name) %>: updated<%= h.changeCase.pascalCase(name) %> });
   })
   .delete(async (req: any, res) => {
-    const deleted<%= h.changeCase.pascalCase(name) %> = await delete<%= h.changeCase.pascalCase(name) %>(req.<%= h.changeCase.camelCase(name) %>Id);
+    const deleted<%= h.changeCase.pascalCase(name) %> = await delete<%= h.changeCase.pascalCase(name) %>({id: parseInt(req.query.id) });
     res.status(200).json({ <%= h.changeCase.camelCase(name) %>: deleted<%= h.changeCase.pascalCase(name) %> });
   });
 

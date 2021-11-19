@@ -37,7 +37,7 @@ export const use<%= h.changeCase.pascalCase(name) %>Update = (onSuccess: any) =>
 export const use<%= h.changeCase.pascalCase(name) %>Destroy = (onSuccess: any) => {
   return useMutation(
     (data: {id: string}) =>
-      fetcher.post(client<%= h.changeCase.pascalCase(name) %>Routes.destroy.replace(":id", data.id)),
+      fetcher.delete(client<%= h.changeCase.pascalCase(name) %>Routes.destroy.replace("[id]", data.id)),
     { onSuccess },
   );
 };

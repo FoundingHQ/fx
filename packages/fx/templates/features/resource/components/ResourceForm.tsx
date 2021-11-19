@@ -1,4 +1,4 @@
-import { use<%= h.changeCase.pascalCase(name) %>Create, use<%= h.changeCase.pascalCase(name) %>Update } from "../data/<%= h.changeCase.camelCase(name) %>Hooks";
+import { use<%= h.changeCase.pascalCase(name) %>Create, use<%= h.changeCase.pascalCase(name) %>Update } from "@lib/user/data/<%= h.changeCase.camelCase(name) %>Hooks";
 import { <%= h.changeCase.pascalCase(name) %> } from "@prisma/client"
 
 type <%= h.changeCase.pascalCase(name) %>FormProps = {

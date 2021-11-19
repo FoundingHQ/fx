@@ -3,7 +3,7 @@ export const <%= h.changeCase.camelCase(name) %>Routes = {
   create: "/api/<%= h.pluralizedCamelCase(name) %>",
   show: "/api/<%= h.pluralizedCamelCase(name) %>/[id]",
   update: "/api/<%= h.pluralizedCamelCase(name) %>/[id]",
-  destroy: "/api/<%= h.pluralizedCamelCase(name) %>",
+  destroy: "/api/<%= h.pluralizedCamelCase(name) %>/[id]",
 };
 
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
