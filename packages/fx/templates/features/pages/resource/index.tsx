@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { SEO } from "@components";
 import { use<%= h.changeCase.pascalCase(name) %>List } from "@lib/<%= h.changeCase.camelCase(name) %>/data/<%= h.changeCase.camelCase(name) %>Hooks";
 
@@ -10,9 +12,13 @@ export const ListPage = () => {
       <SEO title="List" />
       <h1>List</h1>
       {list.map((item: any) => (
-        <ul>
-        <% Object.keys(attributes).forEach((attributeKey) => { %><li>{item.<%= attributeKey %>}</li><% }) %>
-        </ul>
+        <li>
+          <Link href={`/<%= h.pluralizedCamelCase(name) %>/${item.id}`}>
+            <dl>
+              <% Object.keys(attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{item.<%= attributeKey %>}</dd><% }) %>
+            </dl>
+          </Link>
+        </li>
       ))}
     </>
   );
