@@ -29,7 +29,7 @@ export const use<%= h.changeCase.pascalCase(name) %>Create = (onSuccess: any) =>
 export const use<%= h.changeCase.pascalCase(name) %>Update = (onSuccess: any) => {
   return useMutation(
     (data: Update<%= h.changeCase.pascalCase(name) %>Input) =>
-      fetcher.post(client<%= h.changeCase.pascalCase(name) %>Routes.update.replace(":id", `${data.id}`), data),
+      fetcher.patch(client<%= h.changeCase.pascalCase(name) %>Routes.update.replace("[id]", `${data.id}`), data),
     { onSuccess },
   );
 };

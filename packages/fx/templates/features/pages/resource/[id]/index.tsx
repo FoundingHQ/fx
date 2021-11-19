@@ -15,7 +15,7 @@ export const ShowPage = () => {
     <>
       <SEO title="Show" />
       <h1>Show</h1>
-      <Show<%= h.changeCase.pascalCase(name) %> userId={id} />
+      <Show<%= h.changeCase.pascalCase(name) %> <%= h.changeCase.camelCase(name) %>Id={id} />
     </>
   );
 };
