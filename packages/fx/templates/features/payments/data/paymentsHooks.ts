@@ -3,7 +3,7 @@ import { fetcher } from "@util/query";
 
 import { clientPaymentsRoutes } from "../server/paymentsConfig";
 
-export type PaymentsInput = { email: string, quantity: number, price: string };
+export type PaymentsInput = { email: string; quantity: number; price: string };
 
 export const useCheckout = (handleCheckout: any) => {
   return useMutation(
@@ -16,11 +16,12 @@ export const useCheckout = (handleCheckout: any) => {
   );
 };
 
-export type CustomPaymentsInput = { email: string; items: Array<any>;};
+export type CustomPaymentsInput = { email: string; items: Array<any> };
 
 export const useCustomCheckout = (handleCustomCheckout: any) => {
   return useMutation(
-    (data: CustomPaymentsInput) => fetcher.post(clientPaymentsRoutes.customCheckout, data),
+    (data: CustomPaymentsInput) =>
+      fetcher.post(clientPaymentsRoutes.customCheckout, data),
     {
       onSuccess: (res: any) => {
         handleCustomCheckout(res);
@@ -49,12 +50,14 @@ export const useConnectCheckout = () => {
   );
 };
 
-export const useSubscription = () => {
+export const useSubscription = (handleSubscription: any) => {
   return useMutation(
     (data: PaymentsInput) =>
       fetcher.post(clientPaymentsRoutes.subscription, data),
     {
-      onSuccess: () => {},
+      onSuccess: (res: any) => {
+        handleSubscription(res);
+      },
     }
   );
 };
