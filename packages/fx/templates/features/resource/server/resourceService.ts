@@ -8,7 +8,7 @@ export const create<%= name %> = async (input: Create<%= h.changeCase.pascalCase
   });
 };
 
-export const get<%= h.changeCase.pascalCase(name) %> = async (input: <%= h.changeCase.pascalCase(name) %>) => {
+export const get<%= h.changeCase.pascalCase(name) %> = async (input: Partial<<%= h.changeCase.pascalCase(name) %>>) => {
   return prisma.<%= h.changeCase.camelCase(name) %>.findUnique({
     where: input,
   });

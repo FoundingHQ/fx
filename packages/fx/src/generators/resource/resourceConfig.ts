@@ -21,6 +21,10 @@ export const baseConfig = {
       dest: "pages/api/${h.pluralizedCamelCase(name)}/index.ts",
     },
     {
+      src: "templates/features/api/resource/[id]/index.ts",
+      dest: "pages/api/${h.pluralizedCamelCase(name)}/[id]/index.ts",
+    },
+    {
       src: "templates/features/pages/resource",
       dest: "pages/${h.pluralizedCamelCase(name)}",
     },

@@ -13,11 +13,9 @@ export const use<%= h.changeCase.pascalCase(name) %>List = () => {
   );
 };
 
-export const use<%= h.changeCase.pascalCase(name) %>Show = (onSuccess: any) => {
-  return useMutation(
-    (data: {id: string}) =>
-      fetcher.get(client<%= h.changeCase.pascalCase(name) %>Routes.show.replace(":id", data.id)),
-    { onSuccess },
+export const use<%= h.changeCase.pascalCase(name) %>Show = (<%= h.changeCase.camelCase(name) %>Id: any) => {
+  return useQuery("<%= h.changeCase.camelCase(name) %>Show", () =>
+    fetcher.get(client<%= h.changeCase.pascalCase(name) %>Routes.show.replace("[id]", `${<%= h.changeCase.camelCase(name) %>Id}`)),
   );
 };
 

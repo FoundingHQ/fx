@@ -1,8 +1,8 @@
 export const <%= h.changeCase.camelCase(name) %>Routes = {
   index: "/api/<%= h.pluralizedCamelCase(name) %>",
   create: "/api/<%= h.pluralizedCamelCase(name) %>",
-  show: "/api/<%= h.pluralizedCamelCase(name) %>/:id",
-  update: "/api/<%= h.pluralizedCamelCase(name) %>/:id",
+  show: "/api/<%= h.pluralizedCamelCase(name) %>/[id]",
+  update: "/api/<%= h.pluralizedCamelCase(name) %>/[id]",
   destroy: "/api/<%= h.pluralizedCamelCase(name) %>",
 };
 
