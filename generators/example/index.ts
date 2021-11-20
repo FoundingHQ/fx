@@ -1,30 +1,33 @@
 import prompts from "prompts";
-import { Generator } from "@founding/devkit";
+import { Generator, onPromptCancel } from "@founding/devkit";
 
 type Props = {
   type: string;
 };
 
 const generator: Generator<Props> = {
-  async setup(options) {
-    const res = await prompts([
-      {
-        type: () => (options?.type ? null : "select"),
-        name: "type",
-        message: "What would you like to scaffold?",
-        initial: 0,
-        choices: [
-          {
-            title: "example page",
-            value: "page",
-          },
-          {
-            title: "example api",
-            value: "api",
-          },
-        ],
-      },
-    ]);
+  async setup(_context, options) {
+    const res = await prompts(
+      [
+        {
+          type: () => (options?.type ? null : "select"),
+          name: "type",
+          message: "What would you like to scaffold?",
+          initial: 0,
+          choices: [
+            {
+              title: "example page",
+              value: "page",
+            },
+            {
+              title: "example api",
+              value: "api",
+            },
+          ],
+        },
+      ],
+      { onCancel: onPromptCancel }
+    );
 
     return { ...res, ...options };
   },

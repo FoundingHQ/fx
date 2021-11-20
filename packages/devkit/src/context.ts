@@ -70,11 +70,11 @@ export type Context<T = {}> = {
   h: typeof helpers;
 };
 
-export const buildContext = (props: any) => {
+export const createContext = () => {
   // Context is currently hardcoded but should be configurable with
   // `fxconfig.json`
   const context: Context = {
-    props,
+    props: {},
     paths: {
       root: cwd,
       config: resolve(cwd, "fxconfig.json"),

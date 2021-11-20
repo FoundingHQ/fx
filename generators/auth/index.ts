@@ -22,7 +22,7 @@ type Props = {
 };
 
 const generator: Generator<Props> = {
-  async setup(options = {}) {
+  async setup(_context, options = {}) {
     const res = await prompts(
       [
         {

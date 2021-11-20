@@ -1,25 +1,17 @@
 import fs from "fs";
 import { getSchema, Model } from "@mrleebo/prisma-ast";
 import prompts from "prompts";
+import { Generator, onPromptCancel } from "@founding/devkit";
+import * as config from "./config";
 
-import { Generator } from "@founding/devkit";
-import { getProjectPath, getPlatform } from "../../config";
-import {
-  baseConfig,
-  resourcePlatformConfig,
-  allTemplates,
-  allDependencies,
-} from "./config";
-
-type Context = {
+type Props = {
   name: string;
   attributes: string;
   stack: string;
-  platform: Array<string>;
 };
 
-const generator: Generator<Context> = {
-  setup: async (options = {}) => {
+const generator: Generator<Props> = {
+  async setup({ paths }, options = {}) {
     const res = await prompts(
       [
         {
@@ -47,18 +39,12 @@ const generator: Generator<Context> = {
         },
       ],
       {
-        onCancel: () => {
-          throw {
-            command: "add",
-            message: "User cancelled setup",
-          };
-        },
+        onCancel: onPromptCancel,
       }
     );
 
     // Get attributes by introspecting Prisma schema
-    const schemaPath = getProjectPath("prisma/schema.prisma");
-    const source = fs.readFileSync(schemaPath, "utf8");
+    const source = fs.readFileSync(paths.scheme, "utf8");
     const schema = getSchema(source);
 
     const list = schema["list"];
@@ -83,46 +69,33 @@ const generator: Generator<Context> = {
       });
     }
 
-    const platform = getPlatform();
-
-    return { ...res, ...options, attributes, platform };
+    return { ...res, ...options, attributes };
   },
-  install: async () => {
+  async install() {
     return [];
   },
-  scaffold: async ({ stack, platform }) => {
+  async scaffold({ props: { stack }, config: { platforms } }) {
     if (stack === "full-stack") {
-      let templates = [...baseConfig.templates];
+      const baseTemplates = [...config.baseConfig.templates];
+      const platformTemplates = platforms
+        .map((p) => config.resourcePlatformConfig[p].templates)
+        .flat();
 
-      if (platform.includes("web")) {
-        templates = templates.concat(resourcePlatformConfig.web.templates);
-      }
-
-      if (platform.includes("mobile")) {
-        templates = templates.concat(resourcePlatformConfig.mobile.templates);
-      }
-
-      return templates;
+      return baseTemplates.concat(platformTemplates);
     }
 
     if (stack === "api") {
-      return [...baseConfig.templates];
+      return [...config.baseConfig.templates];
     }
 
     return [];
   },
-  codemods: async () => {
-    return;
-  },
-  finish: async ({ name, attributes }) => {
-    console.log(`Finish: ${name}, attributes: ${attributes}`);
-
-    return;
-  },
-  uninstall: async () => {
+  async codemods() {},
+  async finish() {},
+  async uninstall() {
     return {
-      dependencies: allDependencies,
-      templates: allTemplates,
+      dependencies: config.allDependencies,
+      templates: config.allTemplates,
     };
   },
 };

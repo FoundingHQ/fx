@@ -1,6 +1,6 @@
 import prompts from "prompts";
 import fs from "fs";
-import { Generator } from "@founding/devkit";
+import { Generator, onPromptCancel } from "@founding/devkit";
 import * as config from "./config";
 
 type Props = {
@@ -8,42 +8,45 @@ type Props = {
 };
 
 const generator: Generator<Props> = {
-  async setup(options = {}) {
-    const res = await prompts([
-      {
-        type: () =>
-          options.scopes && options.scopes.length ? null : "multiselect",
-        name: "scopes",
-        message: "What type of payment strategies would you like to add?",
-        min: 1,
-        choices: [
-          {
-            title: "Checkout",
-            description: "Prebuilt Checkout page from Stripe",
-            value: "checkout",
-            selected: true,
-          },
-          {
-            title: "Custom Checkout",
-            description: "Custom UI with integration with Stripe API",
-            value: "custom-checkout",
-            selected: false,
-          },
-          {
-            title: "Subscription",
-            description: "Create recurring payments",
-            value: "subscription",
-            selected: false,
-          },
-          {
-            title: "Connect",
-            description: "Manage other Stripe accounts",
-            value: "connect",
-            selected: false,
-          },
-        ],
-      },
-    ]);
+  async setup(_context, options = {}) {
+    const res = await prompts(
+      [
+        {
+          type: () =>
+            options.scopes && options.scopes.length ? null : "multiselect",
+          name: "scopes",
+          message: "What type of payment strategies would you like to add?",
+          min: 1,
+          choices: [
+            {
+              title: "Checkout",
+              description: "Prebuilt Checkout page from Stripe",
+              value: "checkout",
+              selected: true,
+            },
+            {
+              title: "Custom Checkout",
+              description: "Custom UI with integration with Stripe API",
+              value: "custom-checkout",
+              selected: false,
+            },
+            {
+              title: "Subscription",
+              description: "Create recurring payments",
+              value: "subscription",
+              selected: false,
+            },
+            {
+              title: "Connect",
+              description: "Manage other Stripe accounts",
+              value: "connect",
+              selected: false,
+            },
+          ],
+        },
+      ],
+      { onCancel: onPromptCancel }
+    );
 
     return { ...res, ...options };
   },

@@ -2,7 +2,7 @@ import chalk from "chalk";
 import {
   convertTemplateDestPaths,
   convertTemplateSrcPaths,
-  buildContext,
+  createContext,
 } from "../context";
 import { getEjsTransform } from "../ejs";
 import { copy, getFiles, runTransforms } from "../fs";
@@ -18,9 +18,11 @@ export const executeGenerator = async (
   cliOptions: Record<string, any> = {}
 ) => {
   const dryRun = cliOptions.dryRun || false;
-  // Setup generator to get environment context for other generator methods
-  const rawContext = await generator.setup(generatorOptions);
-  const context = buildContext(rawContext);
+  const context = createContext();
+
+  // Setup generator to assign props to the context
+  const props = await generator.setup(context, generatorOptions);
+  context.props = props;
 
   // Install required dependencies
   try {

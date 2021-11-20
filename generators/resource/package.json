@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@founding/devkit": "0.10.3",
+    "@mrleebo/prisma-ast": "^0.2.5",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
