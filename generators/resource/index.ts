@@ -1,7 +1,15 @@
 import fs from "fs";
+import { join } from "path";
 import { getSchema, Model } from "@mrleebo/prisma-ast";
 import prompts from "prompts";
-import { Generator, onPromptCancel } from "@founding/devkit";
+import {
+  Generator,
+  onPromptCancel,
+  addImport,
+  createJscodeshiftProgram,
+  getPrettierTransform,
+  runTransforms,
+} from "@founding/devkit";
 import * as config from "./config";
 
 type Props = {
@@ -90,7 +98,42 @@ const generator: Generator<Props> = {
 
     return [];
   },
-  async codemods() {},
+  async codemods({ props: { stack, name }, config: { platforms }, paths }) {
+    if (stack === "api" || !platforms.includes("mobile")) return;
+
+    console.log("Running codemod on `expo/App.tsx`");
+    const handlerPath = join(paths.mobile, "App.tsx");
+    const handlerTransform = async (source: string) => {
+      const crudScreen = ["Edit", "List", "New", "Show"];
+
+      let { program, j } = createJscodeshiftProgram(source);
+
+      crudScreen.forEach((screen) => {
+        const importStatement = `import ${name}${screen}Screen from "./screens/${name}${screen}Screen";`;
+        const screenExpression = `{
+          name: "${name}${screen}",
+          component: ${name}${screen}Screen,
+        }`;
+
+        addImport(program, j.template.statement([importStatement]));
+
+        program
+          .find(j.VariableDeclarator, { id: { name: "screens" } })
+          .find(j.ArrayExpression)
+          .forEach((p) =>
+            p.get("elements").push(j.template.expression([screenExpression]))
+          );
+      });
+
+      return program.toSource();
+    };
+
+    await runTransforms(
+      handlerPath,
+      [handlerTransform],
+      [getPrettierTransform(handlerPath)]
+    );
+  },
   async finish() {},
   async uninstall() {
     return {
