@@ -10,48 +10,48 @@ export const baseConfig: GeneratorConfigDefinition = {
   ],
   templates: [
     {
-      src: "templates/features/auth/components",
+      src: "templates/lib/auth/components",
       dest: "lib/auth/components",
     },
     {
-      src: "templates/features/auth/data",
+      src: "templates/lib/auth/data",
       dest: "lib/auth/data",
     },
     {
-      src: "templates/features/auth/server/middlewares",
+      src: "templates/lib/auth/server/middlewares",
       dest: "lib/auth/server/middlewares",
     },
     {
-      src: "templates/features/auth/server/authConfig.ts",
+      src: "templates/lib/auth/server/authConfig.ts",
       dest: "lib/auth/server/authConfig.ts",
     },
     {
-      src: "templates/features/auth/server/authService.ts",
+      src: "templates/lib/auth/server/authService.ts",
       dest: "lib/auth/server/authService.ts",
     },
     {
-      src: "templates/features/users",
+      src: "templates/lib/users",
       dest: "lib/users",
     },
     {
-      src: "templates/features/api/auth",
+      src: "templates/pages/api/auth",
       dest: "pages/api/auth",
     },
     {
-      src: "templates/features/pages/auth",
+      src: "templates/pages/auth",
       dest: "pages/auth",
     },
     {
-      src: "templates/features/pages/protected",
+      src: "templates/pages/protected",
       dest: "pages/protected",
     },
     {
-      src: "templates/features/auth/expo/screens",
+      src: "templates/expo/screens",
       dest: "expo/screens",
     },
     {
-      src: "templates/features/auth/expo/components",
-      dest: "expo/lib/auth/components",
+      src: "templates/expo/components",
+      dest: "lib/auth/expo",
     },
   ],
 };
@@ -67,11 +67,11 @@ export const authTypeConfig: Record<string, GeneratorConfigDefinition> = {
     ],
     templates: [
       {
-        src: "templates/features/auth/server/middlewares/session.ts",
+        src: "templates/lib/auth/server/middlewares/session.ts",
         dest: "lib/auth/server/middlewares/session.ts",
       },
       {
-        src: "templates/features/core/server/redis.ts",
+        src: "templates/redis.ts",
         dest: "lib/core/server/redis.ts",
       },
     ],
@@ -84,7 +84,7 @@ export const authTypeConfig: Record<string, GeneratorConfigDefinition> = {
     ],
     templates: [
       {
-        src: "templates/features/auth/server/strategy/jwt.ts",
+        src: "templates/lib/auth/server/strategy/jwt.ts",
         dest: "lib/auth/server/strategy/jwt.ts",
       },
     ],
@@ -99,7 +99,7 @@ export const authScopeConfig: Record<string, GeneratorConfigDefinition> = {
     ],
     templates: [
       {
-        src: "templates/features/auth/server/strategy/local.ts",
+        src: "templates/lib/auth/server/strategy/local.ts",
         dest: "lib/auth/server/strategy/local.ts",
       },
     ],
@@ -111,7 +111,7 @@ export const authScopeConfig: Record<string, GeneratorConfigDefinition> = {
     ],
     templates: [
       {
-        src: "templates/features/auth/server/strategy/google.ts",
+        src: "templates/lib/auth/server/strategy/google.ts",
         dest: "lib/auth/server/strategy/google.ts",
       },
     ],

@@ -122,6 +122,7 @@ const generator: Generator<Props> = {
       program
         .find(j.VariableDeclarator, { id: { name: "createHandler" } })
         .find(j.CallExpression, { callee: { name: "nc" } })
+        // TODO: add this expression to the END of the handler
         .replaceWith((path) =>
           j.memberExpression(
             path.value,

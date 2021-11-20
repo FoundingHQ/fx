@@ -1,19 +1,14 @@
 import prompts from "prompts";
 import fs from "fs";
 import { Generator } from "@founding/devkit";
-import {
-  baseConfig,
-  allDependencies,
-  allTemplates,
-  paymentsScopeConfig,
-} from "./paymentsConfig";
+import * as config from "./config";
 
-type Config = {
-  scopes: (keyof typeof paymentsScopeConfig)[];
+type Props = {
+  scopes: (keyof typeof config.paymentsScopeConfig)[];
 };
 
-const generator: Generator<Config> = {
-  setup: async (options = {}) => {
+const generator: Generator<Props> = {
+  async setup(options = {}) {
     const res = await prompts([
       {
         type: () =>
@@ -52,19 +47,23 @@ const generator: Generator<Config> = {
 
     return { ...res, ...options };
   },
-  install: async ({ scopes }) => {
+  async install({ props: { scopes } }) {
     return [
-      ...baseConfig.dependencies,
-      ...scopes.map((scope) => paymentsScopeConfig[scope].dependencies).flat(),
+      ...config.baseConfig.dependencies,
+      ...scopes
+        .map((scope) => config.paymentsScopeConfig[scope].dependencies)
+        .flat(),
     ];
   },
-  scaffold: async ({ scopes }) => {
+  async scaffold({ props: { scopes } }) {
     return [
-      ...baseConfig.templates,
-      ...scopes.map((scope) => paymentsScopeConfig[scope].templates).flat(),
+      ...config.baseConfig.templates,
+      ...scopes
+        .map((scope) => config.paymentsScopeConfig[scope].templates)
+        .flat(),
     ];
   },
-  codemods: async (_config) => {
+  async codemods() {
     const source = fs.readFileSync("app.json", "utf8");
     const appJson = JSON.parse(source);
     const newAppJson = {
@@ -94,13 +93,11 @@ const generator: Generator<Config> = {
 
     return;
   },
-  finish: async (_config) => {
-    return;
-  },
-  uninstall: async () => {
+  async finish() {},
+  async uninstall() {
     return {
-      dependencies: allDependencies,
-      templates: allTemplates,
+      dependencies: config.allDependencies,
+      templates: config.allTemplates,
     };
   },
 };

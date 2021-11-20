@@ -9,7 +9,7 @@ import {
   resourcePlatformConfig,
   allTemplates,
   allDependencies,
-} from "./resourceConfig";
+} from "./config";
 
 type Context = {
   name: string;
