@@ -130,25 +130,19 @@ const generator: Generator<Context> = {
       let { program, j } = createJscodeshiftProgram(source);
 
       crudScreen.forEach((screen) => {
-        addImport(
-          program,
-          j.template.statement([
-            `import ${name}${screen}Screen from "./screens/${name}${screen}Screen";`,
-          ])
-        );
+        const importStatement = `import ${name}${screen}Screen from "./screens/${name}${screen}Screen";`;
+        const screenExpression = `{
+          name: "${name}${screen}",
+          component: ${name}${screen}Screen,
+        }`;
+
+        addImport(program, j.template.statement([importStatement]));
 
         program
           .find(j.VariableDeclarator, { id: { name: "screens" } })
           .find(j.ArrayExpression)
           .forEach((p) =>
-            p.get("elements").push(
-              j.template.expression([
-                `{
-            name: "${name}${screen}",
-            component: ${name}${screen}Screen,
-          }`,
-              ])
-            )
+            p.get("elements").push(j.template.expression([screenExpression]))
           );
       });
 
