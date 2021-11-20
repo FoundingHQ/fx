@@ -1,5 +1,6 @@
 import { cwd } from "process";
 import { resolve } from "path";
+import fs from "fs";
 import { Generator } from "@founding/devkit";
 
 // Import your feature generators:
@@ -48,4 +49,15 @@ export const convertTemplateDestPaths = (
   const dest = resolve(config.projectRoot, interpolate(path, context));
   if (dest.endsWith(".ejs")) return dest.slice(0, -4);
   return dest;
+};
+
+export const getPlatform = () => {
+  const platform = ["web"];
+  const packageJsonPath = getProjectPath("package.json");
+  const packageJsonRaw = fs.readFileSync(packageJsonPath, "utf8");
+  const packageJson = JSON.parse(packageJsonRaw);
+  if (packageJson["dependencies"]["react-native"]) {
+    platform.push("mobile");
+  }
+  return platform;
 };

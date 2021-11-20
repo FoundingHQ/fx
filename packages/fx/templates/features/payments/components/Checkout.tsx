@@ -15,8 +15,8 @@ export const Checkout = () => {
   const onClick = async () => {
     checkout({
       email: "test@example.com",
-      price: "price_STRIPE_PRICE_ID",
-      quantity: 2,
+      price: "price_1JvfzAHt7fGQ7D9x7oD5do0x",
+      quantity: 1,
     });
   };
 

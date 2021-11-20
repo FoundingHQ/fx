@@ -45,20 +45,36 @@ export const resourcePlatformConfig: Record<string, GeneratorConfigDefinition> =
       dependencies: [],
       templates: [
         {
+          src: "templates/features/resource/expo/components/ResourceEdit.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Edit.tsx",
+        },
+        {
           src: "templates/features/resource/expo/components/ResourceList.tsx",
-          dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}List.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}List.tsx",
+        },
+        {
+          src: "templates/features/resource/expo/components/ResourceNew.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}New.tsx",
+        },
+        {
+          src: "templates/features/resource/expo/components/ResourceShow.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Show.tsx",
         },
         {
           src: "templates/features/resource/expo/screens/ResourceEditScreen.tsx",
           dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
         },
         {
+          src: "templates/features/resource/expo/screens/ResourceListScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(name)}ListScreen.tsx",
+        },
+        {
           src: "templates/features/resource/expo/screens/ResourceNewScreen.tsx",
           dest: "expo/screens/${h.changeCase.pascalCase(name)}NewScreen.tsx",
         },
         {
-          src: "templates/features/resource/expo/components/ResourceEdit.tsx",
-          dest: "expo/lib/resource/components/${h.changeCase.pascalCase(name)}Edit.tsx",
+          src: "templates/features/resource/expo/screens/ResourceShowScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(name)}ShowScreen.tsx",
         },
       ],
     },
