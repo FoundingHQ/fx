@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import prompts from "prompts";
 import {
-  FX_PROJECT_PATHS,
   getOfficialGeneratorList,
   normalizeGeneratorPath,
   GeneratorLocation,
@@ -57,7 +56,7 @@ export async function add(
 
   if (generatorInfo.location === GeneratorLocation.Remote) {
     // Start off with a clean folder if we're cloning a remote generator
-    removeDir(FX_PROJECT_PATHS.generatorRoot);
+    removeDir(generatorInfo.localRootPath);
   }
 
   /**
@@ -76,11 +75,11 @@ export async function add(
 
   console.log(`Running ${chalk.green(feature)} generator`);
   console.log();
-  await executeGenerator(generator, generatorOptions, options);
+  await executeGenerator(generatorInfo, generator, generatorOptions, options);
 
   if (generatorInfo.location === GeneratorLocation.Remote) {
     // Remove the temporary directory if cloned from a remote generator
-    removeDir(FX_PROJECT_PATHS.generatorRoot);
+    removeDir(generatorInfo.localRootPath);
   }
 
   console.log(

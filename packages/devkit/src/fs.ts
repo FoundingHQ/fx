@@ -98,3 +98,7 @@ export async function getFiles(
 ) {
   return globby(patterns, options);
 }
+
+export function readJSON(path: string) {
+  return fs.readJSON(path);
+}

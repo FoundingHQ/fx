@@ -1,11 +1,11 @@
 import prompts from "prompts";
 import { Generator } from "@founding/devkit";
 
-type Context = {
+type Props = {
   type: string;
 };
 
-const generator: Generator<Context> = {
+const generator: Generator<Props> = {
   async setup(options) {
     const res = await prompts([
       {
@@ -31,8 +31,8 @@ const generator: Generator<Context> = {
   async install() {
     return [{ name: "@founding/fx" }];
   },
-  async scaffold({ type }) {
-    if (type === "page") {
+  async scaffold(context) {
+    if (context.props.type === "page") {
       return [
         { src: "templates/example-page.tsx.ejs", dest: "pages/example.tsx" },
       ];

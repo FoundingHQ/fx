@@ -1,5 +1,7 @@
 import prompts from "prompts";
+import { join } from "path";
 import {
+  Generator,
   runTransforms,
   addPrismaModel,
   addPrismaEnum,
@@ -8,30 +10,19 @@ import {
   getPrettierTransform,
   startDocker,
   runMigrations,
-  Generator,
   sleep,
+  onPromptCancel,
 } from "@founding/devkit";
-import { getProjectPath } from "../../config";
-import {
-  baseConfig,
-  authTypeConfig,
-  authScopeConfig,
-  allDependencies,
-  allTemplates,
-} from "./authConfig";
-import accountSchema from "./schema/account";
-import userSchema from "./schema/user";
-import tokenSchema from "./schema/token";
-import tokenTypeEnum from "./schema/tokenType";
-import userRoleEnum from "./schema/userRole";
+import * as config from "./config";
+import schemas from "./schema";
 
-type Context = {
-  type: keyof typeof authTypeConfig;
-  scopes: (keyof typeof authScopeConfig)[];
+type Props = {
+  type: keyof typeof config.authTypeConfig;
+  scopes: (keyof typeof config.authScopeConfig)[];
 };
 
-const generator: Generator<Context> = {
-  setup: async (options = {}) => {
+const generator: Generator<Props> = {
+  async setup(options = {}) {
     const res = await prompts(
       [
         {
@@ -90,34 +81,31 @@ const generator: Generator<Context> = {
         },
       ],
       {
-        onCancel: () => {
-          throw {
-            command: "add",
-            message: "User cancelled setup",
-          };
-        },
+        onCancel: onPromptCancel,
       }
     );
 
     return { ...res, ...options };
   },
-  install: async ({ type, scopes }) => {
+  async install({ props: { type, scopes } }) {
     return [
-      ...baseConfig.dependencies,
-      ...authTypeConfig[type].dependencies,
-      ...scopes.map((scope) => authScopeConfig[scope].dependencies).flat(),
+      ...config.baseConfig.dependencies,
+      ...config.authTypeConfig[type].dependencies,
+      ...scopes
+        .map((scope) => config.authScopeConfig[scope].dependencies)
+        .flat(),
     ];
   },
-  scaffold: async ({ type, scopes }) => {
+  async scaffold({ props: { type, scopes } }) {
     return [
-      ...baseConfig.templates,
-      ...authTypeConfig[type].templates,
-      ...scopes.map((scope) => authScopeConfig[scope].templates).flat(),
+      ...config.baseConfig.templates,
+      ...config.authTypeConfig[type].templates,
+      ...scopes.map((scope) => config.authScopeConfig[scope].templates).flat(),
     ];
   },
-  codemods: async ({ type, scopes }) => {
+  async codemods({ paths }) {
     console.log("Running codemod on `lib/core/server/handler.ts`");
-    const handlerPath = getProjectPath("lib/core/server/handler.ts");
+    const handlerPath = join(paths.libCore, "server/handler.ts");
     const handlerTransform = async (source: string) => {
       let { program, j } = createJscodeshiftProgram(source);
       addImport(
@@ -151,18 +139,17 @@ const generator: Generator<Context> = {
     );
     console.log();
     console.log("Running codemod on `prisma/schema.prisma`");
-    const schemaPath = getProjectPath("prisma/schema.prisma");
     await runTransforms(
-      schemaPath,
-      [addPrismaModel, accountSchema],
-      [addPrismaModel, userSchema],
-      [addPrismaModel, tokenSchema],
-      [addPrismaEnum, tokenTypeEnum],
-      [addPrismaEnum, userRoleEnum]
+      paths.scheme,
+      [addPrismaModel, schemas.accountSchema],
+      [addPrismaModel, schemas.userSchema],
+      [addPrismaModel, schemas.tokenSchema],
+      [addPrismaEnum, schemas.tokenTypeEnum],
+      [addPrismaEnum, schemas.userRoleEnum]
     );
     console.log();
   },
-  finish: async ({ type, scopes }) => {
+  async finish() {
     console.log("Checking your db");
     startDocker();
     console.log();
@@ -171,10 +158,10 @@ const generator: Generator<Context> = {
     console.log();
     return;
   },
-  uninstall: async () => {
+  async uninstall() {
     return {
-      dependencies: allDependencies,
-      templates: allTemplates,
+      dependencies: config.allDependencies,
+      templates: config.allTemplates,
     };
   },
 };

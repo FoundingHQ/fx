@@ -1,20 +1,20 @@
 import { execSync } from "child_process";
 import prompts from "prompts";
 import chalk from "chalk";
-import { removeDir } from "@founding/devkit";
-import { featureGenerators } from "../config";
+import { getOfficialGeneratorList, removeDir } from "@founding/devkit";
 
 export async function remove(
   feature: string = "",
   options: Record<string, any> = {}
 ) {
   if (!feature) {
+    const officialFeatures = await getOfficialGeneratorList();
     const res = await prompts({
       type: "select",
       name: "feature",
       message: "What feature would you like to remove?",
       initial: 0,
-      choices: Object.keys(featureGenerators).map((fname) => ({
+      choices: officialFeatures.map((fname: string) => ({
         title: fname,
         value: fname,
       })),
@@ -38,64 +38,66 @@ export async function remove(
     process.exit(1);
   }
 
-  const featureGenerator = featureGenerators[feature];
-  const dryRun = options.dryrun || false;
+  console.log("Not implemented yet");
 
-  if (!featureGenerator) {
-    console.error(`Feature ${chalk.red(feature)} does not exist`);
-    process.exit(1);
-  } else {
-    console.log(`Removing ${chalk.cyan(feature)} feature from project`);
-    console.log();
-  }
+  // const featureGenerator = featureGenerators[feature];
+  // const dryRun = options.dryrun || false;
 
-  const { dependencies, templates } = await featureGenerator.uninstall();
+  // if (!featureGenerator) {
+  //   console.error(`Feature ${chalk.red(feature)} does not exist`);
+  //   process.exit(1);
+  // } else {
+  //   console.log(`Removing ${chalk.cyan(feature)} feature from project`);
+  //   console.log();
+  // }
 
-  // Uninstall dependencies
-  if (dependencies.length) {
-    try {
-      console.log("Uninstalling dependencies:");
-      console.log(chalk.green(dependencies.join("\n")));
-      console.log();
-      if (dryRun) {
-        console.log(chalk.yellow("Dry run: skipping install"));
-      } else {
-        execSync(`npm uninstall ${dependencies.join(" ")}`);
-      }
-    } catch (error) {
-      console.log("Error uninstalling dependencies:");
-      console.error(error);
-    }
-  } else {
-    console.log(`No dependencies to uninstall`);
-    console.log();
-  }
+  // const { dependencies, templates } = await featureGenerator.uninstall();
 
-  if (templates.length) {
-    try {
-      console.log("Removing feature source code");
-      console.log();
-      if (dryRun) {
-        console.log(chalk.yellow("Dry run: skipping source removal"));
-        console.log("Paths to remove:");
-        console.log(templates);
-      } else {
-        for (const path of templates) {
-          removeDir(path);
-        }
-      }
-    } catch (error) {
-      console.log("Error removing files:");
-      console.error(error);
-    }
-  } else {
-    console.log("No source code to remove");
-    console.log();
-  }
+  // // Uninstall dependencies
+  // if (dependencies.length) {
+  //   try {
+  //     console.log("Uninstalling dependencies:");
+  //     console.log(chalk.green(dependencies.join("\n")));
+  //     console.log();
+  //     if (dryRun) {
+  //       console.log(chalk.yellow("Dry run: skipping install"));
+  //     } else {
+  //       execSync(`npm uninstall ${dependencies.join(" ")}`);
+  //     }
+  //   } catch (error) {
+  //     console.log("Error uninstalling dependencies:");
+  //     console.error(error);
+  //   }
+  // } else {
+  //   console.log(`No dependencies to uninstall`);
+  //   console.log();
+  // }
 
-  console.log(
-    `${chalk.yellow(
-      "Warning"
-    )}: Removing features can be risky when features depend on one another. Changes and codemods ran on your source code have not been reverted. Please refer back to the commit where you installed a feature and manually check the diff.`
-  );
+  // if (templates.length) {
+  //   try {
+  //     console.log("Removing feature source code");
+  //     console.log();
+  //     if (dryRun) {
+  //       console.log(chalk.yellow("Dry run: skipping source removal"));
+  //       console.log("Paths to remove:");
+  //       console.log(templates);
+  //     } else {
+  //       for (const path of templates) {
+  //         removeDir(path);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log("Error removing files:");
+  //     console.error(error);
+  //   }
+  // } else {
+  //   console.log("No source code to remove");
+  //   console.log();
+  // }
+
+  // console.log(
+  //   `${chalk.yellow(
+  //     "Warning"
+  //   )}: Removing features can be risky when features depend on one another. Changes and codemods ran on your source code have not been reverted. Please refer back to the commit where you installed a feature and manually check the diff.`
+  // );
 }

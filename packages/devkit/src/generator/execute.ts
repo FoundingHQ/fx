@@ -1,18 +1,18 @@
 import chalk from "chalk";
-import { FX_PROJECT_PATHS } from "../config";
 import {
   convertTemplateDestPaths,
   convertTemplateSrcPaths,
-  extendContext,
+  buildContext,
 } from "../context";
 import { getEjsTransform } from "../ejs";
 import { copy, getFiles, runTransforms } from "../fs";
 import { install } from "../package";
 import { getPrettierTransform } from "../prettier";
 import { throwHandledError } from "../error";
-import { Generator } from "./types";
+import { Generator, GeneratorMeta } from "./types";
 
 export const executeGenerator = async (
+  generatorInfo: GeneratorMeta,
   generator: Generator,
   generatorOptions: Record<string, any> = {},
   cliOptions: Record<string, any> = {}
@@ -20,7 +20,7 @@ export const executeGenerator = async (
   const dryRun = cliOptions.dryRun || false;
   // Setup generator to get environment context for other generator methods
   const rawContext = await generator.setup(generatorOptions);
-  const context = extendContext(rawContext);
+  const context = buildContext(rawContext);
 
   // Install required dependencies
   try {
@@ -42,7 +42,7 @@ export const executeGenerator = async (
           console.log(chalk.yellow("Dry run: skipping install"));
           console.log();
         } else {
-          await install(FX_PROJECT_PATHS.projectRoot, dependencies);
+          await install(context.paths.root, dependencies);
           console.log();
         }
       }
@@ -61,17 +61,23 @@ export const executeGenerator = async (
     console.log();
     const scaffoldPaths = await generator.scaffold(context);
     for (const scaffoldPath of scaffoldPaths) {
-      const src = convertTemplateSrcPaths(scaffoldPath.src, context);
-      const dest = convertTemplateDestPaths(scaffoldPath.dest, context);
+      const src = convertTemplateSrcPaths(
+        generatorInfo.localRootPath,
+        scaffoldPath.src,
+        context
+      );
+      const dest = convertTemplateDestPaths(
+        context.paths.root,
+        scaffoldPath.dest,
+        context
+      );
       await copy(src, dest);
 
       const files = await getFiles(dest);
       // TODO: Fix possible performance issue with this
       for (const filePath of files) {
         console.log(
-          `▶ Generated ${chalk.green(
-            filePath.replace(FX_PROJECT_PATHS.projectRoot, "")
-          )}`
+          `▶ Generated ${chalk.green(filePath.replace(context.paths.root, ""))}`
         );
         await runTransforms(
           filePath,

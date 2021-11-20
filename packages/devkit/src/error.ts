@@ -5,11 +5,18 @@ export const throwHandledError = ({
 }: {
   command: string;
   message: string;
-  error: any;
+  error?: any;
 }) => {
-  console.error(error);
+  if (error) console.error(error);
   throw {
     command,
     message,
   };
+};
+
+export const onPromptCancel = () => {
+  throwHandledError({
+    command: "prompt",
+    message: "User cancelled step",
+  });
 };

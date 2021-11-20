@@ -1,4 +1,5 @@
 import { Package } from "../package";
+import { Context } from "../context";
 
 export type ScaffoldPath = {
   src: string;
@@ -7,10 +8,10 @@ export type ScaffoldPath = {
 
 export type Generator<T = any> = {
   setup: (options?: Record<string, any>) => Promise<T>;
-  install: (context: T) => Promise<Package[]>;
-  scaffold: (context: T) => Promise<ScaffoldPath[]>;
-  codemods: (context: T) => Promise<void>;
-  finish: (context: T) => Promise<void>;
+  install: (context: Context<T>) => Promise<Package[]>;
+  scaffold: (context: Context<T>) => Promise<ScaffoldPath[]>;
+  codemods: (context: Context<T>) => Promise<void>;
+  finish: (context: Context<T>) => Promise<void>;
   uninstall: () => Promise<{
     dependencies: string[];
     templates: string[];
@@ -20,4 +21,18 @@ export type Generator<T = any> = {
 export type GeneratorConfigDefinition = {
   dependencies: Package[];
   templates: ScaffoldPath[];
+};
+
+export enum GeneratorLocation {
+  Local,
+  Remote,
+}
+
+export type GeneratorMeta = {
+  feature: string;
+  path: string;
+  subdirectory?: string;
+  localRootPath: string;
+  localPackageJsonPath: string;
+  location: GeneratorLocation;
 };

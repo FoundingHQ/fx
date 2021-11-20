@@ -1,5 +1,5 @@
 {
-  "name": "@founding/fx-generator-example",
+  "name": "@founding/fx-generator-resource",
   "main": "index.ts",
   "private": true,
   "dependencies": {

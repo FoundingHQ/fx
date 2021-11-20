@@ -1,24 +1,12 @@
 import { readFileSync } from "fs-extra";
 import { join, resolve, dirname } from "path";
 import chalk from "chalk";
-import { Generator } from "./types";
+import { Generator, GeneratorMeta, GeneratorLocation } from "./types";
 import { setupTsnode } from "../tsnode";
 import { gotJSON, isUrlValid } from "../network";
-import { GH_ROOT, API_ROOT, RAW_ROOT, FX_PROJECT_PATHS, cwd } from "../config";
+import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../config";
 import { install } from "../package";
 import { cloneRepo } from "../repo";
-
-export enum GeneratorLocation {
-  Local,
-  Remote,
-}
-
-type GeneratorMeta = {
-  feature: string;
-  path: string;
-  subdirectory?: string;
-  location: GeneratorLocation;
-};
 
 export function normalizeGeneratorPath(feature: string): GeneratorMeta {
   // feature == `auth`
@@ -50,6 +38,8 @@ export function normalizeGeneratorPath(feature: string): GeneratorMeta {
       feature,
       path: repoUrl,
       subdirectory,
+      localRootPath: join(cwd, ".fx"),
+      localPackageJsonPath: join(cwd, ".fx", "package.json"),
       location: GeneratorLocation.Remote,
     };
   } else {
@@ -57,6 +47,8 @@ export function normalizeGeneratorPath(feature: string): GeneratorMeta {
     return {
       feature,
       path: feature,
+      localRootPath: dirname(feature),
+      localPackageJsonPath: join(dirname(feature), "package.json"),
       location: GeneratorLocation.Local,
     };
   }
@@ -95,7 +87,7 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
 4. A file path to a locally-written generator.\n`);
       process.exit(1);
     } else {
-      const tempDir = FX_PROJECT_PATHS.generatorRoot;
+      const tempDir = generatorInfo.localRootPath;
 
       await cloneRepo(
         tempDir,
@@ -106,9 +98,7 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
 
       await install(tempDir, null);
 
-      const packageJson = requireJSON(
-        FX_PROJECT_PATHS.generatorPackageJson
-      ).main;
+      const packageJson = requireJSON(generatorInfo.localPackageJsonPath).main;
 
       if (!packageJson.main) {
         console.error(
@@ -125,7 +115,6 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
     }
   } else {
     const generatorEntry = resolve(cwd, generatorInfo.path);
-    FX_PROJECT_PATHS.generatorRoot = dirname(generatorEntry);
     return {
       generator: require(generatorEntry).default as Generator,
       packageJson: {},
