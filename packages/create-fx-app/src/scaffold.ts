@@ -36,8 +36,6 @@ export async function scaffold({
     process.exit(1);
   }
 
-  const originalDirectory = process.cwd();
-
   console.log(`Creating a new Fx app in ${chalk.green(root)}.`);
   console.log();
 
@@ -71,7 +69,7 @@ export async function scaffold({
   }
 
   let cdpath: string;
-  if (path.join(originalDirectory, appName) === appPath) {
+  if (path.join(process.cwd(), appName) === appPath) {
     cdpath = appName;
   } else {
     cdpath = appPath;

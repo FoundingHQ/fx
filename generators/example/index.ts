@@ -6,7 +6,7 @@ type Context = {
 };
 
 const generator: Generator<Context> = {
-  setup: async (options?: Record<string, any>) => {
+  async setup(options) {
     const res = await prompts([
       {
         type: () => (options?.type ? null : "select"),
@@ -28,21 +28,25 @@ const generator: Generator<Context> = {
 
     return { ...res, ...options };
   },
-  install: async () => {
+  async install() {
     return [{ name: "@founding/fx" }];
   },
-  scaffold: async ({ type }) => {
+  async scaffold({ type }) {
     if (type === "page") {
-      return [{ src: "templates/example-page.tsx.ejs", dest: "pages" }];
+      return [
+        { src: "templates/example-page.tsx.ejs", dest: "pages/example.tsx" },
+      ];
     } else {
-      return [{ src: "templates/example-api.ts.ejs", dest: "pages/api" }];
+      return [
+        { src: "templates/example-api.ts.ejs", dest: "pages/api/example.tsx" },
+      ];
     }
   },
-  codemods: async () => {},
-  finish: async () => {},
-  uninstall: async () => {
+  async codemods() {},
+  async finish() {},
+  async uninstall() {
     return {
-      dependencies: [],
+      dependencies: ["@founding/fx"],
       templates: [],
     };
   },
