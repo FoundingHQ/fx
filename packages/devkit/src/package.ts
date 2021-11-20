@@ -20,6 +20,7 @@ export async function install(
   root: string,
   dependencies: Package[] | null
 ): Promise<void> {
+  const originalCwd = process.cwd();
   const useYarn = shouldUseYarn();
   let command: string;
   let args: string[];
@@ -59,6 +60,8 @@ export async function install(
     args = useYarn ? [] : ["install"];
     await runCommand(command, args);
   }
+
+  process.chdir(originalCwd);
 }
 
 function runCommand(command: string, args: string[]) {

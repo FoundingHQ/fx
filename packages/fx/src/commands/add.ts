@@ -1,38 +1,36 @@
 import chalk from "chalk";
 import prompts from "prompts";
 import {
-  copy,
-  runTransforms,
-  getFiles,
-  install,
-  getEjsTransform,
-  getPrettierTransform,
-  extendContext,
+  FX_PROJECT_PATHS,
+  getOfficialGeneratorList,
+  normalizeGeneratorPath,
+  GeneratorLocation,
+  extractGenerator,
+  executeGenerator,
+  removeDir,
 } from "@founding/devkit";
-import {
-  config,
-  convertTemplateSrcPaths,
-  convertTemplateDestPaths,
-  featureGenerators,
-} from "../config";
+import { parseArgs } from "../utils/args";
 
 export async function add(
   feature: string = "",
+  args: string[] = [],
   options: Record<string, any> = {}
 ) {
+  // Prompt user for the generator to add if they didn't specify one
   if (!feature) {
+    const officialFeatures = await getOfficialGeneratorList();
     const res = await prompts({
       type: "select",
       name: "feature",
       message: "What feature would you like to add?",
       initial: 0,
-      choices: Object.keys(featureGenerators).map((fname) => ({
+      choices: officialFeatures.map((fname: string) => ({
         title: fname,
         value: fname,
       })),
     });
 
-    if (res.feature && res.feature.length > 0) {
+    if (res.feature) {
       feature = res.feature;
       console.log();
     }
@@ -41,123 +39,53 @@ export async function add(
   if (feature.length === 0) {
     console.log();
     console.log("Please specify the feature to add:");
-    console.log(`  ${chalk.cyan("fx add")} ${chalk.green("[feature]")}`);
+    console.log(`  ${chalk.cyan("npx fx add")} ${chalk.green("[feature]")}`);
     console.log();
     console.log("For example:");
-    console.log(`  ${chalk.cyan("fx add")} ${chalk.green("auth")}`);
+    console.log(`  ${chalk.cyan("npx fx add")} ${chalk.green("auth")}`);
     console.log();
-    console.log(`Run ${chalk.cyan(`fx --help`)} to see all options.`);
+    console.log(`Run ${chalk.cyan(`npx fx add --help`)} to see all options.`);
     process.exit(1);
   }
 
-  const featureGenerator = featureGenerators[feature];
-  const defaultOptions = options.options || {};
-  const dryRun = options.dryrun || false;
+  /**
+   *  Parse additional arguments from the command line:
+   * `fx add example --dryrun scope=a lame --test` => { scope: 'a', lame: true }
+   **/
+  const generatorOptions = parseArgs(args);
+  const generatorInfo = normalizeGeneratorPath(feature);
 
-  if (!featureGenerator) {
-    console.error(`Feature ${chalk.red(feature)} does not exist`);
-    process.exit(1);
-  } else {
-    console.log(
-      `Scaffolding feature ${chalk.green(feature)} ${
-        Object.keys(defaultOptions).length ? "with options:" : ""
-      }`
-    );
-    if (Object.keys(defaultOptions).length) console.log(defaultOptions);
-    console.log();
+  if (generatorInfo.location === GeneratorLocation.Remote) {
+    // Start off with a clean folder if we're cloning a remote generator
+    removeDir(FX_PROJECT_PATHS.generatorRoot);
   }
 
-  // Setup generator to get environment context for other generator methods
-  const rawContext = await featureGenerator.setup(defaultOptions);
-  const context = extendContext(rawContext);
+  /**
+   * Extract the generator from either:
+   * - an official generator (e.g. auth)
+   * - GitHub repository (e.g. "foundinghq/example-generator")
+   * - Full url Github repository (e.g. "https://github.com/foundinghq/example-generator")
+   * - A local file path (e.g. "./generators/example")
+   *
+   * The extracted generator is placed in a temporary directory (if remote)
+   **/
+  console.log(`Installing ${chalk.green(feature)} generator`);
+  console.log();
+  const { generator } = await extractGenerator(generatorInfo);
+  console.log(`Generator installed`);
 
-  // Install required dependencies
-  try {
-    const dependencies = await featureGenerator.install(context);
+  console.log(`Running ${chalk.green(feature)} generator`);
+  console.log();
+  await executeGenerator(generator, generatorOptions, options);
 
-    if (!dependencies.length) {
-      console.log("No dependencies to install.");
-      console.log();
-    } else {
-      console.log();
-
-      if (dependencies.length) {
-        console.log("Installing dependencies:");
-        dependencies.forEach((d) => {
-          console.log(`▶ ${chalk.green(d.name)}`);
-        });
-        if (dryRun) {
-          console.log();
-          console.log(chalk.yellow("Dry run: skipping install"));
-          console.log();
-        } else {
-          await install(config.projectRoot, dependencies);
-          console.log();
-        }
-      }
-    }
-  } catch (error) {
-    console.log("Error installing dependencies:");
-    console.error(error);
+  if (generatorInfo.location === GeneratorLocation.Remote) {
+    // Remove the temporary directory if cloned from a remote generator
+    removeDir(FX_PROJECT_PATHS.generatorRoot);
   }
-
-  // Scaffold and transform feature files
-  try {
-    console.log("Generating feature source code");
-    console.log();
-    const scaffoldPaths = await featureGenerator.scaffold(context);
-    for (const scaffoldPath of scaffoldPaths) {
-      const src = convertTemplateSrcPaths(scaffoldPath.src, context);
-      const dest = convertTemplateDestPaths(scaffoldPath.dest, context);
-      await copy(src, dest);
-
-      const files = await getFiles(dest);
-      // TODO: Fix possible performance issue with this
-      for (const filePath of files) {
-        console.log(
-          `▶ Generated ${chalk.green(filePath.replace(config.projectRoot, ""))}`
-        );
-        await runTransforms(
-          filePath,
-          [getEjsTransform(filePath), context],
-          [getPrettierTransform(filePath)]
-        );
-      }
-    }
-    console.log();
-    console.log(
-      `${chalk.green(feature)} source code can be found under ${chalk.green(
-        `lib/${feature}`
-      )}`
-    );
-    console.log();
-  } catch (error) {
-    console.log("Error creating files:");
-    console.error(error);
-  }
-
-  // Run codemods
-  try {
-    console.log("Running codemods");
-    console.log();
-    await featureGenerator.codemods(context);
-  } catch (error) {
-    console.log("Error running codemods:");
-    console.error(error);
-  }
-
-  // Finish
-  await featureGenerator.finish(context);
 
   console.log(
     `${chalk.green("Success!")} Your ${chalk.green(
       feature
     )} feature has been scaffolded.`
-  );
-  console.log();
-  console.log(
-    `New docs have been added to the ${chalk.green(
-      "/docs"
-    )} directory. Take a look on a quick rundown of what was just scaffolded.`
   );
 }

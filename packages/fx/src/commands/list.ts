@@ -1,32 +1,14 @@
 import chalk from "chalk";
-import { resolve } from "path";
-import { getFiles } from "@founding/devkit";
-import { config, featureGenerators } from "../config";
+import { getOfficialGeneratorList } from "@founding/devkit";
 
 export async function list() {
-  const featureList = Object.keys(featureGenerators);
-  const presetPaths: string[] = await getFiles(
-    resolve(config.cliRoot, "templates/presets/*.json")
-  );
+  const featureList = await getOfficialGeneratorList();
 
   console.log(chalk.bold(`Available Features:`));
   console.log(`  ${featureList.map((f) => `- ${f}`).join("\n  ")}`);
   console.log();
   console.log(
     `You can add features to your fx app with ${chalk.cyan(`fx add <feature>`)}`
-  );
-  console.log();
-  console.log(chalk.bold(`Available Presets:`));
-  console.log(
-    `  ${presetPaths
-      .map((path) => `- ${path.split("/").pop()?.replace(".json", "")}`)
-      .join("\n  ")}`
-  );
-  console.log();
-  console.log(
-    `You can bootstrap a preset to your fx app with ${chalk.cyan(
-      `fx bootstrap <preset>`
-    )}`
   );
   console.log();
 }

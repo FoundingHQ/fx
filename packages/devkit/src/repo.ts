@@ -1,9 +1,9 @@
 import rimraf from "rimraf";
 import fs from "fs-extra";
-import got from "got";
 import tar from "tar";
 import { Stream } from "stream";
 import { promisify } from "util";
+import { gotStream } from "./network";
 import { CODE_ROOT } from "./config";
 
 const pipeline = promisify(Stream.pipeline);
@@ -27,7 +27,7 @@ export function cloneRepo(
     : [`${repoName}-${defaultBranch}`];
 
   return pipeline(
-    got.stream(`${CODE_ROOT}/${repoFullName}/tar.gz/${defaultBranch}`),
+    gotStream(`${CODE_ROOT}/${repoFullName}/tar.gz/${defaultBranch}`),
     tar.extract({ cwd: root, strip: depth }, extractPath)
   );
 }
