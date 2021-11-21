@@ -10,5 +10,6 @@ export * from "./git";
 export * from "./logger";
 export * from "./package";
 export * from "./prettier";
+export * from "./prompts";
 export * from "./repo";
 export * from "./transforms";

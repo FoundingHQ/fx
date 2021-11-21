@@ -3,10 +3,6 @@
   "main": "index.ts",
   "private": true,
   "dependencies": {
-    "@founding/devkit": "0.0.1",
-    "prompts": "^2.4.2"
-  },
-  "devDependencies": {
-    "@types/prompts": "^2.0.14"
+    "@founding/devkit": "latest"
   }
 }

@@ -1,7 +1,7 @@
 import retry from "async-retry";
-import chalk from "chalk";
 import path from "path";
 import {
+  chalk,
   cloneRepo,
   makeDir,
   tryGitInit,

@@ -1,6 +1,5 @@
-import prompts from "prompts";
-import fs from "fs";
-import { Generator, onPromptCancel } from "@founding/devkit";
+import merge from "merge-deep";
+import { Generator, readJson, writeJson, prompts } from "@founding/devkit";
 import * as config from "./config";
 
 type Props = {
@@ -9,44 +8,41 @@ type Props = {
 
 const generator: Generator<Props> = {
   async setup(_context, options = {}) {
-    const res = await prompts(
-      [
-        {
-          type: () =>
-            options.scopes && options.scopes.length ? null : "multiselect",
-          name: "scopes",
-          message: "What type of payment strategies would you like to add?",
-          min: 1,
-          choices: [
-            {
-              title: "Checkout",
-              description: "Prebuilt Checkout page from Stripe",
-              value: "checkout",
-              selected: true,
-            },
-            {
-              title: "Custom Checkout",
-              description: "Custom UI with integration with Stripe API",
-              value: "custom-checkout",
-              selected: false,
-            },
-            {
-              title: "Subscription",
-              description: "Create recurring payments",
-              value: "subscription",
-              selected: false,
-            },
-            {
-              title: "Connect",
-              description: "Manage other Stripe accounts",
-              value: "connect",
-              selected: false,
-            },
-          ],
-        },
-      ],
-      { onCancel: onPromptCancel }
-    );
+    const res = await prompts([
+      {
+        type: () =>
+          options.scopes && options.scopes.length ? null : "multiselect",
+        name: "scopes",
+        message: "What type of payment strategies would you like to add?",
+        min: 1,
+        choices: [
+          {
+            title: "Checkout",
+            description: "Prebuilt Checkout page from Stripe",
+            value: "checkout",
+            selected: true,
+          },
+          {
+            title: "Custom Checkout",
+            description: "Custom UI with integration with Stripe API",
+            value: "custom-checkout",
+            selected: false,
+          },
+          {
+            title: "Subscription",
+            description: "Create recurring payments",
+            value: "subscription",
+            selected: false,
+          },
+          {
+            title: "Connect",
+            description: "Manage other Stripe accounts",
+            value: "connect",
+            selected: false,
+          },
+        ],
+      },
+    ]);
 
     return { ...res, ...options };
   },
@@ -66,15 +62,11 @@ const generator: Generator<Props> = {
         .flat(),
     ];
   },
-  async codemods() {
-    const source = fs.readFileSync("app.json", "utf8");
-    const appJson = JSON.parse(source);
-    const newAppJson = {
-      ...appJson,
-      ["expo"]: {
-        ...appJson["expo"],
-        ["plugins"]: [
-          ...(appJson["expo"]["plugins"] || []),
+  async codemods({ paths }) {
+    const appJson = readJson(paths.appJson);
+    const newAppJson = merge(appJson, {
+      expo: {
+        plugins: [
           [
             "@stripe/stripe-react-native",
             {
@@ -84,17 +76,8 @@ const generator: Generator<Props> = {
           ],
         ],
       },
-    };
-    fs.writeFile("app.json", JSON.stringify(newAppJson, null, 2), (err) => {
-      if (err) {
-        throw {
-          command: "add",
-          message: "Failed to write to app.json",
-        };
-      }
     });
-
-    return;
+    writeJson("app.json", newAppJson);
   },
   async finish() {},
   async uninstall() {

@@ -2,9 +2,12 @@
 import path from "path";
 import fs from "fs";
 import { Command } from "commander";
-import chalk from "chalk";
-import prompts from "prompts";
-import { validateNpmName, checkAndNotifyUpdates } from "@founding/devkit";
+import {
+  chalk,
+  prompts,
+  validateNpmName,
+  checkAndNotifyUpdates,
+} from "@founding/devkit";
 import { scaffold } from "./scaffold";
 
 const packageJson = JSON.parse(

@@ -1,19 +1,14 @@
 #!/usr/bin/env node
-import fs from "fs";
-import path from "path";
+import { resolve } from "path";
 import { Command } from "commander";
-import chalk from "chalk";
-import { checkAndNotifyUpdates } from "@founding/devkit";
+import { chalk, readJson, checkAndNotifyUpdates } from "@founding/devkit";
 import { list } from "./commands/list";
 import { add } from "./commands/add";
 import { remove } from "./commands/remove";
 import { bootstrap } from "./commands/bootstrap";
 
-const packageJson = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, "../package.json"), "utf8")
-);
-
 const program = new Command();
+const packageJson = readJson(resolve(__dirname, "../package.json"));
 
 async function main() {
   program

@@ -1,5 +1,4 @@
-import chalk from "chalk";
-import { getOfficialGeneratorList } from "@founding/devkit";
+import { chalk, getOfficialGeneratorList } from "@founding/devkit";
 
 export async function list() {
   const featureList = await getOfficialGeneratorList();

@@ -1,10 +1,9 @@
 import fs from "fs";
 import { join } from "path";
 import { getSchema, Model } from "@mrleebo/prisma-ast";
-import prompts from "prompts";
 import {
   Generator,
-  onPromptCancel,
+  prompts,
   addImport,
   createJscodeshiftProgram,
   getPrettierTransform,
@@ -20,36 +19,31 @@ type Props = {
 
 const generator: Generator<Props> = {
   async setup({ paths }, options = {}) {
-    const res = await prompts(
-      [
-        {
-          type: () => (options.name ? null : "text"),
-          name: "name",
-          message: "What is the name of the resource?",
-        },
-        {
-          type: () => (options.stack ? null : "select"),
-          name: "stack",
-          message: "What do you want to generate?",
-          initial: 0,
-          choices: [
-            {
-              title: "Full Stack",
-              description: "Frontend and backend",
-              value: "full-stack",
-            },
-            {
-              title: "API only",
-              description: "Backend only",
-              value: "api",
-            },
-          ],
-        },
-      ],
+    const res = await prompts([
       {
-        onCancel: onPromptCancel,
-      }
-    );
+        type: () => (options.name ? null : "text"),
+        name: "name",
+        message: "What is the name of the resource?",
+      },
+      {
+        type: () => (options.stack ? null : "select"),
+        name: "stack",
+        message: "What do you want to generate?",
+        initial: 0,
+        choices: [
+          {
+            title: "Full Stack",
+            description: "Frontend and backend",
+            value: "full-stack",
+          },
+          {
+            title: "API only",
+            description: "Backend only",
+            value: "api",
+          },
+        ],
+      },
+    ]);
 
     // Get attributes by introspecting Prisma schema
     const source = fs.readFileSync(paths.scheme, "utf8");

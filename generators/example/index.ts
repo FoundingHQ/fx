@@ -1,5 +1,4 @@
-import prompts from "prompts";
-import { Generator, onPromptCancel } from "@founding/devkit";
+import { Generator, prompts } from "@founding/devkit";
 
 type Props = {
   type: string;
@@ -7,27 +6,24 @@ type Props = {
 
 const generator: Generator<Props> = {
   async setup(_context, options) {
-    const res = await prompts(
-      [
-        {
-          type: () => (options?.type ? null : "select"),
-          name: "type",
-          message: "What would you like to scaffold?",
-          initial: 0,
-          choices: [
-            {
-              title: "example page",
-              value: "page",
-            },
-            {
-              title: "example api",
-              value: "api",
-            },
-          ],
-        },
-      ],
-      { onCancel: onPromptCancel }
-    );
+    const res = await prompts([
+      {
+        type: () => (options?.type ? null : "select"),
+        name: "type",
+        message: "What would you like to scaffold?",
+        initial: 0,
+        choices: [
+          {
+            title: "example page",
+            value: "page",
+          },
+          {
+            title: "example api",
+            value: "api",
+          },
+        ],
+      },
+    ]);
 
     return { ...res, ...options };
   },

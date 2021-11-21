@@ -99,6 +99,10 @@ export async function getFiles(
   return globby(patterns, options);
 }
 
-export function readJSON(path: string) {
-  return fs.readJSON(path);
+export function readJson(...args: Parameters<typeof fs.readJsonSync>) {
+  return fs.readJsonSync(...args);
+}
+
+export function writeJson(...args: Parameters<typeof fs.writeJsonSync>) {
+  return fs.writeJsonSync(...args);
 }

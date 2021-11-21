@@ -1,7 +1,10 @@
 import { execSync } from "child_process";
-import prompts from "prompts";
-import chalk from "chalk";
-import { getOfficialGeneratorList, removeDir } from "@founding/devkit";
+import {
+  chalk,
+  prompts,
+  getOfficialGeneratorList,
+  removeDir,
+} from "@founding/devkit";
 
 export async function remove(
   feature: string = "",

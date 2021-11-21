@@ -1,6 +1,6 @@
-import chalk from "chalk";
-import prompts from "prompts";
 import {
+  chalk,
+  prompts,
   getOfficialGeneratorList,
   normalizeGeneratorPath,
   GeneratorLocation,

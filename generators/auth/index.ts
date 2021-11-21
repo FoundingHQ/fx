@@ -1,4 +1,3 @@
-import prompts from "prompts";
 import { join } from "path";
 import {
   Generator,
@@ -11,7 +10,7 @@ import {
   startDocker,
   runMigrations,
   sleep,
-  onPromptCancel,
+  prompts,
 } from "@founding/devkit";
 import * as config from "./config";
 import schemas from "./schema";
@@ -23,67 +22,62 @@ type Props = {
 
 const generator: Generator<Props> = {
   async setup(_context, options = {}) {
-    const res = await prompts(
-      [
-        {
-          type: () => (options.type ? null : "select"),
-          name: "type",
-          message: "What type of authentication would you like to use?",
-          initial: 0,
-          choices: [
-            {
-              title: "Session",
-              description:
-                "Traditional database based session authentication. Best used for security first applications such as healthcare",
-              value: "session",
-            },
-            {
-              title: "JWT",
-              description:
-                "Stateless client side sessions. Best used for high such as consumer apps",
-              value: "jwt",
-            },
-          ],
-        },
-        {
-          type: () =>
-            options.scopes && options.scopes.length ? null : "multiselect",
-          name: "scopes",
-          message:
-            "What type of authentication strategies would you like to add?",
-          min: 1,
-          choices: [
-            {
-              title: "Local",
-              description: "Email/Password login",
-              value: "local",
-              selected: true,
-            },
-            {
-              title: "Google",
-              description: "Google OAuth",
-              value: "google",
-              selected: false,
-            },
-            {
-              title: "Facebook",
-              description: "Facebook OAuth",
-              value: "facebook",
-              selected: false,
-            },
-            {
-              title: "Magic Link",
-              description: "Passwordless email (or phone) login",
-              value: "magic",
-              selected: false,
-            },
-          ],
-        },
-      ],
+    const res = await prompts([
       {
-        onCancel: onPromptCancel,
-      }
-    );
+        type: () => (options.type ? null : "select"),
+        name: "type",
+        message: "What type of authentication would you like to use?",
+        initial: 0,
+        choices: [
+          {
+            title: "Session",
+            description:
+              "Traditional database based session authentication. Best used for security first applications such as healthcare",
+            value: "session",
+          },
+          {
+            title: "JWT",
+            description:
+              "Stateless client side sessions. Best used for high such as consumer apps",
+            value: "jwt",
+          },
+        ],
+      },
+      {
+        type: () =>
+          options.scopes && options.scopes.length ? null : "multiselect",
+        name: "scopes",
+        message:
+          "What type of authentication strategies would you like to add?",
+        min: 1,
+        choices: [
+          {
+            title: "Local",
+            description: "Email/Password login",
+            value: "local",
+            selected: true,
+          },
+          {
+            title: "Google",
+            description: "Google OAuth",
+            value: "google",
+            selected: false,
+          },
+          {
+            title: "Facebook",
+            description: "Facebook OAuth",
+            value: "facebook",
+            selected: false,
+          },
+          {
+            title: "Magic Link",
+            description: "Passwordless email (or phone) login",
+            value: "magic",
+            selected: false,
+          },
+        ],
+      },
+    ]);
 
     return { ...res, ...options };
   },

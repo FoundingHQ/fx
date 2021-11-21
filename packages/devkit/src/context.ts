@@ -59,6 +59,7 @@ export type Context<T = {}> = {
     lib: string;
     libCore: string;
     mobile: string;
+    appJson: string;
     pages: string;
     api: string;
   };
@@ -83,6 +84,7 @@ export const createContext = () => {
       lib: resolve(cwd, "lib"),
       libCore: resolve(cwd, "lib/core"),
       mobile: resolve(cwd, "expo"),
+      appJson: resolve(cwd, "app.json"),
       pages: resolve(cwd, "pages"),
       api: resolve(cwd, "pages/api"),
     },
