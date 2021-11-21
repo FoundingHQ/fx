@@ -47,7 +47,10 @@ export function normalizeGeneratorPath(feature: string): GeneratorMeta {
     return {
       feature,
       path: feature,
-      localRootPath: dirname(feature),
+      localRootPath:
+        feature.endsWith(".ts") || feature.endsWith(".js")
+          ? dirname(feature)
+          : feature,
       localPackageJsonPath: join(dirname(feature), "package.json"),
       location: GeneratorLocation.Local,
     };
