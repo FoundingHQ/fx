@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export const <%= h.changeCase.pascalCase(name) %>Edit = () => {
+export const <%= h.changeCase.pascalCase(props.name) %>Edit = () => {
   return (
     <View style={styles.container}>
-      <Text><%= h.changeCase.pascalCase(name) %> Edit</Text>
+      <Text><%= h.changeCase.pascalCase(props.name) %> Edit</Text>
     </View>
   );
 };
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default <%= h.changeCase.pascalCase(name) %>Edit;
+export default <%= h.changeCase.pascalCase(props.name) %>Edit;

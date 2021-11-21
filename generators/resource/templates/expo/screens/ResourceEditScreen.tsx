@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import <%= h.changeCase.pascalCase(name) %>Edit from "../lib/<%= h.changeCase.camelCase(name) %>/components/<%= h.changeCase.pascalCase(name) %>Edit";
+import <%= h.changeCase.pascalCase(props.name) %>Edit from "../lib/<%= h.changeCase.camelCase(props.name) %>/components/<%= h.changeCase.pascalCase(props.name) %>Edit";
 
-export const <%= h.changeCase.pascalCase(name) %>EditScreen = () => {
+export const <%= h.changeCase.pascalCase(props.name) %>EditScreen = () => {
   return (
     <View style={styles.container}>
-      <<%= h.changeCase.pascalCase(name) %>Edit />
+      <<%= h.changeCase.pascalCase(props.name) %>Edit />
     </View>
   );
 };
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default <%= h.changeCase.pascalCase(name) %>EditScreen;
+export default <%= h.changeCase.pascalCase(props.name) %>EditScreen;

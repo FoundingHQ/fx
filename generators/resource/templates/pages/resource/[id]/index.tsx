@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import Link from "next/link";
 
 import { SEO } from "@components";
-import { use<%= h.changeCase.pascalCase(name) %>Show } from "@lib/<%= h.changeCase.camelCase(name) %>/data/<%= h.changeCase.camelCase(name) %>Hooks"
+import { use<%= h.changeCase.pascalCase(props.name) %>Show } from "@lib/<%= h.changeCase.camelCase(props.name) %>/data/<%= h.changeCase.camelCase(props.name) %>Hooks"
 
 const ShowPage = () => {
   const router = useRouter()
@@ -22,18 +22,18 @@ const ShowPage = () => {
 };
 
 const Show = ({ id }: { id: string }) => {
-  const res = use<%= h.changeCase.pascalCase(name) %>Show(parseInt(id as string));
+  const res = use<%= h.changeCase.pascalCase(props.name) %>Show(parseInt(id as string));
   const { data } = res;
-  const <%= h.changeCase.camelCase(name) %> = data?.<%= h.changeCase.camelCase(name) %>;
+  const <%= h.changeCase.camelCase(props.name) %> = data?.<%= h.changeCase.camelCase(props.name) %>;
 
   return (
     <>
       <dl>
-        <% Object.keys(props.attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{<%= h.changeCase.camelCase(name) %>?.<%= attributeKey %>}</dd><% }) %>
+        <% Object.keys(props.attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{<%= h.changeCase.camelCase(props.name) %>?.<%= attributeKey %>}</dd><% }) %>
       </dl>
       <ul>
-        <li><Link href={`/<%= h.pluralizedCamelCase(name) %>/${id}/edit`}>Edit</Link></li>
-        <li><Link href="/<%= h.pluralizedCamelCase(name) %>">List</Link></li>
+        <li><Link href={`/<%= h.pluralizedCamelCase(props.name) %>/${id}/edit`}>Edit</Link></li>
+        <li><Link href="/<%= h.pluralizedCamelCase(props.name) %>">List</Link></li>
       </ul>
     </>
   );

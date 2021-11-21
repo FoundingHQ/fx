@@ -4,24 +4,24 @@ export const baseConfig: GeneratorConfigDefinition = {
   dependencies: [],
   templates: [
     {
-      src: "templates/features/resource/data/resourceHooks.ts",
-      dest: "lib/${h.changeCase.camelCase(name)}/data/${h.changeCase.camelCase(name)}Hooks.ts",
+      src: "resource/templates/lib/resource/data/resourceHooks.ts",
+      dest: "lib/${h.changeCase.camelCase(props.name)}/data/${h.changeCase.camelCase(props.name)}Hooks.ts",
     },
     {
-      src: "templates/features/resource/server/resourceConfig.ts",
-      dest: "lib/${h.changeCase.camelCase(name)}/server/${h.changeCase.camelCase(name)}Config.ts",
+      src: "resource/templates/lib/resource/server/resourceConfig.ts",
+      dest: "lib/${h.changeCase.camelCase(props.name)}/server/${h.changeCase.camelCase(props.name)}Config.ts",
     },
     {
-      src: "templates/features/resource/server/resourceService.ts",
-      dest: "lib/${h.changeCase.camelCase(name)}/server/${h.changeCase.camelCase(name)}Service.ts",
+      src: "resource/templates/lib/resource/server/resourceService.ts",
+      dest: "lib/${h.changeCase.camelCase(props.name)}/server/${h.changeCase.camelCase(props.name)}Service.ts",
     },
     {
-      src: "templates/features/api/resource/index.ts",
-      dest: "pages/api/${h.pluralizedCamelCase(name)}/index.ts",
+      src: "resource/templates/pages/api/resource/index.ts",
+      dest: "pages/api/${h.pluralizedCamelCase(props.name)}/index.ts",
     },
     {
-      src: "templates/features/api/resource/[id]/index.ts",
-      dest: "pages/api/${h.pluralizedCamelCase(name)}/[id]/index.ts",
+      src: "resource/templates/pages/api/resource/[id]/index.ts",
+      dest: "pages/api/${h.pluralizedCamelCase(props.name)}/[id]/index.ts",
     },
   ],
 };
@@ -32,12 +32,12 @@ export const resourcePlatformConfig: Record<string, GeneratorConfigDefinition> =
       dependencies: [],
       templates: [
         {
-          src: "templates/features/resource/components/ResourceForm.tsx",
-          dest: "lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Form.tsx",
+          src: "resource/templates/lib/resource/components/ResourceForm.tsx",
+          dest: "lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}Form.tsx",
         },
         {
-          src: "templates/features/pages/resource",
-          dest: "pages/${h.pluralizedCamelCase(name)}",
+          src: "resource/templates/pages/resource",
+          dest: "pages/${h.pluralizedCamelCase(props.name)}",
         },
       ],
     },
@@ -45,36 +45,36 @@ export const resourcePlatformConfig: Record<string, GeneratorConfigDefinition> =
       dependencies: [],
       templates: [
         {
-          src: "templates/features/resource/expo/components/ResourceEdit.tsx",
-          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Edit.tsx",
+          src: "resource/templates/expo/components/ResourceEdit.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}Edit.tsx",
         },
         {
-          src: "templates/features/resource/expo/components/ResourceList.tsx",
-          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}List.tsx",
+          src: "resource/templates/expo/components/ResourceList.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}List.tsx",
         },
         {
-          src: "templates/features/resource/expo/components/ResourceNew.tsx",
-          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}New.tsx",
+          src: "resource/templates/expo/components/ResourceNew.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}New.tsx",
         },
         {
-          src: "templates/features/resource/expo/components/ResourceShow.tsx",
-          dest: "expo/lib/${h.changeCase.camelCase(name)}/components/${h.changeCase.pascalCase(name)}Show.tsx",
+          src: "resource/templates/expo/components/ResourceShow.tsx",
+          dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}Show.tsx",
         },
         {
-          src: "templates/features/resource/expo/screens/ResourceEditScreen.tsx",
-          dest: "expo/screens/${h.changeCase.pascalCase(name)}EditScreen.tsx",
+          src: "resource/templates/expo/screens/ResourceEditScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(props.name)}EditScreen.tsx",
         },
         {
-          src: "templates/features/resource/expo/screens/ResourceListScreen.tsx",
-          dest: "expo/screens/${h.changeCase.pascalCase(name)}ListScreen.tsx",
+          src: "resource/templates/expo/screens/ResourceListScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(props.name)}ListScreen.tsx",
         },
         {
-          src: "templates/features/resource/expo/screens/ResourceNewScreen.tsx",
-          dest: "expo/screens/${h.changeCase.pascalCase(name)}NewScreen.tsx",
+          src: "resource/templates/expo/screens/ResourceNewScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(props.name)}NewScreen.tsx",
         },
         {
-          src: "templates/features/resource/expo/screens/ResourceShowScreen.tsx",
-          dest: "expo/screens/${h.changeCase.pascalCase(name)}ShowScreen.tsx",
+          src: "resource/templates/expo/screens/ResourceShowScreen.tsx",
+          dest: "expo/screens/${h.changeCase.pascalCase(props.name)}ShowScreen.tsx",
         },
       ],
     },
