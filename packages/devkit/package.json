@@ -1,6 +1,6 @@
 {
   "name": "@founding/devkit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fx app CLI utilities",
   "keywords": [],
   "repository": {
@@ -36,10 +36,10 @@
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "tar": "^6.1.11",
-    "update-check": "^1.5.4",
-    "validate-npm-package-name": "^3.0.0",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "update-check": "^1.5.4",
+    "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
