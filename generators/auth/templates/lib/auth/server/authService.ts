@@ -1,5 +1,5 @@
 import { hash, compare } from "bcrypt";
-<% if (type === "jwt") { %>
+<% if (props.type === "jwt") { %>
 import { User } from "@prisma/client";
 import { sign } from "jsonwebtoken";
 import {
@@ -25,7 +25,7 @@ export const validatePassword = async (
   return isMatchingPassword;
 };
 
-<% if (type === "jwt") { %>
+<% if (props.type === "jwt") { %>
 export const createAccessToken = (user: Partial<User>) => {
   const accessToken = sign({ user }, ACCESS_TOKEN_SECRET, {
     expiresIn: ACCESS_TOKEN_TIMEOUT,

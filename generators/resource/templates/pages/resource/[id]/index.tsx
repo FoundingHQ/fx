@@ -29,7 +29,7 @@ const Show = ({ id }: { id: string }) => {
   return (
     <>
       <dl>
-        <% Object.keys(attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{<%= h.changeCase.camelCase(name) %>?.<%= attributeKey %>}</dd><% }) %>
+        <% Object.keys(props.attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{<%= h.changeCase.camelCase(name) %>?.<%= attributeKey %>}</dd><% }) %>
       </dl>
       <ul>
         <li><Link href={`/<%= h.pluralizedCamelCase(name) %>/${id}/edit`}>Edit</Link></li>

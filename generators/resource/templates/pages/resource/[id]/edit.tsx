@@ -36,7 +36,7 @@ const Edit = ({ id }: { id: string }) => {
   };
 
   const initialValues = {
-    <% Object.keys(attributes).forEach((attribute) => { %><%= attribute %>: <%= h.changeCase.camelCase(name) %>?.<%= attribute %>,<% }) %>
+    <% Object.keys(props.attributes).forEach((attribute) => { %><%= attribute %>: <%= h.changeCase.camelCase(name) %>?.<%= attribute %>,<% }) %>
   };
 
   return (

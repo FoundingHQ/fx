@@ -4,7 +4,7 @@ import { useQueryClient, useQuery, useMutation } from "react-query";
 import { fetcher } from "@util/query";
 import {
   clientAuthRoutes,
-  <% if (type === "jwt") { %>ACCESS_TOKEN_TIMEOUT<% } %>
+  <% if (props.type === "jwt") { %>ACCESS_TOKEN_TIMEOUT<% } %>
 } from "@lib/auth/server/authConfig";
 
 // We should subset this to only interface we need.
@@ -15,7 +15,7 @@ export type Session = { accessToken: string; user: User };
 export type AuthInput = { email: string; password: string };
 
 const sessionKey = "session";
-<% if (type === "jwt") { %>
+<% if (props.type === "jwt") { %>
 const defaultSessionTimeout = ACCESS_TOKEN_TIMEOUT - 1000;
 <% } %>
 
@@ -63,7 +63,7 @@ export const useRequireAuth = (redirectPath: string) => {
 export const useRedirectOnceAuthed = (redirectPath: string) => {
   return useAuthRedirect(false, redirectPath);
 };
-<% if (type === "jwt") { %>
+<% if (props.type === "jwt") { %>
 export const useSession = () => {
   const [refetchInterval, setRefetchInterval] = useState(defaultSessionTimeout);
   return useQuery<Session>(

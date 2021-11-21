@@ -31,19 +31,19 @@ export const <%= h.changeCase.pascalCase(name) %>Form = ({
     const { <%= Object.keys(attributes).join(", ") %> } = e.currentTarget.elements;
 
     if (submitType === "create") {
-      create({<% Object.keys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
+      create({<% Object.keys(props.attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
       return;
     }
 
     if (userId) {
-      update({ id: <%= h.changeCase.camelCase(name) %>Id,<% Object.keys(attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
+      update({ id: <%= h.changeCase.camelCase(name) %>Id,<% Object.keys(props.attributes).forEach((attr) => { %><%= attr %>: <%= attr %>.value,<% }) %>});
       return;
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <% Object.keys(attributes).forEach((attributeKey) => { %><input name ="<%= attributeKey %>" type="text" placeholder="<%= h.changeCase.pascalCase(attributeKey) %>" value={initialValues?.<%= attributeKey %>} /><% }) %>
+      <% Object.keys(props.attributes).forEach((attributeKey) => { %><input name ="<%= attributeKey %>" type="text" placeholder="<%= h.changeCase.pascalCase(attributeKey) %>" value={initialValues?.<%= attributeKey %>} /><% }) %>
       <button type="submit">{submitText}</button>
     </form>
   );

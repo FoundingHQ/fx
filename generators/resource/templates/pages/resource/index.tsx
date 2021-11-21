@@ -15,7 +15,7 @@ export const ListPage = () => {
         <li>
           <Link href={`/<%= h.pluralizedCamelCase(name) %>/${item.id}`}>
             <dl>
-              <% Object.keys(attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{item.<%= attributeKey %>}</dd><% }) %>
+              <% Object.keys(props.attributes).forEach((attributeKey) => { %><dt><%= attributeKey %></dt><dd>{item.<%= attributeKey %>}</dd><% }) %>
             </dl>
           </Link>
         </li>
