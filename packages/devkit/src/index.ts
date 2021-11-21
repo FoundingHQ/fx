@@ -7,6 +7,7 @@ export * from "./error";
 export * from "./fs";
 export * from "./generator";
 export * from "./git";
+export * from "./logger";
 export * from "./package";
 export * from "./prettier";
 export * from "./repo";
