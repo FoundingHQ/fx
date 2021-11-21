@@ -4,11 +4,11 @@ import {
   chalk,
   cloneRepo,
   makeDir,
-  tryGitInit,
   install,
   isFolderEmpty,
   isWriteable,
 } from "@founding/devkit";
+import { tryGitInit } from "./util/git";
 
 export async function scaffold({
   appPath,

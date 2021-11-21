@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import path from "path";
-import fs from "fs";
+import { resolve, basename } from "path";
 import { Command } from "commander";
 import {
+  readJson,
   chalk,
   prompts,
   validateNpmName,
@@ -10,9 +10,7 @@ import {
 } from "@founding/devkit";
 import { scaffold } from "./scaffold";
 
-const packageJson = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, "../package.json"), "utf8")
-);
+const packageJson = readJson(resolve(__dirname, "../package.json"));
 
 const program = new Command();
 
@@ -60,7 +58,7 @@ async function run(
       message: "What is your project named?",
       initial: "my-app",
       validate: (name) => {
-        const validation = validateNpmName(path.basename(path.resolve(name)));
+        const validation = validateNpmName(basename(resolve(name)));
         if (validation.valid) return true;
         return `Invalid project name: ${validation.problems![0]}`;
       },
@@ -87,8 +85,8 @@ async function run(
     process.exit(1);
   }
 
-  const resolvedProjectPath = path.resolve(projectPath);
-  const projectName = path.basename(resolvedProjectPath);
+  const resolvedProjectPath = resolve(projectPath);
+  const projectName = basename(resolvedProjectPath);
 
   const { valid, problems } = validateNpmName(projectName);
   if (!valid) {

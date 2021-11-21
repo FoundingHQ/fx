@@ -77,8 +77,31 @@ export async function isWriteable(directory: string): Promise<boolean> {
   }
 }
 
+export async function getFiles(
+  patterns: string,
+  options?: globby.GlobbyOptions
+) {
+  return globby(patterns, options);
+}
+
 export async function copy(source: string, destination: string) {
   return fs.copy(source, destination);
+}
+
+export function readJson(...args: Parameters<typeof fs.readJsonSync>) {
+  return fs.readJsonSync(...args);
+}
+
+export function writeJson(...args: Parameters<typeof fs.writeJsonSync>) {
+  return fs.writeJsonSync(...args);
+}
+
+export function readFile(filePath: string) {
+  return fs.readFileSync(filePath, "utf8");
+}
+
+export function writeFile(filePath: string, content: string) {
+  return fs.writeFileSync(filePath, content);
 }
 
 export async function runTransforms(
@@ -90,19 +113,4 @@ export async function runTransforms(
     source = await transform(source, context);
   }
   return fs.writeFile(filePath, source);
-}
-
-export async function getFiles(
-  patterns: string,
-  options?: globby.GlobbyOptions
-) {
-  return globby(patterns, options);
-}
-
-export function readJson(...args: Parameters<typeof fs.readJsonSync>) {
-  return fs.readJsonSync(...args);
-}
-
-export function writeJson(...args: Parameters<typeof fs.writeJsonSync>) {
-  return fs.writeJsonSync(...args);
 }

@@ -12,6 +12,6 @@ npx fx remove <feature>
 # List available features and presets with descriptions
 npx fx list
 
-# Takes in a fx configuration file and adds the features listed
-npx fx bootstrap <preset|path/to/fx.json>
+# Takes in a fx preset file and adds the features listed
+npx fx bootstrap <preset|path/to/preset.json>
 ```
