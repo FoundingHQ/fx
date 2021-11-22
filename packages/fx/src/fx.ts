@@ -98,7 +98,6 @@ async function main() {
       console.log(chalk.red("Unexpected error. Please report it as a bug:"));
       console.log(reason);
     }
-    console.log();
 
     await checkAndNotifyUpdates(packageJson);
 

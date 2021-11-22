@@ -101,7 +101,7 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
 
       await install(tempDir, null);
 
-      const packageJson = requireJSON(generatorInfo.localPackageJsonPath).main;
+      const packageJson = requireJSON(generatorInfo.localPackageJsonPath);
 
       if (!packageJson.main) {
         console.error(
