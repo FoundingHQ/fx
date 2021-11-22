@@ -1,6 +1,6 @@
 import c from "chalk";
 import { Table } from "console-table-printer";
-import ora from "ora";
+// import ora from "ora";
 import readline from "readline";
 
 export const table = Table;
@@ -74,13 +74,13 @@ const info = (msg: string) => {
   console.log(c.bold(msg));
 };
 
-const spinner = (str: string) => {
-  return ora({
-    text: str,
-    color: "cyan",
-    spinner: "dots",
-  });
-};
+// const spinner = (str: string) => {
+//   return ora({
+//     text: str,
+//     color: "cyan",
+//     spinner: "dots",
+//   });
+// };
 
 const success = (msg: string) => {
   console.log(withCheck(c.green(msg)));
@@ -107,7 +107,7 @@ export const log = {
   warning,
   meta,
   progress,
-  spinner,
+  // spinner,
   success,
   variable,
   info,

@@ -1,3 +1,3 @@
 # Initialize your application
 
-> CLI and tooling to scaffold new Fx projects 💾
+> A CLI tool to scaffold prebuilt features into your Next.js projects 💾
