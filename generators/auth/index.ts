@@ -114,16 +114,13 @@ const generator: Generator<Props> = {
       );
 
       program
-        .find(j.VariableDeclarator, { id: { name: "createHandler" } })
-        .find(j.CallExpression, { callee: { name: "nc" } })
-        // TODO: add this expression to the END of the handler
-        .replaceWith((path) =>
-          j.memberExpression(
-            path.value,
-            j.template
-              .expression`use(sessionMiddleware).use(passport.initialize()).use(passport.session())`
-          )
-        );
+        .find(j.VariableDeclarator, { id: { name: "middlewares" } })
+        .find(j.ArrayExpression)
+        .forEach((p) => {
+          p.get("elements").push(j.template.expression`sessionMiddleware`);
+          p.get("elements").push(j.template.expression`passport.initialize()`);
+          p.get("elements").push(j.template.expression`passport.session()`);
+        });
 
       return program.toSource();
     };
