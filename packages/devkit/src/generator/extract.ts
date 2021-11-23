@@ -99,7 +99,7 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
         generatorInfo.subdirectory
       );
 
-      await install(tempDir, null);
+      await install(tempDir, null, false);
 
       const packageJson = requireJSON(generatorInfo.localPackageJsonPath);
 

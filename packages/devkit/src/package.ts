@@ -18,7 +18,8 @@ function mapPackage(p: Package) {
 
 export async function install(
   root: string,
-  dependencies: Package[] | null
+  dependencies: Package[] | null,
+  withStdio: boolean = true
 ): Promise<void> {
   const originalCwd = process.cwd();
   const useYarn = shouldUseYarn();
@@ -39,7 +40,7 @@ export async function install(
       args = useYarn
         ? ["add", "--exact", "--cwd", root, ...deps]
         : ["install", "--save-exact", "--save", ...deps];
-      await runCommand(command, args);
+      await runCommand(command, args, withStdio);
     }
 
     if (devDeps.length) {
@@ -47,27 +48,31 @@ export async function install(
       args = useYarn
         ? ["add", "--exact", "--cwd", root, ...devDeps]
         : ["install", "--save-exact", "--save-dev", ...devDeps];
-      await runCommand(command, args);
+      await runCommand(command, args, withStdio);
     }
 
     if (expoDeps.length) {
       command = "expo";
       args = ["install", ...expoDeps];
-      await runCommand(command, args);
+      await runCommand(command, args, withStdio);
     }
   } else {
     command = useYarn ? "yarnpkg" : "npm";
     args = useYarn ? [] : ["install"];
-    await runCommand(command, args);
+    await runCommand(command, args, withStdio);
   }
 
   process.chdir(originalCwd);
 }
 
-function runCommand(command: string, args: string[]) {
+function runCommand(
+  command: string,
+  args: string[],
+  withStdio: boolean = true
+) {
   return new Promise<void>((resolve, reject) => {
     const child = spawn(command, args, {
-      stdio: "inherit",
+      stdio: withStdio ? "inherit" : "ignore",
       env: { ...process.env, ADBLOCK: "1", DISABLE_OPENCOLLECTIVE: "1" },
     });
 

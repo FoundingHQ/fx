@@ -17,7 +17,7 @@ export const executeGenerator = async (
   generatorOptions: Record<string, any> = {},
   cliOptions: Record<string, any> = {}
 ) => {
-  const dryRun = cliOptions.dryRun || false;
+  const dryRun = cliOptions.dryrun || false;
   const context = createContext();
 
   // Setup generator to assign props to the context

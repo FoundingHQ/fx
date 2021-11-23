@@ -72,6 +72,7 @@ export async function add(
   console.log();
   const { generator } = await extractGenerator(generatorInfo);
   console.log(`Generator installed`);
+  console.log();
 
   console.log(`Running ${chalk.green(feature)} generator`);
   console.log();
