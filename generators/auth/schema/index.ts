@@ -1,13 +1,5 @@
-import accountSchema from "./account";
-import userSchema from "./user";
-import tokenSchema from "./token";
-import tokenTypeEnum from "./tokenType";
-import userRoleEnum from "./userRole";
-
-export default {
-  accountSchema,
-  userSchema,
-  tokenSchema,
-  tokenTypeEnum,
-  userRoleEnum,
-};
+export * as accountSchema from "./account";
+export * as userSchema from "./user";
+export * as tokenSchema from "./token";
+export * as tokenTypeEnum from "./tokenType";
+export * as userRoleEnum from "./userRole";

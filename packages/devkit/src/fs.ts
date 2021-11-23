@@ -104,13 +104,16 @@ export function writeFile(filePath: string, content: string) {
   return fs.writeFileSync(filePath, content);
 }
 
+type Transform = (source: string, context: any) => Promise<string | void>;
+
 export async function runTransforms(
   filePath: string,
-  ...transforms: [(source: string, context: any) => Promise<string>, any?][]
+  ...transforms: [Transform, any?][]
 ) {
   let source = fs.readFileSync(filePath, "utf8");
   for (const [transform, context] of transforms) {
-    source = await transform(source, context);
+    const transformed = await transform(source, context);
+    if (transformed) source = transformed;
   }
   return fs.writeFile(filePath, source);
 }

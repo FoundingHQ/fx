@@ -36,7 +36,7 @@ export async function scaffold({
     process.exit(1);
   }
 
-  console.log(`Creating a new Fx app in ${chalk.green(root)}.`);
+  console.log(`Creating a new FX app in ${chalk.green(root)}.`);
   console.log();
 
   await makeDir(root);

@@ -22,13 +22,14 @@ export async function getOfficialGeneratorList(): Promise<string[]> {
   const res = await Promise.all([
     gotJSON(`${API_ROOT}/foundinghq/fx/git/trees/main?recursive=1`),
     // Need to add access key here to get the list of generators
-    gotJSON(
-      `${API_ROOT}/foundinghq/fx-generators/git/trees/main?recursive=1`
-    ).catch(() => ({ tree: [] })),
+    // gotJSON(
+    //   `${API_ROOT}/foundinghq/fx-generators/git/trees/main?recursive=1`
+    // ).catch(() => ({ tree: [] })),
   ]);
 
   const [publicGenerators, privateGenerators]: GithubRepoAPITrees[] = res;
-  const list = publicGenerators.tree.concat(privateGenerators.tree);
+  // const list = publicGenerators.tree.concat(privateGenerators.tree);
+  const list = publicGenerators.tree;
 
   return list.reduce((generatorList: string[], item) => {
     const filePath = item.path.split("/");

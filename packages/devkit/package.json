@@ -1,7 +1,7 @@
 {
   "name": "@founding/devkit",
   "version": "0.0.6",
-  "description": "Fx app CLI utilities",
+  "description": "Utilities to help create FX Generators",
   "keywords": [],
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "change-case": "^4.1.2",
     "console-table-printer": "^2.10.0",
     "cross-spawn": "^7.0.3",
-    "ejs": "^3.1.6",
+    "eta": "^1.12.3",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
     "got": "^11.8.2",
@@ -46,7 +46,6 @@
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
-    "@types/ejs": "^3.1.0",
     "@types/fs-extra": "^9.0.13",
     "@types/inflection": "^1.13.0",
     "@types/jscodeshift": "^0.11.2",

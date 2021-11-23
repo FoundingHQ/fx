@@ -1,5 +1,6 @@
 /**
- * Helps setup a brand new fx app in your local environment for development.
+ * Helps setup a brand new FX project in your local environment
+ * for development.
  */
 import { execSync } from "child_process";
 import rimraf from "rimraf";
@@ -10,10 +11,10 @@ execSync(`npx lerna run --scope @founding/template docker:stop`, {
 });
 
 const removeFolders = ["packages/local"];
-console.log(`Removing local fx app...`, removeFolders);
+console.log(`Removing local FX project...`, removeFolders);
 removeFolders.forEach((folder) => rimraf.sync(folder));
 
-console.log(`Adding new local fx app...`);
+console.log(`Adding new local FX project...`);
 execSync(`npx create-fx-app@latest packages/local --skipInstall`, {
   stdio: "inherit",
 });

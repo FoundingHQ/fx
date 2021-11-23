@@ -7,7 +7,9 @@ export async function list() {
   console.log(`  ${featureList.map((f) => `- ${f}`).join("\n  ")}`);
   console.log();
   console.log(
-    `You can add features to your fx app with ${chalk.cyan(`fx add <feature>`)}`
+    `You can add features to your FX project with ${chalk.cyan(
+      `fx add <feature>`
+    )}`
   );
   console.log();
 }

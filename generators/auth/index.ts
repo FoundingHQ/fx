@@ -13,7 +13,7 @@ import {
   prompts,
 } from "@founding/devkit";
 import * as config from "./config";
-import schemas from "./schema";
+import * as schemas from "./schema";
 
 type Props = {
   type: keyof typeof config.authTypeConfig;

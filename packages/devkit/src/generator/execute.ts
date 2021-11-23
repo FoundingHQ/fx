@@ -4,7 +4,7 @@ import {
   convertTemplateSrcPaths,
   createContext,
 } from "../context";
-import { getEjsTransform } from "../ejs";
+import { getEtaTransform } from "../eta";
 import { copy, getFiles, runTransforms } from "../fs";
 import { install } from "../package";
 import { getPrettierTransform } from "../prettier";
@@ -83,7 +83,7 @@ export const executeGenerator = async (
         );
         await runTransforms(
           filePath,
-          [getEjsTransform(filePath), context],
+          [getEtaTransform(filePath), context],
           [getPrettierTransform(filePath)]
         );
       }

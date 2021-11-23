@@ -93,7 +93,7 @@ const generator: Generator<Props> = {
     return [];
   },
   async codemods({ props: { stack, name }, config: { platforms }, paths }) {
-    if (stack === "api" || !platforms.includes("mobile")) return;
+    if (stack === "api" || !platforms.includes("expo")) return;
 
     console.log("Running codemod on `expo/App.tsx`");
     const handlerPath = join(paths.mobile, "App.tsx");

@@ -45,9 +45,9 @@ const helpers = {
   changeCase,
 };
 
-type Platforms = "web" | "mobile";
-type Language = "typescript" | "javascript";
-type Theme = "skeleton";
+export type Platforms = "next" | "expo";
+export type Language = "typescript" | "javascript";
+export type Theme = "skeleton";
 
 export type Context<T = {}> = {
   props: T;
@@ -73,12 +73,12 @@ export type Context<T = {}> = {
 
 export const createContext = () => {
   // Context is currently hardcoded but should be configurable with
-  // `fxconfig.json`
+  // `fx.config.js`
   const context: Context = {
     props: {},
     paths: {
       root: cwd,
-      config: resolve(cwd, "fxconfig.json"),
+      config: resolve(cwd, "fx.config.js"),
       packageJson: resolve(cwd, "package.json"),
       scheme: resolve(cwd, "prisma/schema.prisma"),
       lib: resolve(cwd, "lib"),
@@ -90,16 +90,17 @@ export const createContext = () => {
     },
     config: {
       platforms: (() => {
-        const p: Platforms[] = ["web"];
+        const p: Platforms[] = [];
         const packageJson = fs.readJSONSync(resolve(cwd, "package.json"));
-        if (packageJson["dependencies"]["react-native"]) p.push("mobile");
+        if (packageJson["dependencies"]["next"]) p.push("next");
+        if (packageJson["dependencies"]["expo"]) p.push("expo");
         return p;
       })(),
       language: (() => {
-        let language: Language = "javascript";
-        if (fs.existsSync(resolve(cwd, "tsconfig.json")))
-          language = "typescript";
-        return language;
+        const l: Language = fs.existsSync(resolve(cwd, "tsconfig.json"))
+          ? "typescript"
+          : "javascript";
+        return l;
       })(),
       theme: "skeleton",
     },
@@ -129,6 +130,6 @@ export const convertTemplateDestPaths = (
   context: Context
 ) => {
   const dest = resolve(root, interpolate(path, context));
-  if (dest.endsWith(".ejs")) return dest.slice(0, -4);
+  if (dest.endsWith(".ejs") || dest.endsWith(".eta")) return dest.slice(0, -4);
   return dest;
 };
