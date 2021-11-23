@@ -2,7 +2,7 @@ export * from "./config";
 export * from "./context";
 export * from "./db";
 export * from "./docker";
-export * from "./eta";
+export * from "./ejs";
 export * from "./error";
 export * from "./fs";
 export * from "./generator";
