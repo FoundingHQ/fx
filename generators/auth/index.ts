@@ -40,6 +40,7 @@ const generator: Generator<Props> = {
             description:
               "Stateless client side sessions. Best used for high such as consumer apps",
             value: "jwt",
+            disabled: true,
           },
         ],
       },
@@ -101,25 +102,24 @@ const generator: Generator<Props> = {
     console.log("Running codemod on `lib/core/server/handler.ts`");
     const handlerPath = join(paths.libCore, "server/handler.ts");
     const handlerTransform = async (source: string) => {
-      let { program, j } = createJscodeshiftProgram(source);
-      addImport(
-        program,
-        j.template
-          .statement`import { sessionMiddleware } from "@lib/auth/server/middlewares/session";`
-      );
-      addImport(
-        program,
-        j.template
-          .statement`import { passport } from "@lib/auth/server/middlewares/passport";`
-      );
+      const { program, j } = createJscodeshiftProgram(source);
+      const sessionImport = j.template
+        .statement`import { sessionMiddleware } from "@lib/auth/server/middlewares/session";`;
+      const passportImport = j.template
+        .statement`import { passport } from "@lib/auth/server/middlewares/passport";`;
+
+      addImport(program, sessionImport);
+      addImport(program, passportImport);
 
       program
         .find(j.VariableDeclarator, { id: { name: "middlewares" } })
         .find(j.ArrayExpression)
         .forEach((p) => {
-          p.get("elements").push(j.template.expression`sessionMiddleware`);
-          p.get("elements").push(j.template.expression`passport.initialize()`);
-          p.get("elements").push(j.template.expression`passport.session()`);
+          p.get("elements").push(
+            j.template.expression`sessionMiddleware`,
+            j.template.expression`passport.initialize()`,
+            j.template.expression`passport.session()`
+          );
         });
 
       return program.toSource();
