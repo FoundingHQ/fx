@@ -34,7 +34,7 @@
     "got": "^11.8.2",
     "inflection": "^1.13.1",
     "jscodeshift": "^0.13.0",
-    "ora": "^6.0.1",
+    "ora": "^5.4.1",
     "prettier": "^2.4.1",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
@@ -63,5 +63,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "68b2693af7870beb1c1c09c931ea91e6cb323070"
+  "gitHead": "f9917054051cb10d2b1ded77ebfbd86d61d86369"
 }
