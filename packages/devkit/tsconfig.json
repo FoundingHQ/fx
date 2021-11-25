@@ -1,16 +1,5 @@
 {
-  "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2020",
-    "moduleResolution": "node",
-    "strict": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": false,
-    "declaration": true,
-    "outDir": "./dist"
-  },
+  "extends": "../../tsconfig.json",
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

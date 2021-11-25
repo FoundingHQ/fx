@@ -1,13 +1,5 @@
 {
-  "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2020",
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": false
-  },
+  "extends": "../../tsconfig.json",
   "include": ["*/**/*.ts"],
   "exclude": ["node_modules", "templates"]
 }

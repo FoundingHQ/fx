@@ -17,11 +17,12 @@
     "dist"
   ],
   "scripts": {
-    "cli": "node -r ts-node/register src/fx.ts",
-    "dev": "tsc --watch",
-    "clean": "rimraf ./dist/",
-    "prebuild": "rimraf ./dist/",
-    "build": "tsc",
+    "cli": "esno src/fx.ts",
+    "cli:prod": "node dist/fx",
+    "dev": "npm run build -- --watch",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "tsup-node src/fx.ts --format cjs",
     "prepublish": "npm run build"
   },
   "dependencies": {

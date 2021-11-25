@@ -27,7 +27,7 @@ export async function getOfficialGeneratorList(): Promise<string[]> {
     // ).catch(() => ({ tree: [] })),
   ]);
 
-  const [publicGenerators, privateGenerators]: GithubRepoAPITrees[] = res;
+  const [publicGenerators, _privateGenerators]: GithubRepoAPITrees[] = res;
   // const list = publicGenerators.tree.concat(privateGenerators.tree);
   const list = publicGenerators.tree;
 

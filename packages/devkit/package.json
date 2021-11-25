@@ -10,16 +10,21 @@
   },
   "license": "MIT",
   "author": "@FoundingHQ",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "tsc --watch",
-    "clean": "rimraf ./dist/",
-    "prebuild": "rimraf ./dist/",
-    "build": "tsc",
+    "dev": "npm run build -- --watch",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "tsup-node src/index.ts --format cjs,esm --dts",
     "prepublish": "npm run build"
   },
   "dependencies": {
