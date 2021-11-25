@@ -2,10 +2,12 @@
 import { resolve } from "path";
 import { Command } from "commander";
 import { chalk, readJson, checkAndNotifyUpdates } from "@founding/devkit";
+
+import { init } from "./commands/init";
 import { list } from "./commands/list";
 import { add } from "./commands/add";
 import { remove } from "./commands/remove";
-import { bootstrap } from "./commands/bootstrap";
+import { preset } from "./commands/preset";
 
 const program = new Command();
 const packageJson = readJson(resolve(__dirname, "../package.json"));
@@ -16,6 +18,12 @@ async function main() {
     .description(
       "CLI tool to add/remove prebuilt features to a Next.js project"
     );
+
+  program
+    .command("init")
+    .description("converts a project to be compatible with FX features")
+    .allowUnknownOption()
+    .action(init);
 
   program
     .command("list")
@@ -67,7 +75,7 @@ async function main() {
     .action(remove);
 
   program
-    .command("bootstrap")
+    .command("preset")
     .description("bootstrap a new project with a preset")
     .argument(
       "[preset]",
@@ -77,10 +85,10 @@ async function main() {
     )
     .option(
       "-n, --dryrun",
-      "print outputs of bootstrapping a project without running the command"
+      "print outputs of executing a preset without running the command"
     )
     .allowUnknownOption()
-    .action(bootstrap);
+    .action(preset);
 
   try {
     await program.parseAsync(process.argv);

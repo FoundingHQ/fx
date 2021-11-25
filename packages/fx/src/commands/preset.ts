@@ -1,3 +1,3 @@
-export function bootstrap(presetName: string) {
+export function preset(presetName: string) {
   console.log(`Bootstrapping preset: ${presetName}`);
 }
