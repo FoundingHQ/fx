@@ -28,7 +28,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@mrleebo/prisma-ast": "^0.2.5",
+    "@mrleebo/prisma-ast": "^0.2.6",
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",
     "console-table-printer": "^2.10.0",
@@ -36,7 +36,7 @@
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
-    "got": "^11.8.2",
+    "got": "^11.8.3",
     "inflection": "^1.13.1",
     "jscodeshift": "^0.13.0",
     "ora": "^5.4.1",
@@ -54,12 +54,12 @@
     "@types/ejs": "^3.1.0",
     "@types/fs-extra": "^9.0.13",
     "@types/inflection": "^1.13.0",
-    "@types/jscodeshift": "^0.11.2",
-    "@types/node": "^16.11.6",
-    "@types/prettier": "^2.4.1",
+    "@types/jscodeshift": "^0.11.3",
+    "@types/node": "^16.11.10",
+    "@types/prettier": "^2.4.2",
     "@types/prompts": "^2.0.14",
     "@types/rimraf": "^3.0.2",
-    "@types/tar": "^6.1.0",
+    "@types/tar": "^6.1.1",
     "@types/validate-npm-package-name": "^3.0.3"
   },
   "engines": {
