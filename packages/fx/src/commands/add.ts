@@ -1,5 +1,4 @@
 import {
-  chalk,
   prompts,
   getOfficialGeneratorList,
   normalizeGeneratorPath,
@@ -7,6 +6,7 @@ import {
   extractGenerator,
   executeGenerator,
   removeDir,
+  logger,
 } from "@founding/devkit";
 import { parseArgs } from "../utils/args";
 
@@ -31,19 +31,27 @@ export async function add(
 
     if (res.feature) {
       feature = res.feature;
-      console.log();
+      logger.newLine();
     }
   }
 
   if (feature.length === 0) {
-    console.log();
-    console.log("Please specify the feature to add:");
-    console.log(`  ${chalk.cyan("npx fx add")} ${chalk.green("[feature]")}`);
-    console.log();
-    console.log("For example:");
-    console.log(`  ${chalk.cyan("npx fx add")} ${chalk.green("auth")}`);
-    console.log();
-    console.log(`Run ${chalk.cyan(`npx fx add --help`)} to see all options.`);
+    logger.newLine();
+    logger.log("Please specify the feature to add:");
+    logger.log(
+      `${logger.withCommand("npx fx add")} ${logger.withVariable("[feature]")}`,
+      1
+    );
+    logger.newLine();
+    logger.log("For example:");
+    logger.log(
+      `${logger.withCommand("npx fx add")} ${logger.withVariable("auth")}`,
+      1
+    );
+    logger.newLine();
+    logger.log(
+      `Run ${logger.withCommand(`npx fx add --help`)} to see all options.`
+    );
     process.exit(1);
   }
 
@@ -68,14 +76,13 @@ export async function add(
    *
    * The extracted generator is placed in a temporary directory (if remote)
    **/
-  console.log(`Installing ${chalk.green(feature)} generator`);
-  console.log();
+  const spinner = logger.spinner(
+    `Installing ${logger.withVariable(feature)} generator`
+  );
   const { generator } = await extractGenerator(generatorInfo);
-  console.log(`Generator installed`);
-  console.log();
+  spinner.succeed(`Generator installed`);
 
-  console.log(`Running ${chalk.green(feature)} generator`);
-  console.log();
+  logger.success(`Running ${logger.withVariable(feature)} generator`);
   await executeGenerator(generatorInfo, generator, generatorOptions, options);
 
   if (generatorInfo.location === GeneratorLocation.Remote) {
@@ -83,8 +90,8 @@ export async function add(
     removeDir(generatorInfo.localRootPath);
   }
 
-  console.log(
-    `${chalk.green("Success!")} Your ${chalk.green(
+  logger.success(
+    `${logger.withVariable("Success!")} Your ${logger.withVariable(
       feature
     )} feature has been scaffolded.`
   );

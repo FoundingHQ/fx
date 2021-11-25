@@ -2,7 +2,7 @@ import { readFileSync } from "fs-extra";
 import { join, resolve, dirname } from "path";
 import chalk from "chalk";
 import { Generator, GeneratorMeta, GeneratorLocation } from "./types";
-import { setupTsnode } from "../tsnode";
+import { setupTsTranspiler } from "../ts-transpiler";
 import { gotJSON, isUrlValid } from "../network";
 import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../config";
 import { install } from "../package";
@@ -63,7 +63,7 @@ const requireJSON = (file: string) => {
 
 export async function extractGenerator(generatorInfo: GeneratorMeta) {
   // Since the generator may be a .ts file, we need to setup a tsnode runtime
-  setupTsnode();
+  setupTsTranspiler();
 
   if (generatorInfo.location === GeneratorLocation.Remote) {
     const apiUrl = generatorInfo.path.replace(GH_ROOT, API_ROOT);
