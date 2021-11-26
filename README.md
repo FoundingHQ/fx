@@ -2,10 +2,10 @@
 
 Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) project 💾
 
-![npm (scoped)](https://img.shields.io/npm/v/@founding/fx)
-![npm](https://img.shields.io/npm/dm/@founding/fx)
-![GitHub last commit](https://img.shields.io/github/last-commit/foundinghq/fx)
-![https://discord.gg/YtafKzR](https://img.shields.io/badge/Discord-Join%20Chat-%237289DA)
+[![npm (scoped)](https://img.shields.io/npm/v/@founding/fx)](https://www.npmjs.com/package/@founding/fx)
+[![npm](https://img.shields.io/npm/dm/@founding/fx)](https://www.npmjs.com/package/@founding/fx)
+[![GitHub last commit](https://img.shields.io/github/last-commit/foundinghq/fx)](https://github.com/foundinghq/fx)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-%237289DA)](https://discord.gg/YtafKzR)
 
 ## Overview
 
