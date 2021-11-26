@@ -1,4 +1,4 @@
-<img src="./docs/public/logo.svg" alt="fx logo" width="100">
+<img src="./docs/public/logo.svg" alt="fx logo" width="130">
 
 Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) project 💾
 
