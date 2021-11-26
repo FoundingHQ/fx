@@ -11,7 +11,7 @@ Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) pro
 
 FX was born out of my own frustration with starting and building new applications. Why am I spending so much time glueing together standard libraries and rewriting features? Why are all these tutorials outdated? And why are these boilerplates so complicated?
 
-FX tries to resolve this by allowing you to scaffold features directly into a blank project.
+**FX tries to resolve this by allowing you to scaffold features directly into a blank project.**
 
 This project hopes to pursue:
 
@@ -70,6 +70,13 @@ Current supported frameworks:
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 
 ## FAQ
+
+<details>
+  <summary>
+    <span>FX vs Boilerplates</span>
+  </summary>
+  <p style="margin-top:8px">[TODO]</p>
+</details>
 
 <details>
   <summary>
