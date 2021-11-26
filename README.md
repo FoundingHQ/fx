@@ -18,6 +18,7 @@ This project hopes to pursue:
 🔨 &nbsp; Fully transparent source code generation with **_no black boxes_**<br>
 📦 &nbsp; Generated features **_just work_** out of the box. No manual intervention required<br>
 🧳 &nbsp; No runtime dependency on FX, all it does is scaffold<br>
+📚 &nbsp; Anything generated is also documented<br>
 💄 &nbsp; Features are headless by default and assumes no prior project dependencies<br>
 🔗 &nbsp; Each feature is fully compatible with one another<br>
 📱 &nbsp; [Code share]() between your web and native applications<br>
