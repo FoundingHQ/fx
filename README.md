@@ -5,7 +5,7 @@ Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) pro
 ![npm (scoped)](https://img.shields.io/npm/v/@founding/fx)
 ![npm](https://img.shields.io/npm/dm/@founding/fx)
 ![GitHub last commit](https://img.shields.io/github/last-commit/foundinghq/fx)
-![Discord](https://img.shields.io/discord/700226840823857232)
+![https://discord.gg/YtafKzR](https://img.shields.io/badge/Discord-Join%20Chat-%237289DA)
 
 ## Overview
 
