@@ -1,6 +1,6 @@
 <img src="./docs/public/logo.svg" alt="fx logo" width="100">
 
-Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) projects 💾
+Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) project 💾
 
 ![npm (scoped)](https://img.shields.io/npm/v/@founding/fx)
 ![npm](https://img.shields.io/npm/dm/@founding/fx)
@@ -9,15 +9,20 @@ Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) pro
 
 ## Overview
 
-FX was born out of our own frustration... [TODO]:
+FX was born out of my own frustration with starting and building new applications. Why am I spending so much time glueing together standard libraries and rewriting features? Why are all these tutorials outdated? And why are these boilerplates so complicated?
+
+FX tries to resolve this by allowing you to scaffold features directly into a blank project.
+
+This project hopes to pursue:
 
 🔨 &nbsp; Fully transparent source code generation with **_no black boxes_**<br>
-📦 &nbsp; No runtime dependency on FX, all it does is [scaffold]()<br>
-💄 &nbsp; Features are headless by default and assumes no dependencies<br>
+📦 &nbsp; Generated features **_just work_** out of the box. No manual intervention required<br>
+🧳 &nbsp; No runtime dependency on FX, all it does is scaffold<br>
+💄 &nbsp; Features are headless by default and assumes no prior project dependencies<br>
+🔗 &nbsp; Each feature is fully compatible with one another<br>
 📱 &nbsp; [Code share]() between your web and native applications<br>
-🔩 &nbsp; Out-of-the-box support for both JavaScript and TypeScript<br>
+🔩 &nbsp; Support for both JavaScript and TypeScript<br>
 ⚡️ &nbsp; Build fully featured applications in lightning speed<br>
-🏎 &nbsp; Or start off with a production ready application using [presets]()<br>
 
 ## Quickstart
 
@@ -43,7 +48,7 @@ npx fx init
 _TODO: Replace this gif with a FX one_
 <img width="600" src="https://user-images.githubusercontent.com/105127/100917537-4661e100-34a5-11eb-89bd-565b7bc31919.gif" alt="illustration of fx">
 
-[Full docs page coming soon]()
+> 📄 Full docs page coming soon
 
 ## Features
 
