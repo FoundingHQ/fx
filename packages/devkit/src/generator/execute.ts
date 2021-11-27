@@ -7,7 +7,6 @@ import {
 import { getEjsTransform } from "../ejs";
 import { copy, getFiles, runTransforms } from "../fs";
 import { install } from "../package";
-import { getPrettierTransform } from "../prettier";
 import { throwHandledError } from "../error";
 import { Generator, GeneratorMeta } from "./types";
 
@@ -81,11 +80,7 @@ export const executeGenerator = async (
         console.log(
           `▶ Generated ${chalk.green(filePath.replace(context.paths.root, ""))}`
         );
-        await runTransforms(
-          filePath,
-          [getEjsTransform(filePath), context],
-          [getPrettierTransform(filePath)]
-        );
+        await runTransforms(filePath, [getEjsTransform(filePath), context]);
       }
     }
     console.log();

@@ -76,13 +76,12 @@ export async function add(
    *
    * The extracted generator is placed in a temporary directory (if remote)
    **/
-  const spinner = logger.spinner(
-    `Installing ${logger.withVariable(feature)} generator`
-  );
+  const generatorName = logger.withVariable(feature);
+  const spinner = logger.spinner(`Installing ${generatorName} generator`);
   const { generator } = await extractGenerator(generatorInfo);
   spinner.succeed(`Generator installed`);
 
-  logger.success(`Running ${logger.withVariable(feature)} generator`);
+  logger.success(`Running ${generatorName} generator`);
   await executeGenerator(generatorInfo, generator, generatorOptions, options);
 
   if (generatorInfo.location === GeneratorLocation.Remote) {

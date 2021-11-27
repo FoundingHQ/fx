@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { resolve } from "path";
 import { Command } from "commander";
-import { chalk, readJson, checkAndNotifyUpdates } from "@founding/devkit";
+import { chalk, checkAndNotifyUpdates } from "@founding/devkit";
 
+import packageJson from "../package.json";
 import { init } from "./commands/init";
 import { list } from "./commands/list";
 import { add } from "./commands/add";
@@ -10,7 +10,6 @@ import { remove } from "./commands/remove";
 import { preset } from "./commands/preset";
 
 const program = new Command();
-const packageJson = readJson(resolve(__dirname, "../package.json"));
 
 async function main() {
   program

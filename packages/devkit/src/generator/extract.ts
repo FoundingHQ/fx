@@ -1,4 +1,4 @@
-import { readFileSync } from "fs-extra";
+import fs from "fs-extra";
 import { join, resolve, dirname } from "path";
 import chalk from "chalk";
 import { Generator, GeneratorMeta, GeneratorLocation } from "./types";
@@ -58,7 +58,7 @@ export function normalizeGeneratorPath(feature: string): GeneratorMeta {
 }
 
 const requireJSON = (file: string) => {
-  return JSON.parse(readFileSync(file).toString("utf-8"));
+  return JSON.parse(fs.readFileSync(file).toString("utf-8"));
 };
 
 export async function extractGenerator(generatorInfo: GeneratorMeta) {
@@ -111,16 +111,14 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
       }
 
       const generatorEntry = resolve(tempDir, packageJson.main);
-      return {
-        generator: require(generatorEntry).default as Generator,
-        packageJson,
-      };
+      const generator: Generator = require(generatorEntry).default;
+
+      return { generator, packageJson };
     }
   } else {
     const generatorEntry = resolve(cwd, generatorInfo.path);
-    return {
-      generator: require(generatorEntry).default as Generator,
-      packageJson: {},
-    };
+    const generator: Generator = require(generatorEntry).default;
+
+    return { generator, packageJson: {} };
   }
 }

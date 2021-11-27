@@ -6,7 +6,6 @@ import {
   addPrismaEnum,
   createJscodeshiftProgram,
   addImport,
-  getPrettierTransform,
   startDocker,
   runMigrations,
   sleep,
@@ -124,11 +123,7 @@ const generator: Generator<Props> = {
 
       return program.toSource();
     };
-    await runTransforms(
-      handlerPath,
-      [handlerTransform],
-      [getPrettierTransform(handlerPath)]
-    );
+    await runTransforms(handlerPath, [handlerTransform]);
     console.log();
     console.log("Running codemod on `prisma/schema.prisma`");
     await runTransforms(

@@ -6,7 +6,6 @@ import {
   prompts,
   addImport,
   createJscodeshiftProgram,
-  getPrettierTransform,
   runTransforms,
 } from "@founding/devkit";
 import * as config from "./config";
@@ -122,11 +121,7 @@ const generator: Generator<Props> = {
       return program.toSource();
     };
 
-    await runTransforms(
-      handlerPath,
-      [handlerTransform],
-      [getPrettierTransform(handlerPath)]
-    );
+    await runTransforms(handlerPath, [handlerTransform]);
   },
   async finish() {},
   async uninstall() {

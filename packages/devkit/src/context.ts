@@ -1,47 +1,15 @@
-import * as changeCase from "change-case";
-import {
-  indexOf,
-  pluralize,
-  singularize,
-  inflect,
-  camelize,
-  underscore,
-  humanize,
-  capitalize,
-  dasherize,
-  titleize,
-  demodulize,
-  tableize,
-  classify,
-  foreign_key,
-  ordinalize,
-  transform,
-} from "inflection";
 import fs from "fs-extra";
 import { resolve } from "path";
 import { cwd } from "./config";
 
+const inflection = require("inflection");
+const changeCase = require("change-case");
+
 const helpers = {
-  pluralizedCamelCase: (s: string) => changeCase.camelCase(pluralize(s)),
+  pluralizedCamelCase: (s: string) =>
+    changeCase.camelCase(inflection.pluralize(s)),
   capitalize: (s: string) => s.charAt(0).toUpperCase() + s.slice(1),
-  inflection: {
-    indexOf,
-    pluralize,
-    singularize,
-    inflect,
-    camelize,
-    underscore,
-    humanize,
-    capitalize,
-    dasherize,
-    titleize,
-    demodulize,
-    tableize,
-    classify,
-    foreign_key,
-    ordinalize,
-    transform,
-  },
+  inflection,
   changeCase,
 };
 

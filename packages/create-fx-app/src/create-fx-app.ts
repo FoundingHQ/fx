@@ -2,15 +2,13 @@
 import { resolve, basename } from "path";
 import { Command } from "commander";
 import {
-  readJson,
   chalk,
   prompts,
   validateNpmName,
   checkAndNotifyUpdates,
 } from "@founding/devkit";
 import { scaffold } from "./scaffold";
-
-const packageJson = readJson(resolve(__dirname, "../package.json"));
+import packageJson from "../package.json";
 
 const program = new Command();
 
