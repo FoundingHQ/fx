@@ -7,23 +7,34 @@ Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) pro
 [![GitHub last commit](https://img.shields.io/github/last-commit/foundinghq/fx)](https://github.com/foundinghq/fx)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-%237289DA)](https://discord.gg/YtafKzR)
 
+It's as easy as:
+
+```bash
+npx fx add auth
+# ???
+# username/password authentication with google login done
+npx fx add payments
+# ???
+# stripe integration done
+
+# `git diff` to see exact changes FX has made
+```
+
 ## Overview
 
 FX was born out of my own frustration with starting and building new applications. Why am I spending so much time glueing together standard libraries and rewriting features? Why are all these tutorials outdated? And why are these boilerplates so complicated?
 
 **FX tries to resolve this by allowing you to scaffold features directly into a blank project.**
 
-This project hopes to pursue:
-
-🔨 &nbsp; Fully transparent source code generation with **_no black boxes_**<br>
-📦 &nbsp; Generated features **_just work_** out of the box. No manual intervention required<br>
-🧳 &nbsp; No runtime dependency on FX, all it does is scaffold<br>
-📚 &nbsp; Anything generated is also documented<br>
-💄 &nbsp; Features are headless by default and assumes no prior project dependencies<br>
-🔗 &nbsp; Each feature is fully compatible with one another<br>
-📱 &nbsp; [Code share]() between your web and native applications<br>
-🔩 &nbsp; Support for both JavaScript and TypeScript<br>
-⚡️ &nbsp; Build fully featured applications in lightning speed<br>
+- 🔨 &nbsp; Fully transparent source code generation with **_no black boxes_**
+- 📦 &nbsp; Generated features **_just work_** out of the box. No manual intervention required
+- 🧳 &nbsp; No runtime dependency on FX, all it does is scaffold
+- 📚 &nbsp; Anything generated is also documented
+- 💄 &nbsp; Features are headless by default and assumes no prior project dependencies
+- 🔗 &nbsp; Each feature is fully compatible with one another
+- 📱 &nbsp; [Code share]() between your web and native applications
+- 🔩 &nbsp; Support for both JavaScript and TypeScript
+- ⚡️ &nbsp; Build fully featured applications in lightning speed
 
 ## Quickstart
 
