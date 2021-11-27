@@ -5,6 +5,7 @@ generated
 schema.gql
 uploads
 uploads_test
+.parcel-cache
 
 # testing
 coverage

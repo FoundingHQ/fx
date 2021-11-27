@@ -10,21 +10,18 @@
   },
   "license": "MIT",
   "author": "@FoundingHQ",
+  "source": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
-  "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
-  },
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "npm run build -- --watch",
+    "dev": "parcel watch",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "tsup-node src/index.ts --format cjs,esm --dts",
+    "build": "parcel build",
     "prepublish": "npm run build"
   },
   "dependencies": {

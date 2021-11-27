@@ -10,6 +10,8 @@
   },
   "author": "@FoundingHQ",
   "license": "MIT",
+  "source": "./src/fx.ts",
+  "main": "./dist/fx.js",
   "bin": {
     "fx": "./dist/fx.js"
   },
@@ -17,12 +19,12 @@
     "dist"
   ],
   "scripts": {
-    "cli": "esno src/fx.ts",
+    "cli": "ts-node src/fx.ts",
     "cli:prod": "node dist/fx",
-    "dev": "npm run build -- --watch",
+    "dev": "parcel watch",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "tsup-node src/fx.ts --format cjs",
+    "build": "parcel build",
     "prepublish": "npm run build"
   },
   "dependencies": {

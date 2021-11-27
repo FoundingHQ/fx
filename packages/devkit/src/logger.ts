@@ -3,8 +3,6 @@ import { Table } from "console-table-printer";
 import ora from "ora";
 import readline from "readline";
 
-const debug = require("debug")("fx");
-
 export const table = Table;
 export const chalk = c;
 
@@ -85,6 +83,5 @@ export const logger = {
   newLine() {
     console.log();
   },
-  debug,
   table,
 };
