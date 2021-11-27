@@ -10,13 +10,13 @@ import {
 } from "@founding/devkit";
 import { tryGitInit } from "./util/git";
 
-export async function scaffold({
+export const scaffold = async ({
   appPath,
   skipInstall,
 }: {
   appPath: string;
   skipInstall?: boolean;
-}): Promise<void> {
+}) => {
   const root = path.resolve(appPath);
 
   if (!(await isWriteable(path.dirname(root)))) {
@@ -99,4 +99,4 @@ export async function scaffold({
   console.log(`  ${chalk.cyan(`npm run prisma:migrate:dev`)}`);
   console.log(`  ${chalk.cyan(`npm run dev`)}`);
   console.log();
-}
+};

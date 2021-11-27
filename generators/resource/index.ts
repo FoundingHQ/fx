@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 import { join } from "path";
 import { getSchema, Model } from "@mrleebo/prisma-ast";
 import {

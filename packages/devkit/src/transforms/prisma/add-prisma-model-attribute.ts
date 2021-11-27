@@ -19,12 +19,12 @@ import { produceSchema } from "./produce-schema";
  * });
  * ```
  */
-export function addPrismaModelAttribute(
+export const addPrismaModelAttribute = (
   source: string,
   modelName: string,
   attributeProps: ModelAttribute
-): Promise<string> {
-  return produceSchema(source, (schema) => {
+) =>
+  produceSchema(source, (schema) => {
     const model = schema.list.find(
       (x) => x.type === "model" && x.name === modelName
     ) as Model;
@@ -38,4 +38,3 @@ export function addPrismaModelAttribute(
       ? Object.assign(existing, attributeProps)
       : model.properties.push(attributeProps);
   });
-}

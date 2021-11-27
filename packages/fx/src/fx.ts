@@ -11,7 +11,7 @@ import { preset } from "./commands/preset";
 
 const program = new Command();
 
-async function main() {
+const main = async () => {
   program
     .version(packageJson.version)
     .description(
@@ -110,6 +110,6 @@ async function main() {
 
     process.exit(1);
   }
-}
+};
 
 main();

@@ -23,14 +23,13 @@ import { produceSchema } from "./produce-schema";
     })
  * ```
  */
-export function setPrismaDataSource(
+export const setPrismaDataSource = (
   source: string,
   datasourceProps: Datasource
-): Promise<string> {
-  return produceSchema(source, (schema) => {
+) =>
+  produceSchema(source, (schema) => {
     const existing = schema.list.find((x) => x.type === "datasource");
     existing
       ? Object.assign(existing, datasourceProps)
       : schema.list.push(datasourceProps);
   });
-}

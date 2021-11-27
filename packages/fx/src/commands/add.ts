@@ -10,11 +10,11 @@ import {
 } from "@founding/devkit";
 import { parseArgs } from "../utils/args";
 
-export async function add(
+export const add = async (
   feature: string = "",
   args: string[] = [],
   options: Record<string, any> = {}
-) {
+) => {
   // Prompt user for the generator to add if they didn't specify one
   if (!feature) {
     const officialFeatures = await getOfficialGeneratorList();
@@ -94,4 +94,4 @@ export async function add(
       feature
     )} feature has been scaffolded.`
   );
-}
+};

@@ -16,11 +16,8 @@ import { produceSchema } from "./produce-schema";
     })
  * ```
  */
-export function addPrismaModel(
-  source: string,
-  modelProps: Model
-): Promise<string> {
-  return produceSchema(source, (schema) => {
+export const addPrismaModel = (source: string, modelProps: Model) =>
+  produceSchema(source, (schema) => {
     const existing = schema.list.find(
       (x) => x.type === "model" && x.name === modelProps.name
     );
@@ -28,4 +25,3 @@ export function addPrismaModel(
       ? Object.assign(existing, modelProps)
       : schema.list.push(modelProps);
   });
-}

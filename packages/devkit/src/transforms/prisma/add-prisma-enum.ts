@@ -19,14 +19,10 @@ import { produceSchema } from "./produce-schema";
     })
  * ```
  */
-export function addPrismaEnum(
-  source: string,
-  enumProps: Enum
-): Promise<string> {
-  return produceSchema(source, (schema) => {
+export const addPrismaEnum = (source: string, enumProps: Enum) =>
+  produceSchema(source, (schema) => {
     const existing = schema.list.find(
       (x) => x.type === "enum" && x.name === enumProps.name
     );
     existing ? Object.assign(existing, enumProps) : schema.list.push(enumProps);
   });
-}

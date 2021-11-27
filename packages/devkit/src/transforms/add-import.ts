@@ -1,10 +1,10 @@
 import j from "jscodeshift";
 import { Collection } from "jscodeshift/src/Collection";
 
-export function addImport(
+export const addImport = (
   program: Collection<j.Program>,
   importToAdd: j.ImportDeclaration
-): Collection<j.Program> {
+) => {
   const importStatementCount = program.find(j.ImportDeclaration).length;
 
   if (importStatementCount === 0) {
@@ -29,4 +29,4 @@ export function addImport(
   } catch (e) {}
 
   return program;
-}
+};

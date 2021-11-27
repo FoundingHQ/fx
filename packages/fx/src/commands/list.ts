@@ -1,6 +1,6 @@
 import { chalk, getOfficialGeneratorList } from "@founding/devkit";
 
-export async function list() {
+export const list = async () => {
   const featureList = await getOfficialGeneratorList();
 
   console.log(chalk.bold(`Available Features:`));
@@ -12,4 +12,4 @@ export async function list() {
     )}`
   );
   console.log();
-}
+};

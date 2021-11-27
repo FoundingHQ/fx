@@ -16,11 +16,8 @@ import { produceSchema } from "./produce-schema";
     })
  * ```
  */
-export function addPrismaGenerator(
-  source: string,
-  generatorProps: Generator
-): Promise<string> {
-  return produceSchema(source, (schema) => {
+export const addPrismaGenerator = (source: string, generatorProps: Generator) =>
+  produceSchema(source, (schema) => {
     const existing = schema.list.find(
       (x) => x.type === "generator" && x.name === generatorProps.name
     ) as Generator;
@@ -28,4 +25,3 @@ export function addPrismaGenerator(
       ? Object.assign(existing, generatorProps)
       : schema.list.push(generatorProps);
   });
-}

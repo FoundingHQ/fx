@@ -19,12 +19,12 @@ import { produceSchema } from "./produce-schema";
     })
  * ```
  */
-export function addPrismaField(
+export const addPrismaField = (
   source: string,
   modelName: string,
   fieldProps: Field
-): Promise<string> {
-  return produceSchema(source, (schema) => {
+) =>
+  produceSchema(source, (schema) => {
     const model = schema.list.find(
       (x) => x.type === "model" && x.name === modelName
     ) as Model;
@@ -37,4 +37,3 @@ export function addPrismaField(
       ? Object.assign(existing, fieldProps)
       : model.properties.push(fieldProps);
   });
-}

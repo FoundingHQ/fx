@@ -11,16 +11,16 @@ export type Package = {
   isExpoDep?: boolean;
 };
 
-function mapPackage(p: Package) {
+const mapPackage = (p: Package) => {
   if (!p.version) return p.name;
   return `${p.name}@${p.version}`;
-}
+};
 
-export async function install(
+export const install = async (
   root: string,
   dependencies: Package[] | null,
   withStdio: boolean = true
-): Promise<void> {
+) => {
   const originalCwd = process.cwd();
   const useYarn = shouldUseYarn();
   let command: string;
@@ -63,14 +63,14 @@ export async function install(
   }
 
   process.chdir(originalCwd);
-}
+};
 
-function runCommand(
+const runCommand = (
   command: string,
   args: string[],
   withStdio: boolean = true
-) {
-  return new Promise<void>((resolve, reject) => {
+) =>
+  new Promise<void>((resolve, reject) => {
     const child = spawn(command, args, {
       stdio: withStdio ? "inherit" : "ignore",
       env: { ...process.env, ADBLOCK: "1", DISABLE_OPENCOLLECTIVE: "1" },
@@ -84,12 +84,8 @@ function runCommand(
       resolve();
     });
   });
-}
 
-export function validateNpmName(name: string): {
-  valid: boolean;
-  problems?: string[];
-} {
+export const validateNpmName = (name: string) => {
   const nameValidation = validateProjectName(name);
   if (nameValidation.validForNewPackages) {
     return { valid: true };
@@ -102,9 +98,9 @@ export function validateNpmName(name: string): {
       ...(nameValidation.warnings || []),
     ],
   };
-}
+};
 
-export function shouldUseYarn(): boolean {
+export const shouldUseYarn = () => {
   try {
     const userAgent = process.env.npm_config_user_agent;
     if (userAgent) {
@@ -115,11 +111,11 @@ export function shouldUseYarn(): boolean {
   } catch (e) {
     return false;
   }
-}
+};
 
-export async function checkAndNotifyUpdates(
+export const checkAndNotifyUpdates = async (
   packageJson: Record<string, any>
-): Promise<void> {
+) => {
   try {
     const res = await checkForUpdate(packageJson).catch(() => null);
     if (res?.latest) {
@@ -140,4 +136,4 @@ export async function checkAndNotifyUpdates(
   } catch {
     // ignore error
   }
-}
+};

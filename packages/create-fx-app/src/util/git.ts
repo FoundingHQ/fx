@@ -2,23 +2,23 @@ import { execSync } from "child_process";
 import path from "path";
 import rimraf from "rimraf";
 
-function isInGitRepository(): boolean {
+const isInGitRepository = () => {
   try {
     execSync("git rev-parse --is-inside-work-tree", { stdio: "ignore" });
     return true;
   } catch (_) {}
   return false;
-}
+};
 
-function isInMercurialRepository(): boolean {
+const isInMercurialRepository = () => {
   try {
     execSync("hg --cwd . root", { stdio: "ignore" });
     return true;
   } catch (_) {}
   return false;
-}
+};
 
-export function tryGitInit(root: string): boolean {
+export const tryGitInit = (root: string) => {
   let didInit = false;
   try {
     execSync("git --version", { stdio: "ignore" });
@@ -44,4 +44,4 @@ export function tryGitInit(root: string): boolean {
     }
     return false;
   }
-}
+};

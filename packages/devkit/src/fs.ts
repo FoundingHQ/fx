@@ -4,7 +4,7 @@ import globby from "globby";
 import path from "path";
 import rimraf from "rimraf";
 
-export function isFolderEmpty(root: string, name: string): boolean {
+export const isFolderEmpty = (root: string, name: string) => {
   const validFiles = [
     ".DS_Store",
     ".git",
@@ -58,62 +58,49 @@ export function isFolderEmpty(root: string, name: string): boolean {
   }
 
   return true;
-}
+};
 
-export async function makeDir(root: string, options = { recursive: true }) {
-  return fs.promises.mkdir(root, options);
-}
+export const makeDir = (root: string, options = { recursive: true }) =>
+  fs.promises.mkdir(root, options);
 
-export function removeDir(path: string) {
-  return rimraf.sync(path);
-}
+export const removeDir = (path: string) => rimraf.sync(path);
 
-export async function isWriteable(directory: string): Promise<boolean> {
+export const isWriteable = async (directory: string) => {
   try {
     await fs.promises.access(directory, (fs.constants || fs).W_OK);
     return true;
   } catch (err) {
     return false;
   }
-}
+};
 
-export async function getFiles(
-  patterns: string,
-  options?: globby.GlobbyOptions
-) {
-  return globby(patterns, options);
-}
+export const getFiles = (patterns: string, options?: globby.GlobbyOptions) =>
+  globby(patterns, options);
 
-export async function copy(source: string, destination: string) {
-  return fs.copy(source, destination);
-}
+export const copy = (source: string, destination: string) =>
+  fs.copy(source, destination);
 
-export function readJson(...args: Parameters<typeof fs.readJsonSync>) {
-  return fs.readJsonSync(...args);
-}
+export const readJson = (...args: Parameters<typeof fs.readJsonSync>) =>
+  fs.readJsonSync(...args);
 
-export function writeJson(...args: Parameters<typeof fs.writeJsonSync>) {
-  return fs.writeJsonSync(...args);
-}
+export const writeJson = (...args: Parameters<typeof fs.writeJsonSync>) =>
+  fs.writeJsonSync(...args);
 
-export function readFile(filePath: string) {
-  return fs.readFileSync(filePath, "utf8");
-}
+export const readFile = (filePath: string) => fs.readFileSync(filePath, "utf8");
 
-export function writeFile(filePath: string, content: string) {
-  return fs.writeFileSync(filePath, content);
-}
+export const writeFile = (filePath: string, content: string) =>
+  fs.writeFileSync(filePath, content);
 
 type Transform = (source: string, context: any) => Promise<string | void>;
 
-export async function runTransforms(
+export const runTransforms = async (
   filePath: string,
   ...transforms: [Transform, any?][]
-) {
+) => {
   let source = fs.readFileSync(filePath, "utf8");
   for (const [transform, context] of transforms) {
     const transformed = await transform(source, context);
     if (transformed) source = transformed;
   }
   return fs.writeFile(filePath, source);
-}
+};

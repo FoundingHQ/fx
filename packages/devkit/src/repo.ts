@@ -8,7 +8,7 @@ import { CODE_ROOT } from "./config";
 
 const pipeline = promisify(Stream.pipeline);
 
-export function cloneRepo(
+export const cloneRepo = (
   root: string,
   // foundinghq/fx-template
   repoFullName: string = "foundinghq/fx-template",
@@ -16,7 +16,7 @@ export function cloneRepo(
   defaultBranch: string = "main",
   //packages/generator
   subdirectory: string = ""
-) {
+) => {
   rimraf.sync(root);
   fs.mkdirsSync(root);
 
@@ -30,4 +30,4 @@ export function cloneRepo(
     gotStream(`${CODE_ROOT}/${repoFullName}/tar.gz/${defaultBranch}`),
     tar.extract({ cwd: root, strip: depth }, extractPath)
   );
-}
+};

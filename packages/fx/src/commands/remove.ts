@@ -6,10 +6,10 @@ import {
   removeDir,
 } from "@founding/devkit";
 
-export async function remove(
+export const remove = async (
   feature: string = "",
   options: Record<string, any> = {}
-) {
+) => {
   if (!feature) {
     const officialFeatures = await getOfficialGeneratorList();
     const res = await prompts({
@@ -103,4 +103,4 @@ export async function remove(
   //     "Warning"
   //   )}: Removing features can be risky when features depend on one another. Changes and codemods ran on your source code have not been reverted. Please refer back to the commit where you installed a feature and manually check the diff.`
   // );
-}
+};

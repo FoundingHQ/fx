@@ -9,6 +9,4 @@ import { printSchema as printer, Schema } from "@mrleebo/prisma-ast";
  * @param schema - the parsed prisma schema
  * @returns the schema.prisma source string
  */
-export function printSchema(schema: Schema): string {
-  return printer(schema);
-}
+export const printSchema = (schema: Schema) => printer(schema);

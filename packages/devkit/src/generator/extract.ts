@@ -8,7 +8,7 @@ import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../config";
 import { install } from "../package";
 import { cloneRepo } from "../repo";
 
-export function normalizeGeneratorPath(feature: string): GeneratorMeta {
+export const normalizeGeneratorPath = (feature: string) => {
   // feature == `auth`
   const isOfficialGenerator = /^([\w\-_]*)$/.test(feature);
   // feature == `https://github.com/some-githubuser/my-awesome-generator`
@@ -55,13 +55,13 @@ export function normalizeGeneratorPath(feature: string): GeneratorMeta {
       location: GeneratorLocation.Local,
     };
   }
-}
+};
 
 const requireJSON = (file: string) => {
   return JSON.parse(fs.readFileSync(file).toString("utf-8"));
 };
 
-export async function extractGenerator(generatorInfo: GeneratorMeta) {
+export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
   // Since the generator may be a .ts file, we need to setup a tsnode runtime
   setupTsTranspiler();
 
@@ -121,4 +121,4 @@ export async function extractGenerator(generatorInfo: GeneratorMeta) {
 
     return { generator, packageJson: {} };
   }
-}
+};

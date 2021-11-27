@@ -17,7 +17,7 @@ interface GithubRepoAPITrees {
   truncated: boolean;
 }
 
-export async function getOfficialGeneratorList(): Promise<string[]> {
+export const getOfficialGeneratorList = async () => {
   // TODO: Allow you to pass a local directory to search for generators
   const res = await Promise.all([
     gotJSON(`${API_ROOT}/foundinghq/fx/git/trees/main?recursive=1`),
@@ -43,4 +43,4 @@ export async function getOfficialGeneratorList(): Promise<string[]> {
     }
     return generatorList;
   }, []);
-}
+};

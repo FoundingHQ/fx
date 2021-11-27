@@ -1,3 +1,3 @@
-export function preset(presetName: string) {
+export const preset = async (presetName: string) => {
   console.log(`Bootstrapping preset: ${presetName}`);
-}
+};

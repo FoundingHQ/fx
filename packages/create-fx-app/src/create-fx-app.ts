@@ -12,7 +12,7 @@ import packageJson from "../package.json";
 
 const program = new Command();
 
-async function main() {
+const main = async () => {
   program
     .version(packageJson.version)
     .arguments("[project-directory]")
@@ -39,12 +39,12 @@ async function main() {
 
     process.exit(1);
   }
-}
+};
 
-async function run(
+const run = async (
   projectPath?: string,
   options: Record<string, string | boolean> = {}
-): Promise<void> {
+) => {
   if (typeof projectPath === "string") {
     projectPath = projectPath.trim();
   }
@@ -102,6 +102,6 @@ async function run(
     appPath: resolvedProjectPath,
     skipInstall: !!options.skipInstall,
   });
-}
+};
 
 main();
