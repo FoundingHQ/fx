@@ -132,6 +132,6 @@ npx fx add ../../
 
 ## Inspired by these amazing projects
 
-- [Pheonix Authentication Solution](https://dashbit.co/blog/a-new-authentication-solution-for-phoenix)
+- [Phoenix Authentication Solution](https://dashbit.co/blog/a-new-authentication-solution-for-phoenix)
 - Framework based generators ([Blitz Recipes](https://blitzjs.com/docs/using-recipes), [Gatsby Recipes](https://www.gatsbyjs.com/blog/2020-04-15-announcing-gatsby-recipes/))
 - Scaffolding tools ([Yeoman](https://github.com/yeoman/yeoman), [Sao](https://github.com/saojs/sao), [Hygen](https://github.com/jondot/hygen), [Plop](https://github.com/plopjs/plop))
