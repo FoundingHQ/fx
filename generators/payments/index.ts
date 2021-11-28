@@ -13,23 +13,23 @@ type Props = {
 const generator: Generator<Props> = {
   async setup(_context, options: Props = {}) {
     const res = await prompts([
-      {
-        type: () => (options.stack ? null : "select"),
-        name: "stack",
-        message: "Which part of the stack do you want to generate?",
-        choices: [
-          {
-            title: "Full stack",
-            description: "Generate UI and API",
-            value: "fullstack",
-          },
-          {
-            title: "API",
-            description: "Generate only the API",
-            value: "api",
-          },
-        ],
-      },
+      // {
+      //   type: () => (options.stack ? null : "select"),
+      //   name: "stack",
+      //   message: "Which part of the stack do you want to generate?",
+      //   choices: [
+      //     {
+      //       title: "Full stack",
+      //       description: "Generate UI and API",
+      //       value: "fullstack",
+      //     },
+      //     {
+      //       title: "API",
+      //       description: "Generate only the API",
+      //       value: "api",
+      //     },
+      //   ],
+      // },
       {
         type: () => (options.connect ? null : "select"),
         name: "connect",
@@ -48,7 +48,7 @@ const generator: Generator<Props> = {
         ],
       },
       {
-        type: (prev) => (prev == "single" ? null : "select"),
+        type: (prev: "single" | any) => (prev === "single" ? null : "select"),
         name: "account",
         message: "What kind of Stripe connect accounts will your users have?",
         choices: [
@@ -109,44 +109,50 @@ const generator: Generator<Props> = {
 
     return { ...res, ...options };
   },
-  async install({ props: { stack, connect, account, type, catalog } }) {
+  async install({ props: { connect, account, type, catalog } }) {
     return [
       ...config.baseConfig.dependencies,
-      ...config.paymentsStackConfig[stack].dependencies,
-      ...config.paymentsConnectConfig[connect].dependencies,
+      ...(connect ? config.paymentsConnectConfig[connect].dependencies : []),
       ...(account ? config.paymentsAccountConfig[account].dependencies : []),
-      ...type.map((t) => config.paymentsTypeConfig[t].dependencies).flat(),
-      ...catalog
-        .map((c) => config.paymentsCatalogConfig[c].dependencies)
-        .flat(),
+      ...(type
+        ? type.map((t) => config.paymentsTypeConfig[t].dependencies).flat()
+        : []),
+      ...(catalog
+        ? catalog
+            .map((c) => config.paymentsCatalogConfig[c].dependencies)
+            .flat()
+        : []),
     ];
   },
-  async scaffold({ props: { stack, connect, account, type, catalog } }) {
+  async scaffold({ props: { connect, account, type, catalog } }) {
     return [
       ...config.baseConfig.templates,
-      ...config.paymentsStackConfig[stack].templates,
-      ...config.paymentsConnectConfig[connect].templates,
+      ...(connect ? config.paymentsConnectConfig[connect].templates : []),
       ...(account ? config.paymentsAccountConfig[account].templates : []),
-      ...type.map((t) => config.paymentsTypeConfig[t].templates).flat(),
-      ...catalog.map((c) => config.paymentsCatalogConfig[c].templates).flat(),
+      ...(type
+        ? type.map((t) => config.paymentsTypeConfig[t].templates).flat()
+        : []),
+      ...(catalog
+        ? catalog.map((c) => config.paymentsCatalogConfig[c].templates).flat()
+        : []),
     ];
   },
   async codemods({ paths }) {
-    const appJson = readJson(paths.appJson);
-    const newAppJson = merge(appJson, {
-      expo: {
-        plugins: [
-          [
-            "@stripe/stripe-react-native",
-            {
-              merchantIdentifier: "",
-              enableGooglePay: true,
-            },
-          ],
-        ],
-      },
-    });
-    writeJson("app.json", newAppJson);
+    // const appJson = readJson(paths.appJson);
+    // const newAppJson = merge(appJson, {
+    //   expo: {
+    //     plugins: [
+    //       [
+    //         "@stripe/stripe-react-native",
+    //         {
+    //           merchantIdentifier: "",
+    //           enableGooglePay: true,
+    //         },
+    //       ],
+    //     ],
+    //   },
+    // });
+    // writeJson("app.json", newAppJson);
   },
   async finish() {},
   async uninstall() {

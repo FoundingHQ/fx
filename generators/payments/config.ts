@@ -4,7 +4,7 @@ export const baseConfig: GeneratorConfigDefinition = {
   dependencies: [
     { name: "@stripe/stripe-js" },
     { name: "stripe" },
-    { name: "@stripe/stripe-react-native", isExpoDep: true },
+    // { name: "@stripe/stripe-react-native", isExpoDep: true },
   ],
   templates: [
     {
@@ -81,22 +81,22 @@ export const paymentsConnectConfig = {
         src: "templates/lib/payments/components/ConnectOnboarding.tsx",
         dest: "lib/payments/components/ConnectOnboarding.tsx",
       },
-      {
-        src: "templates/expo/screens/ConnectOnboardingScreen.tsx",
-        dest: "expo/screens/ConnectOnboardingScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/ConnectOnboarding.tsx",
-        dest: "expo/lib/payments/components/ConnectOnboarding.tsx",
-      },
-      {
-        src: "templates/expo/screens/ConnectCheckoutScreen.tsx",
-        dest: "expo/screens/ConnectCheckoutScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/ConnectCheckout.tsx",
-        dest: "expo/lib/payments/components/ConnectCheckout.tsx",
-      },
+      // {
+      //   src: "templates/expo/screens/ConnectOnboardingScreen.tsx",
+      //   dest: "expo/screens/ConnectOnboardingScreen.tsx",
+      // },
+      // {
+      //   src: "templates/expo/components/ConnectOnboarding.tsx",
+      //   dest: "expo/lib/payments/components/ConnectOnboarding.tsx",
+      // },
+      // {
+      //   src: "templates/expo/screens/ConnectCheckoutScreen.tsx",
+      //   dest: "expo/screens/ConnectCheckoutScreen.tsx",
+      // },
+      // {
+      //   src: "templates/expo/components/ConnectCheckout.tsx",
+      //   dest: "expo/lib/payments/components/ConnectCheckout.tsx",
+      // },
     ],
   },
 };
@@ -136,14 +136,14 @@ export const paymentsTypeConfig = {
         src: "templates/lib/payments/components/Subscription.tsx",
         dest: "lib/payments/components/Subscription.tsx",
       },
-      {
-        src: "templates/expo/screens/SubscriptionScreen.tsx",
-        dest: "expo/screens/SubscriptionScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/Subscription.tsx",
-        dest: "expo/lib/payments/components/Subscription.tsx",
-      },
+      // {
+      //   src: "templates/expo/screens/SubscriptionScreen.tsx",
+      //   dest: "expo/screens/SubscriptionScreen.tsx",
+      // },
+      // {
+      //   src: "templates/expo/components/Subscription.tsx",
+      //   dest: "expo/lib/payments/components/Subscription.tsx",
+      // },
     ],
   },
 };
@@ -164,14 +164,14 @@ export const paymentsCatalogConfig = {
         src: "templates/lib/payments/components/Checkout.tsx",
         dest: "lib/payments/components/Checkout.tsx",
       },
-      {
-        src: "templates/expo/screens/CheckoutScreen.tsx",
-        dest: "expo/screens/CheckoutScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/Checkout.tsx",
-        dest: "expo/lib/payments/components/Checkout.tsx",
-      },
+      // {
+      //   src: "templates/expo/screens/CheckoutScreen.tsx",
+      //   dest: "expo/screens/CheckoutScreen.tsx",
+      // },
+      // {
+      //   src: "templates/expo/components/Checkout.tsx",
+      //   dest: "expo/lib/payments/components/Checkout.tsx",
+      // },
     ],
   },
   custom: {
@@ -193,14 +193,14 @@ export const paymentsCatalogConfig = {
         src: "templates/lib/payments/components/CheckoutForm.tsx",
         dest: "lib/payments/components/CheckoutForm.tsx",
       },
-      {
-        src: "templates/expo/screens/CustomCheckoutScreen.tsx",
-        dest: "expo/screens/CustomCheckoutScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/CustomCheckout.tsx",
-        dest: "expo/lib/payments/components/CustomCheckout.tsx",
-      },
+      // {
+      //   src: "templates/expo/screens/CustomCheckoutScreen.tsx",
+      //   dest: "expo/screens/CustomCheckoutScreen.tsx",
+      // },
+      // {
+      //   src: "templates/expo/components/CustomCheckout.tsx",
+      //   dest: "expo/lib/payments/components/CustomCheckout.tsx",
+      // },
     ],
   },
 };
@@ -227,18 +227,18 @@ export const allDependencies = [
 export const allTemplates = [
   ...baseConfig.templates.map((t) => t.dest),
   ...Object.values(paymentsStackConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .map(({ templates }) => templates.map((d) => d.dest))
     .flat(),
   ...Object.values(paymentsConnectConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .map(({ templates }) => templates.map((d) => d.dest))
     .flat(),
   ...Object.values(paymentsAccountConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .map(({ templates }) => templates.map((d) => d.dest))
     .flat(),
   ...Object.values(paymentsTypeConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .map(({ templates }) => templates.map((d) => d.dest))
     .flat(),
   ...Object.values(paymentsCatalogConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .map(({ templates }) => templates.map((d) => d.dest))
     .flat(),
 ];
