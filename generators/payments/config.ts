@@ -4,7 +4,6 @@ export const baseConfig: GeneratorConfigDefinition = {
   dependencies: [
     { name: "@stripe/stripe-js" },
     { name: "stripe" },
-    { name: "@stripe/react-stripe-js" }, // is this required for all stripe templates?
     { name: "@stripe/stripe-react-native", isExpoDep: true },
   ],
   templates: [
@@ -35,89 +34,21 @@ export const baseConfig: GeneratorConfigDefinition = {
   ],
 };
 
-export const paymentsScopeConfig: Record<string, GeneratorConfigDefinition> = {
-  checkout: {
+export const paymentsStackConfig = {
+  fullstack: {
     dependencies: [],
-    templates: [
-      {
-        src: "templates/pages/api/payments/checkout.ts",
-        dest: "pages/api/payments/checkout.ts",
-      },
-      {
-        src: "templates/pages/payments/checkout.tsx",
-        dest: "pages/payments/checkout.tsx",
-      },
-      {
-        src: "templates/lib/payments/components/Checkout.tsx",
-        dest: "lib/payments/components/Checkout.tsx",
-      },
-      {
-        src: "templates/expo/screens/CheckoutScreen.tsx",
-        dest: "expo/screens/CheckoutScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/Checkout.tsx",
-        dest: "expo/lib/payments/components/Checkout.tsx",
-      },
-    ],
+    templates: [],
   },
-  "custom-checkout": {
+  api: {
     dependencies: [],
-    templates: [
-      {
-        src: "templates/pages/api/payments/create-payment-intent.ts",
-        dest: "pages/api/payments/create-payment-intent.ts",
-      },
-      {
-        src: "templates/pages/payments/custom-checkout.tsx",
-        dest: "pages/payments/custom-checkout.tsx",
-      },
-      {
-        src: "templates/lib/payments/components/CustomCheckout.tsx",
-        dest: "lib/payments/components/CustomCheckout.tsx",
-      },
-      {
-        src: "templates/lib/payments/components/CheckoutForm.tsx",
-        dest: "lib/payments/components/CheckoutForm.tsx",
-      },
-      {
-        src: "templates/expo/screens/CustomCheckoutScreen.tsx",
-        dest: "expo/screens/CustomCheckoutScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/CustomCheckout.tsx",
-        dest: "expo/lib/payments/components/CustomCheckout.tsx",
-      },
-    ],
+    templates: [],
   },
-  subscription: {
+};
+
+export const paymentsConnectConfig = {
+  single: {
     dependencies: [],
-    templates: [
-      {
-        src: "templates/pages/api/payments/subscription/create-subscription.ts",
-        dest: "pages/api/payments/subscription/create-subscription.ts",
-      },
-      {
-        src: "templates/pages/api/payments/create-payment-intent.ts",
-        dest: "pages/api/payments/create-payment-intent.ts",
-      },
-      {
-        src: "templates/pages/payments/subscription.tsx",
-        dest: "pages/payments/subscription.tsx",
-      },
-      {
-        src: "templates/lib/payments/components/Subscription.tsx",
-        dest: "lib/payments/components/Subscription.tsx",
-      },
-      {
-        src: "templates/expo/screens/SubscriptionScreen.tsx",
-        dest: "expo/screens/SubscriptionScreen.tsx",
-      },
-      {
-        src: "templates/expo/components/Subscription.tsx",
-        dest: "expo/lib/payments/components/Subscription.tsx",
-      },
-    ],
+    templates: [],
   },
   connect: {
     dependencies: [],
@@ -170,16 +101,144 @@ export const paymentsScopeConfig: Record<string, GeneratorConfigDefinition> = {
   },
 };
 
+export const paymentsAccountConfig = {
+  standard: {
+    dependencies: [],
+    templates: [],
+  },
+  express: {
+    dependencies: [],
+    templates: [],
+  },
+};
+
+export const paymentsTypeConfig = {
+  single: {
+    dependencies: [],
+    templates: [],
+  },
+  subscription: {
+    dependencies: [],
+    templates: [
+      {
+        src: "templates/pages/api/payments/subscription/create-subscription.ts",
+        dest: "pages/api/payments/subscription/create-subscription.ts",
+      },
+      {
+        src: "templates/pages/api/payments/create-payment-intent.ts",
+        dest: "pages/api/payments/create-payment-intent.ts",
+      },
+      {
+        src: "templates/pages/payments/subscription.tsx",
+        dest: "pages/payments/subscription.tsx",
+      },
+      {
+        src: "templates/lib/payments/components/Subscription.tsx",
+        dest: "lib/payments/components/Subscription.tsx",
+      },
+      {
+        src: "templates/expo/screens/SubscriptionScreen.tsx",
+        dest: "expo/screens/SubscriptionScreen.tsx",
+      },
+      {
+        src: "templates/expo/components/Subscription.tsx",
+        dest: "expo/lib/payments/components/Subscription.tsx",
+      },
+    ],
+  },
+};
+
+export const paymentsCatalogConfig = {
+  checkout: {
+    dependencies: [],
+    templates: [
+      {
+        src: "templates/pages/api/payments/checkout.ts",
+        dest: "pages/api/payments/checkout.ts",
+      },
+      {
+        src: "templates/pages/payments/checkout.tsx",
+        dest: "pages/payments/checkout.tsx",
+      },
+      {
+        src: "templates/lib/payments/components/Checkout.tsx",
+        dest: "lib/payments/components/Checkout.tsx",
+      },
+      {
+        src: "templates/expo/screens/CheckoutScreen.tsx",
+        dest: "expo/screens/CheckoutScreen.tsx",
+      },
+      {
+        src: "templates/expo/components/Checkout.tsx",
+        dest: "expo/lib/payments/components/Checkout.tsx",
+      },
+    ],
+  },
+  custom: {
+    dependencies: [{ name: "@stripe/react-stripe-js" }],
+    templates: [
+      {
+        src: "templates/pages/api/payments/create-payment-intent.ts",
+        dest: "pages/api/payments/create-payment-intent.ts",
+      },
+      {
+        src: "templates/pages/payments/custom-checkout.tsx",
+        dest: "pages/payments/custom-checkout.tsx",
+      },
+      {
+        src: "templates/lib/payments/components/CustomCheckout.tsx",
+        dest: "lib/payments/components/CustomCheckout.tsx",
+      },
+      {
+        src: "templates/lib/payments/components/CheckoutForm.tsx",
+        dest: "lib/payments/components/CheckoutForm.tsx",
+      },
+      {
+        src: "templates/expo/screens/CustomCheckoutScreen.tsx",
+        dest: "expo/screens/CustomCheckoutScreen.tsx",
+      },
+      {
+        src: "templates/expo/components/CustomCheckout.tsx",
+        dest: "expo/lib/payments/components/CustomCheckout.tsx",
+      },
+    ],
+  },
+};
+
 export const allDependencies = [
   ...baseConfig.dependencies.map((d) => d.name),
-  ...Object.values(paymentsScopeConfig)
+  ...Object.values(paymentsStackConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsConnectConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsAccountConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsTypeConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsCatalogConfig)
     .map(({ dependencies }) => dependencies.map((d) => d.name))
     .flat(),
 ];
 
 export const allTemplates = [
   ...baseConfig.templates.map((t) => t.dest),
-  ...Object.values(paymentsScopeConfig)
-    .map((c) => c.templates.map((t) => t.dest))
+  ...Object.values(paymentsStackConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsConnectConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsAccountConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsTypeConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
+    .flat(),
+  ...Object.values(paymentsCatalogConfig)
+    .map(({ dependencies }) => dependencies.map((d) => d.name))
     .flat(),
 ];

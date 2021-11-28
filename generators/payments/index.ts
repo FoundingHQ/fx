@@ -3,42 +3,105 @@ import { Generator, readJson, writeJson, prompts } from "@founding/devkit";
 import * as config from "./config";
 
 type Props = {
-  scopes: (keyof typeof config.paymentsScopeConfig)[];
+  stack?: keyof typeof config.paymentsStackConfig;
+  connect?: keyof typeof config.paymentsConnectConfig;
+  account?: keyof typeof config.paymentsAccountConfig;
+  type?: (keyof typeof config.paymentsTypeConfig)[];
+  catalog?: (keyof typeof config.paymentsCatalogConfig)[];
 };
 
 const generator: Generator<Props> = {
-  async setup(_context, options = {}) {
+  async setup(_context, options: Props = {}) {
     const res = await prompts([
       {
+        type: () => (options.stack ? null : "select"),
+        name: "stack",
+        message: "Which part of the stack do you want to generate?",
+        choices: [
+          {
+            title: "Full stack",
+            description: "Generate UI and API",
+            value: "fullstack",
+          },
+          {
+            title: "API",
+            description: "Generate only the API",
+            value: "api",
+          },
+        ],
+      },
+      {
+        type: () => (options.connect ? null : "select"),
+        name: "connect",
+        message: "Are you managing a single account or multiple accounts?",
+        choices: [
+          {
+            title: "Single party",
+            description: "Manage my own Stripe account",
+            value: "single",
+          },
+          {
+            title: "Multi party",
+            description: "Manage other Stripe accounts with my own account",
+            value: "connect",
+          },
+        ],
+      },
+      {
+        type: (prev) => (prev == "single" ? null : "select"),
+        name: "account",
+        message: "What kind of Stripe connect accounts will your users have?",
+        choices: [
+          {
+            title: "Standard account",
+            description: "Build a marketplace (Shopify, Substack)",
+            value: "standard",
+          },
+          {
+            title: "Express account",
+            description: "Build a software platform (Lyft, Instacart)",
+            value: "express",
+          },
+        ],
+      },
+      {
         type: () =>
-          options.scopes && options.scopes.length ? null : "multiselect",
-        name: "scopes",
-        message: "What type of payment strategies would you like to add?",
+          options.type && options.type.length ? null : "multiselect",
+        name: "type",
+        message: "Is it a one time payment or is there a recurring aspect?",
         min: 1,
         choices: [
           {
-            title: "Checkout",
-            description: "Prebuilt Checkout page from Stripe",
+            title: "Single",
+            description: "One time transaction (Tshirt, Lifetime Deal)",
+            value: "single",
+            selected: true,
+          },
+          {
+            title: "Subscription",
+            description: "Recurring revenue ($99 a month)",
+            value: "subscription",
+          },
+        ],
+      },
+      {
+        type: () =>
+          options.catalog && options.catalog.length ? null : "multiselect",
+        name: "catalog",
+        message: "How much customization and reliance on Stripe do you want?",
+        min: 1,
+        choices: [
+          {
+            title: "Stripe",
+            description: "Use Stripe Checkout and product catalog",
             value: "checkout",
             selected: true,
           },
           {
-            title: "Custom Checkout",
-            description: "Custom UI with integration with Stripe API",
-            value: "custom-checkout",
-            selected: false,
-          },
-          {
-            title: "Subscription",
-            description: "Create recurring payments",
-            value: "subscription",
-            selected: false,
-          },
-          {
-            title: "Connect",
-            description: "Manage other Stripe accounts",
-            value: "connect",
-            selected: false,
+            title: "Custom",
+            description:
+              "Customize checkout experience and manage product with database",
+            value: "custom",
           },
         ],
       },
@@ -46,20 +109,26 @@ const generator: Generator<Props> = {
 
     return { ...res, ...options };
   },
-  async install({ props: { scopes } }) {
+  async install({ props: { stack, connect, account, type, catalog } }) {
     return [
       ...config.baseConfig.dependencies,
-      ...scopes
-        .map((scope) => config.paymentsScopeConfig[scope].dependencies)
+      ...config.paymentsStackConfig[stack].dependencies,
+      ...config.paymentsConnectConfig[connect].dependencies,
+      ...(account ? config.paymentsAccountConfig[account].dependencies : []),
+      ...type.map((t) => config.paymentsTypeConfig[t].dependencies).flat(),
+      ...catalog
+        .map((c) => config.paymentsCatalogConfig[c].dependencies)
         .flat(),
     ];
   },
-  async scaffold({ props: { scopes } }) {
+  async scaffold({ props: { stack, connect, account, type, catalog } }) {
     return [
       ...config.baseConfig.templates,
-      ...scopes
-        .map((scope) => config.paymentsScopeConfig[scope].templates)
-        .flat(),
+      ...config.paymentsStackConfig[stack].templates,
+      ...config.paymentsConnectConfig[connect].templates,
+      ...(account ? config.paymentsAccountConfig[account].templates : []),
+      ...type.map((t) => config.paymentsTypeConfig[t].templates).flat(),
+      ...catalog.map((c) => config.paymentsCatalogConfig[c].templates).flat(),
     ];
   },
   async codemods({ paths }) {
