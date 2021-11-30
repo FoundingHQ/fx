@@ -1,6 +1,5 @@
 import { join } from "path";
 import {
-  Generator,
   runTransforms,
   addPrismaModel,
   addPrismaEnum,
@@ -11,16 +10,11 @@ import {
   sleep,
   prompts,
 } from "@founding/devkit";
-import * as config from "./config";
+import { AuthGenerator, dependencies, templates } from "./config";
 import * as schemas from "./schema";
 
-type Props = {
-  type: keyof typeof config.authTypeConfig;
-  scopes: (keyof typeof config.authScopeConfig)[];
-};
-
-const generator: Generator<Props> = {
-  async setup(_context, options = {}) {
+const generator: AuthGenerator = {
+  async setup(_context, options) {
     const res = await prompts([
       {
         type: () => (options.type ? null : "select"),
@@ -81,21 +75,27 @@ const generator: Generator<Props> = {
 
     return { ...res, ...options };
   },
-  async install({ props: { type, scopes } }) {
-    return [
-      ...config.baseConfig.dependencies,
-      ...config.authTypeConfig[type].dependencies,
-      ...scopes
-        .map((scope) => config.authScopeConfig[scope].dependencies)
-        .flat(),
-    ];
+  async install(context) {
+    return dependencies.reduce((res, current) => {
+      if (!current.filters) {
+        res.push(...current.list);
+      } else if (current.filters.every((filter) => filter(context))) {
+        res.push(...current.list);
+      }
+
+      return res;
+    }, []);
   },
-  async scaffold({ props: { type, scopes } }) {
-    return [
-      ...config.baseConfig.templates,
-      ...config.authTypeConfig[type].templates,
-      ...scopes.map((scope) => config.authScopeConfig[scope].templates).flat(),
-    ];
+  async scaffold(context) {
+    return templates.reduce((res, current) => {
+      if (!current.filters) {
+        res.push(...current.list);
+      } else if (current.filters.every((filter) => filter(context))) {
+        res.push(...current.list);
+      }
+
+      return res;
+    }, []);
   },
   async codemods({ paths }) {
     console.log("Running codemod on `lib/core/server/handler.ts`");
@@ -147,8 +147,8 @@ const generator: Generator<Props> = {
   },
   async uninstall() {
     return {
-      dependencies: config.allDependencies,
-      templates: config.allTemplates,
+      dependencies: [],
+      templates: [],
     };
   },
 };

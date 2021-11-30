@@ -1,71 +1,135 @@
-import { GeneratorConfigDefinition } from "@founding/devkit";
+import { Generator, Context } from "@founding/devkit";
 
-export const baseConfig: GeneratorConfigDefinition = {
-  dependencies: [
-    { name: "nodemailer" },
-    { name: "passport" },
-    { name: "bcrypt" },
-    { name: "@types/bcrypt", isDevDep: true },
-    { name: "@types/passport", isDevDep: true },
-  ],
-  templates: [
-    {
-      src: "templates/lib/auth/components",
-      dest: "lib/auth/components",
-    },
-    {
-      src: "templates/lib/auth/data",
-      dest: "lib/auth/data",
-    },
-    {
-      src: "templates/lib/auth/server/middlewares",
-      dest: "lib/auth/server/middlewares",
-    },
-    {
-      src: "templates/lib/auth/server/authConfig.ts",
-      dest: "lib/auth/server/authConfig.ts",
-    },
-    {
-      src: "templates/lib/auth/server/authService.ts",
-      dest: "lib/auth/server/authService.ts",
-    },
-    {
-      src: "templates/lib/users",
-      dest: "lib/users",
-    },
-    {
-      src: "templates/pages/api/auth",
-      dest: "pages/api/auth",
-    },
-    {
-      src: "templates/pages/auth",
-      dest: "pages/auth",
-    },
-    {
-      src: "templates/pages/protected",
-      dest: "pages/protected",
-    },
-    {
-      src: "templates/expo/screens",
-      dest: "expo/screens",
-    },
-    {
-      src: "templates/expo/components",
-      dest: "lib/auth/expo",
-    },
-  ],
+export type Props = {
+  type: "session" | "jwt";
+  scopes: ("local" | "google" | "facebook" | "magic")[];
 };
 
-// session | jwt auth types
-export const authTypeConfig: Record<string, GeneratorConfigDefinition> = {
-  session: {
-    dependencies: [
+export type AuthGenerator = Generator<Props>;
+export type AuthContext = Context<Props>;
+
+type F = (context: AuthContext) => boolean;
+
+const hasPlatformExpo: F = ({ config }) => config.platforms.includes("expo");
+const isTypeSession: F = ({ props }) => props.type === "session";
+const isTypeJwt: F = ({ props }) => props.type === "jwt";
+const hasScopeLocal: F = ({ props }) => props.scopes.includes("local");
+const hasScopeGoogle: F = ({ props }) => props.scopes.includes("google");
+const hasScopeFacebook: F = ({ props }) => props.scopes.includes("facebook");
+const hasScopeMagic: F = ({ props }) => props.scopes.includes("magic");
+
+export const dependencies = [
+  // base set of required dependencies
+  {
+    list: [
+      { name: "nodemailer" },
+      { name: "passport" },
+      { name: "bcrypt" },
+      { name: "@types/bcrypt", isDevDep: true },
+      { name: "@types/passport", isDevDep: true },
+    ],
+  },
+  // type
+  {
+    filters: [isTypeSession],
+    list: [
       { name: "next-session" },
       { name: "ioredis" },
       { name: "connect-redis" },
       { name: "@types/connect-redis", isDevDep: true },
     ],
-    templates: [
+  },
+  {
+    filters: [isTypeJwt],
+    list: [
+      { name: "passport-jwt" },
+      { name: "jsonwebtoken" },
+      { name: "@types/jsonwebtoken", isDevDep: true },
+    ],
+  },
+  // scopes
+  {
+    filters: [hasScopeLocal],
+    list: [
+      { name: "passport-local" },
+      { name: "@types/passport-local", isDevDep: true },
+    ],
+  },
+  {
+    filters: [hasScopeGoogle],
+    list: [
+      { name: "passport-google-oauth20" },
+      { name: "@types/passport-google-oauth20", isDevDep: true },
+    ],
+  },
+  {
+    filters: [hasScopeFacebook],
+    list: [],
+  },
+  {
+    filters: [hasScopeMagic],
+    list: [],
+  },
+];
+
+export const templates = [
+  {
+    list: [
+      {
+        src: "templates/lib/auth/components",
+        dest: "lib/auth/components",
+      },
+      {
+        src: "templates/lib/auth/data",
+        dest: "lib/auth/data",
+      },
+      {
+        src: "templates/lib/auth/server/middlewares",
+        dest: "lib/auth/server/middlewares",
+      },
+      {
+        src: "templates/lib/auth/server/authConfig.ts",
+        dest: "lib/auth/server/authConfig.ts",
+      },
+      {
+        src: "templates/lib/auth/server/authService.ts",
+        dest: "lib/auth/server/authService.ts",
+      },
+      {
+        src: "templates/lib/users",
+        dest: "lib/users",
+      },
+      {
+        src: "templates/pages/api/auth",
+        dest: "pages/api/auth",
+      },
+      {
+        src: "templates/pages/auth",
+        dest: "pages/auth",
+      },
+      {
+        src: "templates/pages/protected",
+        dest: "pages/protected",
+      },
+    ],
+  },
+  {
+    filters: [hasPlatformExpo],
+    list: [
+      {
+        src: "templates/expo/screens",
+        dest: "expo/screens",
+      },
+      {
+        src: "templates/expo/components",
+        dest: "lib/auth/expo",
+      },
+    ],
+  },
+  // type
+  {
+    filters: [isTypeSession],
+    list: [
       {
         src: "templates/lib/auth/server/middlewares/session.ts",
         dest: "lib/auth/server/middlewares/session.ts",
@@ -76,68 +140,40 @@ export const authTypeConfig: Record<string, GeneratorConfigDefinition> = {
       },
     ],
   },
-  jwt: {
-    dependencies: [
-      { name: "passport-jwt" },
-      { name: "jsonwebtoken" },
-      { name: "@types/jsonwebtoken", isDevDep: true },
-    ],
-    templates: [
+  {
+    filters: [isTypeJwt],
+    list: [
       {
         src: "templates/lib/auth/server/strategy/jwt.ts",
         dest: "lib/auth/server/strategy/jwt.ts",
       },
     ],
   },
-};
-
-export const authScopeConfig: Record<string, GeneratorConfigDefinition> = {
-  local: {
-    dependencies: [
-      { name: "passport-local" },
-      { name: "@types/passport-local", isDevDep: true },
-    ],
-    templates: [
+  // scopes
+  {
+    filters: [hasScopeLocal],
+    list: [
       {
         src: "templates/lib/auth/server/strategy/local.ts",
         dest: "lib/auth/server/strategy/local.ts",
       },
     ],
   },
-  google: {
-    dependencies: [
-      { name: "passport-google-oauth20" },
-      { name: "@types/passport-google-oauth20", isDevDep: true },
-    ],
-    templates: [
+  {
+    filters: [hasScopeGoogle],
+    list: [
       {
         src: "templates/lib/auth/server/strategy/google.ts",
         dest: "lib/auth/server/strategy/google.ts",
       },
     ],
   },
-  magic: {
-    dependencies: [],
-    templates: [],
+  {
+    filters: [hasScopeFacebook],
+    list: [],
   },
-};
-
-export const allDependencies = [
-  ...baseConfig.dependencies.map((d) => d.name),
-  ...Object.values(authTypeConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
-    .flat(),
-  ...Object.values(authScopeConfig)
-    .map(({ dependencies }) => dependencies.map((d) => d.name))
-    .flat(),
-];
-
-export const allTemplates = [
-  ...baseConfig.templates.map((t) => t.dest),
-  ...Object.values(authTypeConfig)
-    .map((c) => c.templates.map((t) => t.dest))
-    .flat(),
-  ...Object.values(authScopeConfig)
-    .map((c) => c.templates.map((t) => t.dest))
-    .flat(),
+  {
+    filters: [hasScopeMagic],
+    list: [],
+  },
 ];

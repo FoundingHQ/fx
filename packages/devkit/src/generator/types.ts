@@ -21,11 +21,6 @@ export type Generator<T = any> = {
   }>;
 };
 
-export type GeneratorConfigDefinition = {
-  dependencies: Package[];
-  templates: ScaffoldPath[];
-};
-
 export enum GeneratorLocation {
   Local,
   Remote,
@@ -38,4 +33,10 @@ export type GeneratorMeta = {
   localRootPath: string;
   localPackageJsonPath: string;
   location: GeneratorLocation;
+};
+
+// Remove?
+export type GeneratorConfigDefinition = {
+  dependencies: Package[];
+  templates: ScaffoldPath[];
 };
