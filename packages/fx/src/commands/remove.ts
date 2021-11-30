@@ -1,9 +1,12 @@
-import { execSync } from "child_process";
 import {
-  chalk,
   prompts,
   getOfficialGeneratorList,
+  normalizeGeneratorPath,
+  GeneratorLocation,
+  extractGenerator,
   removeDir,
+  logger,
+  uninstall,
 } from "@founding/devkit";
 
 export const remove = async (
@@ -25,82 +28,97 @@ export const remove = async (
 
     if (res.feature && res.feature.length > 0) {
       feature = res.feature;
-      console.log();
+      logger.newLine();
     }
   }
 
   if (feature.length === 0) {
-    console.log();
-    console.log("Please specify the feature to remove:");
-    console.log(`  ${chalk.cyan("fx remove")} ${chalk.green("[feature]")}`);
-    console.log();
-    console.log("For example:");
-    console.log(`  ${chalk.cyan("fx remove")} ${chalk.green("auth")}`);
-    console.log();
-    console.log(`Run ${chalk.cyan(`fx --help`)} to see all options.`);
+    logger.newLine();
+    logger.log("Please specify the feature to remove:");
+    logger.log(
+      `${logger.withCommand("npx fx remove")} ${logger.withVariable(
+        "[feature]"
+      )}`,
+      1
+    );
+    logger.newLine();
+    logger.log("For example:");
+    logger.log(
+      `${logger.withCommand("npx fx remove")} ${logger.withVariable("auth")}`,
+      1
+    );
+    logger.newLine();
+    logger.log(
+      `Run ${logger.withCommand(`npx fx remove --help`)} to see all options.`
+    );
     process.exit(1);
   }
 
-  console.log("Not implemented yet");
+  const spinner = logger.spinner(`Removing ${feature} feature from project`);
+  const dryRun = options.dryrun || false;
+  const generatorInfo = normalizeGeneratorPath(feature);
 
-  // const featureGenerator = featureGenerators[feature];
-  // const dryRun = options.dryrun || false;
+  if (generatorInfo.location === GeneratorLocation.Remote) {
+    removeDir(generatorInfo.localRootPath);
+  }
 
-  // if (!featureGenerator) {
-  //   console.error(`Feature ${chalk.red(feature)} does not exist`);
-  //   process.exit(1);
-  // } else {
-  //   console.log(`Removing ${chalk.cyan(feature)} feature from project`);
-  //   console.log();
-  // }
+  const { generator } = await extractGenerator(generatorInfo);
+  const { dependencies, templates } = await generator.uninstall();
 
-  // const { dependencies, templates } = await featureGenerator.uninstall();
+  spinner.stop();
 
-  // // Uninstall dependencies
-  // if (dependencies.length) {
-  //   try {
-  //     console.log("Uninstalling dependencies:");
-  //     console.log(chalk.green(dependencies.join("\n")));
-  //     console.log();
-  //     if (dryRun) {
-  //       console.log(chalk.yellow("Dry run: skipping install"));
-  //     } else {
-  //       execSync(`npm uninstall ${dependencies.join(" ")}`);
-  //     }
-  //   } catch (error) {
-  //     console.log("Error uninstalling dependencies:");
-  //     console.error(error);
-  //   }
-  // } else {
-  //   console.log(`No dependencies to uninstall`);
-  //   console.log();
-  // }
+  if (dependencies.length) {
+    try {
+      logger.log("Uninstalling dependencies:");
+      logger.log(dependencies.map((d) => logger.withCaret(d)).join("\n"));
+      if (dryRun) {
+        logger.warning("Dry run: skipping uninstall");
+      } else {
+        spinner.start("Uninstalling dependencies");
+        await uninstall(process.cwd(), dependencies, false);
+        spinner.stop();
+      }
+      logger.newLine();
+    } catch (error: any) {
+      logger.error("Error uninstalling dependencies:");
+      logger.error(error);
+    }
+  } else {
+    logger.progress(`No dependencies to uninstall`);
+    logger.newLine();
+  }
 
-  // if (templates.length) {
-  //   try {
-  //     console.log("Removing feature source code");
-  //     console.log();
-  //     if (dryRun) {
-  //       console.log(chalk.yellow("Dry run: skipping source removal"));
-  //       console.log("Paths to remove:");
-  //       console.log(templates);
-  //     } else {
-  //       for (const path of templates) {
-  //         removeDir(path);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log("Error removing files:");
-  //     console.error(error);
-  //   }
-  // } else {
-  //   console.log("No source code to remove");
-  //   console.log();
-  // }
+  if (templates.length) {
+    try {
+      logger.log("Removing feature source code:");
+      logger.log(templates.map((t) => logger.withCaret(t)).join("\n"));
+      if (dryRun) {
+        logger.warning("Dry run: skipping source removal");
+      } else {
+        spinner.start("Removing feature source code");
+        for (const path of templates) {
+          removeDir(path);
+        }
+        spinner.stop();
+      }
+      logger.newLine();
+    } catch (error: any) {
+      logger.error("Error removing files:");
+      logger.error(error);
+    }
+  } else {
+    logger.progress("No source code to remove");
+    logger.newLine();
+  }
 
-  // console.log(
-  //   `${chalk.yellow(
-  //     "Warning"
-  //   )}: Removing features can be risky when features depend on one another. Changes and codemods ran on your source code have not been reverted. Please refer back to the commit where you installed a feature and manually check the diff.`
-  // );
+  if (generatorInfo.location === GeneratorLocation.Remote) {
+    removeDir(generatorInfo.localRootPath);
+  }
+
+  logger.warning(
+    `Removing features can be risky when features depend on one another. Changes and codemods ran on your source code have not been reverted. Please refer back to the commit where you installed a feature and manually check the diff.`
+  );
+  logger.newLine();
+  logger.success(`Feature successfully removed`);
+  logger.newLine();
 };

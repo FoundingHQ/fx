@@ -13,7 +13,7 @@ export const logger = {
     return c.hex(brandColor).bold(str);
   },
   withWarning(str: string) {
-    return `⚠️ ${c.yellow(str)}`;
+    return `⚠️  ${c.yellow(str)}`;
   },
   withCaret(str: string) {
     return `${c.gray(">")} ${str}`;
@@ -36,8 +36,8 @@ export const logger = {
   withCommand(str: string) {
     return c.cyan(`${str}`);
   },
-  withIndent(str: string, indent = 1) {
-    const indents = " ".repeat(indent);
+  withIndent(str: string, indent = 0) {
+    const indents = "   ".repeat(indent);
     return `${indents}${str}`;
   },
   spinner(str: string) {

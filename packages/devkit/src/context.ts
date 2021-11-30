@@ -13,7 +13,7 @@ const helpers = {
   changeCase,
 };
 
-export type Platforms = "next" | "expo";
+export type Frameworks = "next" | "expo";
 export type Language = "typescript" | "javascript";
 export type Theme = "skeleton";
 
@@ -32,7 +32,7 @@ export type Context<T = {}> = {
     api: string;
   };
   config: {
-    platforms: Platforms[];
+    frameworks: Frameworks[];
     language: Language;
     theme: Theme;
   };
@@ -57,25 +57,29 @@ export const createContext = () => {
       api: resolve(cwd, "pages/api"),
     },
     config: {
-      platforms: (() => {
-        const p: Platforms[] = [];
-        const packageJson = fs.readJSONSync(resolve(cwd, "package.json"));
-        if (packageJson["dependencies"]["next"]) p.push("next");
-        if (packageJson["dependencies"]["expo"]) p.push("expo");
-        return p;
-      })(),
-      language: (() => {
-        const l: Language = fs.existsSync(resolve(cwd, "tsconfig.json"))
-          ? "typescript"
-          : "javascript";
-        return l;
-      })(),
+      frameworks: getFrameworks(),
+      language: getLanguage(),
       theme: "skeleton",
     },
     h: helpers,
   };
 
   return context;
+};
+
+export const getFrameworks = () => {
+  const frameworks: Frameworks[] = [];
+  const packageJson = fs.readJSONSync(resolve(cwd, "package.json"));
+  if (packageJson["dependencies"]["next"]) frameworks.push("next");
+  if (packageJson["dependencies"]["expo"]) frameworks.push("expo");
+  return frameworks;
+};
+
+export const getLanguage = () => {
+  const l: Language = fs.existsSync(resolve(cwd, "tsconfig.json"))
+    ? "typescript"
+    : "javascript";
+  return l;
 };
 
 const interpolate = (path: string, obj: Record<string, any> = {}) => {

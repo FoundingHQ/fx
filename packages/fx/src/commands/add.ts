@@ -94,4 +94,5 @@ export const add = async (
       feature
     )} feature has been scaffolded.`
   );
+  logger.newLine();
 };

@@ -75,14 +75,14 @@ const generator: Generator<Props> = {
   async install() {
     return [];
   },
-  async scaffold({ props: { stack }, config: { platforms } }) {
+  async scaffold({ props: { stack }, config: { frameworks } }) {
     if (stack === "full-stack") {
       const baseTemplates = [...config.baseConfig.templates];
-      const platformTemplates = platforms
-        .map((p) => config.resourcePlatformConfig[p].templates)
+      const frameworkTemplates = frameworks
+        .map((p) => config.resourceFrameworkConfig[p].templates)
         .flat();
 
-      return baseTemplates.concat(platformTemplates);
+      return baseTemplates.concat(frameworkTemplates);
     }
 
     if (stack === "api") {
@@ -91,8 +91,8 @@ const generator: Generator<Props> = {
 
     return [];
   },
-  async codemods({ props: { stack, name }, config: { platforms }, paths }) {
-    if (stack === "api" || !platforms.includes("expo")) return;
+  async codemods({ props: { stack, name }, config: { frameworks }, paths }) {
+    if (stack === "api" || !frameworks.includes("expo")) return;
 
     console.log("Running codemod on `expo/App.tsx`");
     const handlerPath = join(paths.mobile, "App.tsx");

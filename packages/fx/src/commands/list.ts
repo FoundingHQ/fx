@@ -1,15 +1,13 @@
-import { chalk, getOfficialGeneratorList } from "@founding/devkit";
+import { logger, getOfficialGeneratorList } from "@founding/devkit";
 
 export const list = async () => {
+  const spinner = logger.spinner(`Loading feature list`);
   const featureList = await getOfficialGeneratorList();
-
-  console.log(chalk.bold(`Available Features:`));
-  console.log(`  ${featureList.map((f) => `- ${f}`).join("\n  ")}`);
-  console.log();
-  console.log(
-    `You can add features to your FX project with ${chalk.cyan(
-      `fx add <feature>`
-    )}`
-  );
-  console.log();
+  spinner.stop();
+  logger.log(`Available FX features:`);
+  logger.log(featureList.map((f) => logger.withCaret(f)).join("\n"));
+  logger.newLine();
+  logger.log(`You can add features to your project with:`);
+  logger.log(logger.withCommand(`npx fx add <feature>`));
+  logger.newLine();
 };

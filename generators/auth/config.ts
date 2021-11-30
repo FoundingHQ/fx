@@ -10,7 +10,7 @@ export type AuthContext = Context<Props>;
 
 type F = (context: AuthContext) => boolean;
 
-const hasPlatformExpo: F = ({ config }) => config.platforms.includes("expo");
+const hasFrameworkExpo: F = ({ config }) => config.frameworks.includes("expo");
 const isTypeSession: F = ({ props }) => props.type === "session";
 const isTypeJwt: F = ({ props }) => props.type === "jwt";
 const hasScopeLocal: F = ({ props }) => props.scopes.includes("local");
@@ -114,7 +114,7 @@ export const templates = [
     ],
   },
   {
-    filters: [hasPlatformExpo],
+    filters: [hasFrameworkExpo],
     list: [
       {
         src: "templates/expo/screens",
