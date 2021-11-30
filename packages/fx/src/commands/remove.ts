@@ -119,6 +119,8 @@ export const remove = async (
     `Removing features can be risky when features depend on one another. Changes and codemods ran on your source code have not been reverted. Please refer back to the commit where you installed a feature and manually check the diff.`
   );
   logger.newLine();
-  logger.success(`Feature successfully removed`);
+  spinner.succeed(
+    `${logger.withVariable("Success!")} Feature successfully removed`
+  );
   logger.newLine();
 };
