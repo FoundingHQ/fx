@@ -8,6 +8,6 @@ export const list = async () => {
   logger.log(featureList.map((f) => logger.withCaret(f)).join("\n"));
   logger.newLine();
   logger.log(`You can add features to your project with:`);
-  logger.log(logger.withCommand(`npx fx add <feature>`));
+  logger.log(logger.withCommand(`npx fx add <feature>`), 1);
   logger.newLine();
 };

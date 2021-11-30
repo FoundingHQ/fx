@@ -29,18 +29,18 @@ export const init = async (options: Record<string, any> = {}) => {
     )}`
   );
 
-  spinner.start(`Scaffolding required files`);
+  logger.success(`Scaffolding required files`);
   await executeGenerator(generatorInfo, generator, {}, options);
 
   removeDir(generatorInfo.localRootPath);
 
-  spinner.succeed(
+  logger.success(
     `${logger.withVariable(
       "Success!"
     )} Your project is now compatible with FX features`
   );
   logger.newLine();
   logger.log(`You can add features to your project with:`);
-  logger.log(logger.withCommand(`npx fx add <feature>`));
+  logger.log(logger.withCommand(`npx fx add <feature>`), 1);
   logger.newLine();
 };
