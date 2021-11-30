@@ -37,7 +37,8 @@ export const getOfficialGeneratorList = async () => {
     if (
       directory === "generators" &&
       filePath.length === 2 &&
-      item.type === "tree"
+      item.type === "tree" &&
+      !generatorName.includes("[dev]")
     ) {
       generatorList.push(generatorName);
     }

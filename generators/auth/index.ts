@@ -147,8 +147,14 @@ const generator: AuthGenerator = {
   },
   async uninstall() {
     return {
-      dependencies: [],
-      templates: [],
+      dependencies: dependencies
+        .map((d) => d.list)
+        .flat()
+        .map((d) => d.name),
+      templates: templates
+        .map((t) => t.list)
+        .flat()
+        .map((t) => t.dest),
     };
   },
 };

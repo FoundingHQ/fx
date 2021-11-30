@@ -10,7 +10,7 @@ import { cloneRepo } from "../repo";
 
 export const normalizeGeneratorPath = (feature: string) => {
   // feature == `auth`
-  const isOfficialGenerator = /^([\w\-_]*)$/.test(feature);
+  const isOfficialGenerator = /^([\w\-_\[\]]*)$/.test(feature);
   // feature == `https://github.com/some-githubuser/my-awesome-generator`
   const isUrlGenerator = feature.startsWith(GH_ROOT);
   // feature == `some-githubuser/my-awesome-generator`
