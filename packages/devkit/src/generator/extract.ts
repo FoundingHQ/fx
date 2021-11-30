@@ -57,6 +57,10 @@ export const normalizeGeneratorPath = (feature: string) => {
   }
 };
 
+const skipDependencies: Record<string, boolean> = {
+  "@founding/devkit": true,
+};
+
 const requireJSON = (file: string) => {
   return JSON.parse(fs.readFileSync(file).toString("utf-8"));
 };
@@ -99,21 +103,51 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
         generatorInfo.subdirectory
       );
 
-      await install(tempDir, null, false);
+      const generatorPackageJson = requireJSON(
+        generatorInfo.localPackageJsonPath
+      );
 
-      const packageJson = requireJSON(generatorInfo.localPackageJsonPath);
-
-      if (!packageJson.main) {
+      if (!generatorPackageJson.main) {
         console.error(
           `Generator package.json must have a "main" field that points to the generator`
         );
         process.exit(1);
       }
 
-      const generatorEntry = resolve(tempDir, packageJson.main);
+      // Since the generator lives inside the project subdirectory (.fx folder),
+      // we only need to install dependencies that the project doesnt have.
+      if (
+        generatorPackageJson.dependencies ||
+        generatorPackageJson.devDependencies
+      ) {
+        const projectPackageJson = requireJSON(join(cwd, "package.json"));
+        const allProjectDependencies = [
+          ...Object.keys(projectPackageJson.dependencies || {}),
+          ...Object.keys(projectPackageJson.devDependencies || {}),
+        ];
+
+        const allGeneratorDependencies = [
+          ...Object.keys(generatorPackageJson.dependencies || {}),
+          ...Object.keys(generatorPackageJson.devDependencies || {}),
+        ];
+
+        const difference = allGeneratorDependencies
+          .filter((d) => !skipDependencies[d])
+          .filter((d) => !allProjectDependencies.includes(d));
+
+        if (difference.length > 0) {
+          await install(
+            tempDir,
+            difference.map((d) => ({ name: d })),
+            false
+          );
+        }
+      }
+
+      const generatorEntry = resolve(tempDir, generatorPackageJson.main);
       const generator: Generator = require(generatorEntry).default;
 
-      return { generator, packageJson };
+      return { generator, packageJson: generatorPackageJson };
     }
   } else {
     const generatorEntry = resolve(cwd, generatorInfo.path);
