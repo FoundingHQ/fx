@@ -153,6 +153,7 @@ const generator: Generator<Props> = {
     //   },
     // });
     // writeJson("app.json", newAppJson);
+    return [];
   },
   async finish() {},
   async uninstall() {

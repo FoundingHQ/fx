@@ -12,7 +12,9 @@ const generator: Generator<Props> = {
   async scaffold() {
     return [];
   },
-  async codemods() {},
+  async codemods() {
+    return [];
+  },
   async finish() {},
   async uninstall() {
     return {

@@ -95,7 +95,7 @@ const generator: Generator<Props> = {
     if (stack === "api" || !frameworks.includes("expo")) return;
 
     console.log("Running codemod on `expo/App.tsx`");
-    const handlerPath = join(paths.mobile, "App.tsx");
+    const mobilePath = join(paths.mobile, "App.tsx");
     const handlerTransform = async (source: string) => {
       const crudScreen = ["Edit", "List", "New", "Show"];
 
@@ -121,7 +121,9 @@ const generator: Generator<Props> = {
       return program.toSource();
     };
 
-    await runTransforms(handlerPath, [handlerTransform]);
+    await runTransforms(mobilePath, [handlerTransform]);
+
+    return [mobilePath];
   },
   async finish() {},
   async uninstall() {
