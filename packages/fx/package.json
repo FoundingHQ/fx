@@ -1,6 +1,6 @@
 {
   "name": "@founding/fx",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "keywords": [],
   "description": "CLI to add prebuilt features to Fx apps",
   "repository": {
@@ -28,7 +28,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@founding/devkit": "^0.0.7",
+    "@founding/devkit": "^0.0.8",
     "async-retry": "^1.3.3",
     "commander": "^8.3.0"
   },
