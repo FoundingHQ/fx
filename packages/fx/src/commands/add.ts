@@ -82,6 +82,7 @@ export const add = async (
   spinner.succeed(`Generator installed`);
 
   logger.success(`Running ${generatorName} generator`);
+  logger.newLine();
   await executeGenerator(generatorInfo, generator, generatorOptions, options);
 
   if (generatorInfo.location === GeneratorLocation.Remote) {

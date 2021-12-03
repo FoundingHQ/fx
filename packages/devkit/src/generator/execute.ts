@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { logger } from "../logger";
 import {
   convertTemplateDestPaths,
   convertTemplateSrcPaths,
@@ -25,29 +25,23 @@ export const executeGenerator = async (
 
   // Install required dependencies
   try {
+    logger.log("Installing dependencies:");
     const dependencies = await generator.install(context);
 
-    if (!dependencies.length) {
-      console.log("No dependencies to install.");
-      console.log();
-    } else {
-      console.log();
-
-      if (dependencies.length) {
-        console.log("Installing dependencies:");
-        dependencies.forEach((d) => {
-          console.log(`▶ ${chalk.green(d.name)}`);
-        });
-        if (dryRun) {
-          console.log();
-          console.log(chalk.yellow("Dry run: skipping install"));
-          console.log();
-        } else {
-          await install(context.paths.root, dependencies);
-          console.log();
-        }
+    if (dependencies && dependencies.length) {
+      logger.list(dependencies.map((d) => logger.withVariable(d.name)));
+      if (dryRun) {
+        logger.newLine();
+        logger.warning("Dry run, skipping installation");
+      } else {
+        const spinner = logger.spinner("Installing dependencies");
+        await install(context.paths.root, dependencies, false);
+        spinner.succeed("Dependencies installed");
       }
+    } else {
+      logger.success("No dependencies to install");
     }
+    logger.newLine();
   } catch (error) {
     throwHandledError({
       command: "executeGenerator",
@@ -58,32 +52,43 @@ export const executeGenerator = async (
 
   // Scaffold and transform feature files
   try {
-    console.log("Generating feature source code");
-    console.log();
+    logger.log("Generating feature source code:");
     const scaffoldPaths = await generator.scaffold(context);
-    for (const scaffoldPath of scaffoldPaths) {
-      const src = convertTemplateSrcPaths(
-        generatorInfo.localRootPath,
-        scaffoldPath.src,
-        context
-      );
-      const dest = convertTemplateDestPaths(
-        context.paths.root,
-        scaffoldPath.dest,
-        context
-      );
-      await copy(src, dest);
 
-      const files = await getFiles(dest);
-      // TODO: Fix possible performance issue with this
-      for (const filePath of files) {
-        console.log(
-          `▶ Generated ${chalk.green(filePath.replace(context.paths.root, ""))}`
+    if (scaffoldPaths && scaffoldPaths.length) {
+      for (const scaffoldPath of scaffoldPaths) {
+        const src = convertTemplateSrcPaths(
+          generatorInfo.localRootPath,
+          scaffoldPath.src,
+          context
         );
-        await runTransforms(filePath, [getEjsTransform(filePath), context]);
+        const dest = convertTemplateDestPaths(
+          context.paths.root,
+          scaffoldPath.dest,
+          context
+        );
+
+        await copy(src, dest);
+
+        const files = await getFiles(dest);
+        // TODO: Fix possible performance issue with this
+        for (const filePath of files) {
+          await runTransforms(filePath, [getEjsTransform(filePath), context]);
+        }
+        logger.list(
+          files.map(
+            (f) =>
+              `Generated ${logger.withVariable(
+                f.replace(context.paths.root, "")
+              )}`
+          )
+        );
       }
+      logger.success("Source files generated");
+    } else {
+      logger.success("No files to generate");
     }
-    console.log();
+    logger.newLine();
   } catch (error) {
     throwHandledError({
       command: "executeGenerator",
@@ -94,9 +99,15 @@ export const executeGenerator = async (
 
   // Run codemods
   try {
-    console.log("Running codemods");
-    console.log();
-    await generator.codemods(context);
+    logger.log("Running codemods:");
+    const filesModified = await generator.codemods(context);
+    if (filesModified && filesModified.length) {
+      logger.list(filesModified);
+      logger.success("Feature has been integrated into your source code");
+    } else {
+      logger.success("No codemods to run");
+    }
+    logger.newLine();
   } catch (error) {
     throwHandledError({
       command: "executeGenerator",

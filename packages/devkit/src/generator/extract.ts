@@ -1,12 +1,12 @@
 import fs from "fs-extra";
 import { join, resolve, dirname } from "path";
-import chalk from "chalk";
 import { Generator, GeneratorMeta, GeneratorLocation } from "./types";
 import { setupTsTranspiler } from "../ts-transpiler";
 import { gotJSON, isUrlValid } from "../network";
 import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../config";
 import { install } from "../package";
 import { cloneRepo } from "../repo";
+import { logger } from "../logger";
 
 export const normalizeGeneratorPath = (feature: string) => {
   // feature == `auth`
@@ -81,17 +81,19 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
     );
 
     if (!(await isUrlValid(packageJsonPath))) {
-      console.error(
-        `Could not find generator for "${generatorInfo.feature}"\n`
+      logger.error(`Could not find generator for "${generatorInfo.feature}"\n`);
+      logger.title("Please provide one of the following:");
+      logger.log(`1. The name of a feature to install (e.g. "auth")`);
+      logger.meta(
+        "- Available generators listed at https://github.com/foundinghq/fx/tree/main/generators"
       );
-      console.log(`${chalk.bold("Please provide one of the following:")}
-1. The name of a feature to install (e.g. "auth")
- ${chalk.dim(
-   "- Available generators listed at https://github.com/foundinghq/fx/tree/main/generators"
- )}
-2. The full name of a GitHub repository (e.g. "foundinghq/example-generator"),
-3. A full URL to a Github repository (e.g. "https://github.com/foundinghq/example-generator"), or
-4. A file path to a locally-written generator.\n`);
+      logger.log(
+        `2. The full name of a GitHub repository (e.g. "foundinghq/example-generator")`
+      );
+      logger.log(
+        `3. A full URL to a Github repository (e.g. "https://github.com/foundinghq/example-generator"), or`
+      );
+      logger.log(`4. A file path to a locally-written generator.`, 0, true);
       process.exit(1);
     } else {
       const tempDir = generatorInfo.localRootPath;
@@ -108,8 +110,8 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
       );
 
       if (!generatorPackageJson.main) {
-        console.error(
-          `Generator package.json must have a "main" field that points to the generator`
+        logger.error(
+          `Failed to run generator: package.json must have a "main" field that points to the generator module`
         );
         process.exit(1);
       }

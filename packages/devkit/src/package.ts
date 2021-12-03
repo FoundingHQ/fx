@@ -2,6 +2,7 @@ import spawn from "cross-spawn";
 import validateProjectName from "validate-npm-package-name";
 import chalk from "chalk";
 import checkForUpdate from "update-check";
+import { runCommand } from "./exec";
 
 export type Package = {
   name: string;
@@ -80,26 +81,6 @@ export const uninstall = async (
   await runCommand(command, args, withStdio);
   process.chdir(originalCwd);
 };
-
-const runCommand = (
-  command: string,
-  args: string[],
-  withStdio: boolean = true
-) =>
-  new Promise<void>((resolve, reject) => {
-    const child = spawn(command, args, {
-      stdio: withStdio ? "inherit" : "ignore",
-      env: { ...process.env, ADBLOCK: "1", DISABLE_OPENCOLLECTIVE: "1" },
-    });
-
-    child.on("close", (code) => {
-      if (code !== 0) {
-        reject({ command: `${command} ${args.join(" ")}` });
-        return;
-      }
-      resolve();
-    });
-  });
 
 export const validateNpmName = (name: string) => {
   const nameValidation = validateProjectName(name);

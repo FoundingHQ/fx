@@ -1,7 +1,6 @@
 export * from "./config";
 export * from "./context";
-export * from "./db";
-export * from "./docker";
+export * from "./migrations";
 export * from "./ejs";
 export * from "./error";
 export * from "./fs";
@@ -11,3 +10,4 @@ export * from "./package";
 export * from "./prompts";
 export * from "./repo";
 export * from "./transforms";
+export * from "./exec";

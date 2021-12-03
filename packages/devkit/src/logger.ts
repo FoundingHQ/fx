@@ -6,12 +6,7 @@ import readline from "readline";
 export const table = Table;
 export const chalk = c;
 
-const brandColor = "#4E5BA6";
-
 export const logger = {
-  withBrand(str: string) {
-    return c.hex(brandColor).bold(str);
-  },
   withWarning(str: string) {
     return `⚠️  ${c.yellow(str)}`;
   },
@@ -30,6 +25,9 @@ export const logger = {
   withError(str: string) {
     return logger.withX(c.red.bold(str));
   },
+  withMeta(str: string) {
+    return c.gray(str);
+  },
   withVariable(str: string) {
     return c.green(`${str}`);
   },
@@ -40,12 +38,14 @@ export const logger = {
     const indents = "   ".repeat(indent);
     return `${indents}${str}`;
   },
-  spinner(str: string) {
-    return ora({
+  spinner(str?: string) {
+    const spinner = ora({
       text: str,
       color: "cyan",
       spinner: "dots",
-    }).start();
+    });
+    if (str) spinner.start();
+    return spinner;
   },
   clearLine(msg?: string) {
     readline.clearLine(process.stdout, 0);
@@ -59,8 +59,11 @@ export const logger = {
       process.stdout.write("\x1B[2J\x1B[3J\x1B[H");
     }
   },
-  branded(msg: string) {
-    console.log(c.hex(brandColor).bold(msg));
+  title(msg: string) {
+    console.log(c.bold(msg));
+  },
+  list(msgs: string[]) {
+    console.log(msgs.map((m) => logger.withCaret(m)).join("\n"));
   },
   error(msg: string) {
     console.error(logger.withX(c.red.bold(msg)));
@@ -69,7 +72,7 @@ export const logger = {
     console.log(logger.withWarning(msg));
   },
   meta(msg: string) {
-    console.log(logger.withCaret(c.gray(msg)));
+    console.log(c.gray(msg));
   },
   progress(msg: string) {
     console.log(logger.withCaret(msg));
@@ -77,8 +80,9 @@ export const logger = {
   success(msg: string) {
     console.log(logger.withCheck(msg));
   },
-  log(msg: string, indents = 0) {
+  log(msg: string, indents = 0, newLine = false) {
     console.log(logger.withIndent(msg, indents));
+    if (newLine) console.log();
   },
   newLine() {
     console.log();

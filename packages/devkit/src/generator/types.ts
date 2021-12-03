@@ -13,7 +13,7 @@ export type Generator<T = any> = {
   ) => Promise<T>;
   install: (context: Context<T>) => Promise<Package[]>;
   scaffold: (context: Context<T>) => Promise<ScaffoldPath[]>;
-  codemods: (context: Context<T>) => Promise<void>;
+  codemods: (context: Context<T>) => Promise<string[]>;
   finish: (context: Context<T>) => Promise<void>;
   uninstall: () => Promise<{
     dependencies: string[];

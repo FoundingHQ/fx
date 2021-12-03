@@ -29,7 +29,8 @@ export const init = async (options: Record<string, any> = {}) => {
     )}`
   );
 
-  logger.success(`Scaffolding required files`);
+  logger.success(`Converting project to be FX compatible`);
+  logger.newLine();
   await executeGenerator(generatorInfo, generator, {}, options);
 
   removeDir(generatorInfo.localRootPath);

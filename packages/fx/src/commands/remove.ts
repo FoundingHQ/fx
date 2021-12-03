@@ -84,7 +84,7 @@ export const remove = async (
       logger.error(error);
     }
   } else {
-    logger.progress(`No dependencies to uninstall`);
+    logger.success(`No dependencies to uninstall`);
     logger.newLine();
   }
 
@@ -107,7 +107,7 @@ export const remove = async (
       logger.error(error);
     }
   } else {
-    logger.progress("No source code to remove");
+    logger.success("No source code to remove");
     logger.newLine();
   }
 

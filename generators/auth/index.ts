@@ -5,9 +5,7 @@ import {
   addPrismaEnum,
   createJscodeshiftProgram,
   addImport,
-  startDocker,
-  runMigrations,
-  sleep,
+  syncGeneratorMigrations,
   prompts,
 } from "@founding/devkit";
 import { AuthGenerator, dependencies, templates } from "./config";
@@ -98,8 +96,9 @@ const generator: AuthGenerator = {
     }, []);
   },
   async codemods({ paths }) {
-    console.log("Running codemod on `lib/core/server/handler.ts`");
     const handlerPath = join(paths.libCore, "server/handler.ts");
+    const schemaPath = paths.scheme;
+
     const handlerTransform = async (source: string) => {
       const { program, j } = createJscodeshiftProgram(source);
       const sessionImport = j.template
@@ -123,27 +122,29 @@ const generator: AuthGenerator = {
 
       return program.toSource();
     };
+
     await runTransforms(handlerPath, [handlerTransform]);
-    console.log();
-    console.log("Running codemod on `prisma/schema.prisma`");
     await runTransforms(
-      paths.scheme,
+      schemaPath,
       [addPrismaModel, schemas.accountSchema],
       [addPrismaModel, schemas.userSchema],
       [addPrismaModel, schemas.tokenSchema],
       [addPrismaEnum, schemas.tokenTypeEnum],
       [addPrismaEnum, schemas.userRoleEnum]
     );
-    console.log();
+    return [handlerPath, schemaPath];
   },
   async finish() {
-    console.log("Checking your db");
-    startDocker();
-    console.log();
-    sleep(2000);
-    runMigrations("fx add auth");
-    console.log();
-    return;
+    const res = await prompts({
+      type: "confirm",
+      name: "value",
+      message: "Would you like to run migrations?",
+      initial: true,
+    });
+
+    if (res.value) {
+      await syncGeneratorMigrations("fx_add_auth");
+    }
   },
   async uninstall() {
     return {
