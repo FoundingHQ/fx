@@ -8,9 +8,9 @@
     "clean": "lerna clean && lerna run clean",
     "dev": "lerna run dev --parallel",
     "test": "jest",
-    "reset": "npm run clean && npm run reset:local && npm i",
+    "reset": "npm run clean && npm i",
     "reset:links": "lerna link --force-local",
-    "reset:local": "ts-node ./scripts/local.ts && lerna link --force-local"
+    "reset:local": "ts-node ./scripts/local.ts"
   },
   "dependencies": {
     "@parcel/packager-ts": "^2.0.1",

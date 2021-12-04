@@ -17,7 +17,36 @@ if (fs.existsSync(localDir)) {
   rimraf.sync(localDir);
 }
 
+const originalCwd = process.cwd();
+
 console.log(`Adding new local FX project...`);
-execSync(`npx create-fx-app@latest packages/local --skipInstall`, {
+process.chdir("packages");
+execSync(`npx create-next-app@latest local --ts --use-npm`, {
   stdio: "inherit",
 });
+
+process.chdir("local");
+console.log(`Adding FX into project...`);
+execSync(`npm i @founding/fx -D`, {
+  stdio: "inherit",
+});
+
+process.chdir(originalCwd);
+console.log(`Linking local files...`);
+execSync(`npm run reset:links`, {
+  stdio: "inherit",
+});
+
+process.chdir("packages/local");
+console.log(`Running FX init...`);
+execSync(`npx fx init`, {
+  stdio: "inherit",
+});
+
+process.chdir(originalCwd);
+console.log(`Re-link local files after fx init`);
+execSync(`npm run reset:links`, {
+  stdio: "inherit",
+});
+
+console.log(`Done`);
