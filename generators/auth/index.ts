@@ -7,6 +7,7 @@ import {
   addImport,
   syncGeneratorMigrations,
   prompts,
+  extractFilterableList,
 } from "@founding/devkit";
 import { AuthGenerator, dependencies, templates } from "./config";
 import * as schemas from "./schema";
@@ -74,26 +75,10 @@ const generator: AuthGenerator = {
     return { ...res, ...options };
   },
   async install(context) {
-    return dependencies.reduce((res, current) => {
-      if (!current.filters) {
-        res.push(...current.list);
-      } else if (current.filters.every((filter) => filter(context))) {
-        res.push(...current.list);
-      }
-
-      return res;
-    }, []);
+    return extractFilterableList(dependencies, context);
   },
   async scaffold(context) {
-    return templates.reduce((res, current) => {
-      if (!current.filters) {
-        res.push(...current.list);
-      } else if (current.filters.every((filter) => filter(context))) {
-        res.push(...current.list);
-      }
-
-      return res;
-    }, []);
+    return extractFilterableList(templates, context);
   },
   async codemods({ paths }) {
     const handlerPath = join(paths.libCore, "server/handler.ts");

@@ -55,7 +55,7 @@ export const remove = async (
   }
 
   const spinner = logger.spinner(`Removing ${feature} feature from project`);
-  const dryRun = options.dryrun || false;
+  const dryRun = options.dryRun || false;
   const generatorInfo = normalizeGeneratorPath(feature);
 
   if (generatorInfo.location === GeneratorLocation.Remote) {

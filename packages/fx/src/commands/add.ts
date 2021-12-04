@@ -57,7 +57,8 @@ export const add = async (
 
   /**
    *  Parse additional arguments from the command line:
-   * `fx add example --dryrun scope=a lame --test` => { scope: 'a', lame: true }
+   * `fx add example --dry-run scope=a lame --test`
+   * => { scope: 'a', lame: true }
    **/
   const generatorOptions = parseArgs(args);
   const generatorInfo = normalizeGeneratorPath(feature);

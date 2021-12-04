@@ -51,7 +51,7 @@ const main = async () => {
     `
     )
     .option(
-      "-n, --dryrun",
+      "-n, --dry-run",
       "print outputs of adding a feature without running the command"
     )
     .allowUnknownOption()
@@ -67,7 +67,7 @@ const main = async () => {
     `
     )
     .option(
-      "-n, --dryrun",
+      "-n, --dry-run",
       "print outputs of removing a feature without running the command"
     )
     .allowUnknownOption()
@@ -83,7 +83,7 @@ const main = async () => {
     `
     )
     .option(
-      "-n, --dryrun",
+      "-n, --dry-run",
       "print outputs of executing a preset without running the command"
     )
     .allowUnknownOption()

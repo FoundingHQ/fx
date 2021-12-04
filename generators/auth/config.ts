@@ -1,4 +1,4 @@
-import { Generator, Context } from "@founding/devkit";
+import { Generator, Context, Filter, FilterableList } from "@founding/devkit";
 
 export type Props = {
   type: "session" | "jwt";
@@ -8,17 +8,29 @@ export type Props = {
 export type AuthGenerator = Generator<Props>;
 export type AuthContext = Context<Props>;
 
-type F = (context: AuthContext) => boolean;
+const hasFrameworkExpo: Filter<AuthContext> = ({ config }) => {
+  return config.frameworks.includes("expo");
+};
+const isTypeSession: Filter<AuthContext> = ({ props }) => {
+  return props.type === "session";
+};
+const isTypeJwt: Filter<AuthContext> = ({ props }) => {
+  return props.type === "jwt";
+};
+const hasScopeLocal: Filter<AuthContext> = ({ props }) => {
+  return props.scopes.includes("local");
+};
+const hasScopeGoogle: Filter<AuthContext> = ({ props }) => {
+  return props.scopes.includes("google");
+};
+const hasScopeFacebook: Filter<AuthContext> = ({ props }) => {
+  return props.scopes.includes("facebook");
+};
+const hasScopeMagic: Filter<AuthContext> = ({ props }) => {
+  return props.scopes.includes("magic");
+};
 
-const hasFrameworkExpo: F = ({ config }) => config.frameworks.includes("expo");
-const isTypeSession: F = ({ props }) => props.type === "session";
-const isTypeJwt: F = ({ props }) => props.type === "jwt";
-const hasScopeLocal: F = ({ props }) => props.scopes.includes("local");
-const hasScopeGoogle: F = ({ props }) => props.scopes.includes("google");
-const hasScopeFacebook: F = ({ props }) => props.scopes.includes("facebook");
-const hasScopeMagic: F = ({ props }) => props.scopes.includes("magic");
-
-export const dependencies = [
+export const dependencies: FilterableList<AuthContext> = [
   // base set of required dependencies
   {
     list: [
@@ -72,7 +84,7 @@ export const dependencies = [
   },
 ];
 
-export const templates = [
+export const templates: FilterableList<AuthContext> = [
   {
     list: [
       {
@@ -88,12 +100,12 @@ export const templates = [
         dest: "lib/auth/server/middlewares",
       },
       {
-        src: "templates/lib/auth/server/authConfig.ts",
-        dest: "lib/auth/server/authConfig.ts",
+        src: "templates/lib/auth/server/authConfig.ts.ejs",
+        dest: "lib/auth/server/authConfig.ts.ejs",
       },
       {
-        src: "templates/lib/auth/server/authService.ts",
-        dest: "lib/auth/server/authService.ts",
+        src: "templates/lib/auth/server/authService.ts.ejs",
+        dest: "lib/auth/server/authService.ts.ejs",
       },
       {
         src: "templates/lib/users",
@@ -131,12 +143,12 @@ export const templates = [
     filters: [isTypeSession],
     list: [
       {
-        src: "templates/lib/auth/server/middlewares/session.ts",
-        dest: "lib/auth/server/middlewares/session.ts",
+        src: "templates/lib/auth/server/middlewares/session.ts.ejs",
+        dest: "lib/auth/server/middlewares/session.ts.ejs",
       },
       {
-        src: "templates/redis.ts",
-        dest: "lib/core/server/redis.ts",
+        src: "templates/redis.ts.ejs",
+        dest: "lib/core/server/redis.ts.ejs",
       },
     ],
   },
@@ -144,8 +156,8 @@ export const templates = [
     filters: [isTypeJwt],
     list: [
       {
-        src: "templates/lib/auth/server/strategy/jwt.ts",
-        dest: "lib/auth/server/strategy/jwt.ts",
+        src: "templates/lib/auth/server/strategy/jwt.ts.ejs",
+        dest: "lib/auth/server/strategy/jwt.ts.ejs",
       },
     ],
   },
@@ -154,8 +166,8 @@ export const templates = [
     filters: [hasScopeLocal],
     list: [
       {
-        src: "templates/lib/auth/server/strategy/local.ts",
-        dest: "lib/auth/server/strategy/local.ts",
+        src: "templates/lib/auth/server/strategy/local.ts.ejs",
+        dest: "lib/auth/server/strategy/local.ts.ejs",
       },
     ],
   },
@@ -163,8 +175,8 @@ export const templates = [
     filters: [hasScopeGoogle],
     list: [
       {
-        src: "templates/lib/auth/server/strategy/google.ts",
-        dest: "lib/auth/server/strategy/google.ts",
+        src: "templates/lib/auth/server/strategy/google.ts.ejs",
+        dest: "lib/auth/server/strategy/google.ts.ejs",
       },
     ],
   },
