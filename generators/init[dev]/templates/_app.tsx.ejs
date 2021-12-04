@@ -1,0 +1,22 @@
+import type { AppProps } from "next/app";
+import type { NextPage } from "next";
+import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { queryClient } from "@util/query";
+
+type Page<P = Record<string, unknown>> = NextPage<P>;
+
+type Props = AppProps & {
+  Component: Page;
+};
+
+const MyApp = ({ Component, pageProps }: Props) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  );
+};
+
+export default MyApp;
