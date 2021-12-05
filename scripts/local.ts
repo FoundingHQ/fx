@@ -6,18 +6,18 @@ import { execSync } from "child_process";
 import fs from "fs";
 import rimraf from "rimraf";
 
+const originalCwd = process.cwd();
 const localDir = "packages/local";
 
 if (fs.existsSync(localDir)) {
   console.log("Stopping Docker containers");
-  execSync(`npx lerna run --scope @founding/template docker:stop`, {
-    stdio: "inherit",
-  });
+  process.chdir(localDir);
+  execSync("docker-compose down", { stdio: "inherit" });
+  process.chdir(originalCwd);
+
   console.log(`Removing local FX project...`);
   rimraf.sync(localDir);
 }
-
-const originalCwd = process.cwd();
 
 console.log(`Adding new local FX project...`);
 process.chdir("packages");
@@ -26,7 +26,7 @@ execSync(`npx create-next-app@latest local --ts --use-npm`, {
 });
 
 process.chdir("local");
-console.log(`Adding FX into project...`);
+console.log(`Adding FX into local project...`);
 execSync(`npm i @founding/fx -D`, {
   stdio: "inherit",
 });
@@ -39,7 +39,7 @@ execSync(`npm run reset:links`, {
 
 process.chdir("packages/local");
 console.log(`Running FX init...`);
-execSync(`npx fx init`, {
+execSync(`npx fx init -p ../../generators/init\[dev\]/index.ts`, {
   stdio: "inherit",
 });
 

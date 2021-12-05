@@ -1,4 +1,5 @@
 import {
+  GeneratorLocation,
   normalizeGeneratorPath,
   extractGenerator,
   executeGenerator,
@@ -10,7 +11,7 @@ import {
 
 export const init = async (options: Record<string, any> = {}) => {
   const spinner = logger.spinner(`Initializing FX for your project`);
-  const generatorInfo = normalizeGeneratorPath("init[dev]");
+  const generatorInfo = normalizeGeneratorPath(options.path || "init[dev]");
   const frameworks = getFrameworks();
 
   if (frameworks.length === 0 || !frameworks.includes("next")) {
@@ -20,7 +21,9 @@ export const init = async (options: Record<string, any> = {}) => {
     });
   }
 
-  removeDir(generatorInfo.localRootPath);
+  if (generatorInfo.location === GeneratorLocation.Remote) {
+    removeDir(generatorInfo.localRootPath);
+  }
 
   const { generator } = await extractGenerator(generatorInfo);
   spinner.succeed(
@@ -33,7 +36,9 @@ export const init = async (options: Record<string, any> = {}) => {
   logger.newLine();
   await executeGenerator(generatorInfo, generator, {}, options);
 
-  removeDir(generatorInfo.localRootPath);
+  if (generatorInfo.location === GeneratorLocation.Remote) {
+    removeDir(generatorInfo.localRootPath);
+  }
 
   logger.success(
     `${logger.withVariable(

@@ -21,7 +21,7 @@
   "scripts": {
     "cli": "ts-node src/fx.ts",
     "cli:prod": "node dist/fx",
-    "dev": "parcel watch",
+    "dev": "parcel watch -p 1236",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "parcel build",

@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "parcel watch",
+    "dev": "parcel watch -p 1235",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "parcel build",

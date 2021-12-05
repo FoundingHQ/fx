@@ -102,8 +102,15 @@ export const executeGenerator = async (
     logger.log("Running codemods:");
     const filesModified = await generator.codemods(context);
     if (filesModified && filesModified.length) {
-      logger.list(filesModified);
-      logger.success("Feature has been integrated into your source code");
+      logger.list(
+        filesModified.map(
+          (f) =>
+            `Modified ${logger.withVariable(f.replace(context.paths.root, ""))}`
+        )
+      );
+      logger.success(
+        "File modifications made in order to integrate directly into your source code"
+      );
     } else {
       logger.success("No codemods to run");
     }

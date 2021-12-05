@@ -1,19 +1,26 @@
+import type { ReactElement, ReactNode } from "react";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { queryClient } from "@util/query";
 
-type Page<P = Record<string, unknown>> = NextPage<P>;
+import "styles/globals.css";
 
-type Props = AppProps & {
-  Component: Page;
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
-const MyApp = ({ Component, pageProps }: Props) => {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
       <ReactQueryDevtools />
     </QueryClientProvider>
   );

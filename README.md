@@ -41,8 +41,8 @@ FX was born out of my own frustration with starting and building new application
 <p>1) Create a new project with your default toolset:</p>
 
 ```bash
-# For a next.js project - https://nextjs.org/docs/api-reference/create-next-app
-npx create-next-app@latest
+# New Next.js project - https://nextjs.org/docs/api-reference/create-next-app
+npx create-next-app@latest --ts --use-npm
 ```
 
 <p>2) Setup your project with FX:</p>

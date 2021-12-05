@@ -21,7 +21,8 @@ export type Context<T = {}> = {
   props: T;
   paths: {
     root: string;
-    config: string;
+    fxConfig: string;
+    tsConfig: string;
     packageJson: string;
     scheme: string;
     lib: string;
@@ -46,7 +47,8 @@ export const createContext = () => {
     props: {},
     paths: {
       root: cwd,
-      config: resolve(cwd, "fx.config.js"),
+      fxConfig: resolve(cwd, "fx.config.js"),
+      tsConfig: resolve(cwd, "tsconfig.json"),
       packageJson: resolve(cwd, "package.json"),
       scheme: resolve(cwd, "prisma/schema.prisma"),
       lib: resolve(cwd, "lib"),
