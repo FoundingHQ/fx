@@ -9,7 +9,7 @@
     "directory": "packages/fx"
   },
   "author": "@FoundingHQ",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "source": "./src/fx.ts",
   "main": "./dist/fx.js",
   "bin": {

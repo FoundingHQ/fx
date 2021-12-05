@@ -8,7 +8,7 @@
     "url": "https://github.com/FoundingHQ/fx",
     "directory": "packages/devkit"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "@FoundingHQ",
   "source": "./src/index.ts",
   "main": "./dist/index.js",

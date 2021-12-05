@@ -9,7 +9,7 @@
     "directory": "packages/create-fx-app"
   },
   "author": "@FoundingHQ",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "source": "./src/create-fx-app.ts",
   "main": "./dist/create-fx-app.js",
   "bin": {
