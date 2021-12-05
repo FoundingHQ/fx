@@ -26,7 +26,7 @@ export const logger = {
     return logger.withX(c.red.bold(str));
   },
   withMeta(str: string) {
-    return c.gray(str);
+    return c.dim(str);
   },
   withVariable(str: string) {
     return c.green(`${str}`);
@@ -72,7 +72,7 @@ export const logger = {
     console.log(logger.withWarning(msg));
   },
   meta(msg: string) {
-    console.log(c.gray(msg));
+    console.log(logger.withMeta(msg));
   },
   progress(msg: string) {
     console.log(logger.withCaret(msg));
