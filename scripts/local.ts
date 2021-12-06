@@ -39,6 +39,8 @@ execSync(`npm run reset:links`, {
 
 process.chdir("packages/local");
 console.log(`Running FX init...`);
+// Run custom init using local init generator otherwise `fx init` pulls from
+// origin/main rather than local init.
 execSync(`npx fx init -p ../../generators/init\[dev\]/index.ts`, {
   stdio: "inherit",
 });
