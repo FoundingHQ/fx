@@ -31,7 +31,7 @@ const generator: Generator<Props> = {
   async scaffold() {
     const nextjsTemplates = [
       { src: "templates/_app.tsx.ejs", dest: "pages/_app.tsx" },
-      { src: "templates/.env.ejs", dest: ".env" },
+      { src: "templates/.env.local.ejs", dest: ".env.local" },
       { src: "templates/docker-compose.yml.ejs", dest: "docker-compose.yml" },
       { src: "templates/query.ts.ejs", dest: "lib/core/util/query.ts" },
       {
@@ -63,7 +63,27 @@ const generator: Generator<Props> = {
 
     writeJson(tsConfigPath, tsConfig, { spaces: 2 });
 
-    return [tsConfigPath];
+    const packageJsonPath = context.paths.packageJson;
+    const packageJson = readJson(packageJsonPath);
+
+    packageJson.scripts = {
+      ...packageJson.scripts,
+      "docker:start": "docker-compose up -d",
+      "docker:stop": "docker-compose down",
+      "prisma:generate": "dotenv -e .env.local -- prisma generate",
+      "prisma:migrate:dev":
+        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate dev',
+      "prisma:migrate:prod":
+        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate deploy',
+      "prisma:reset":
+        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate reset',
+      "prisma:seed":
+        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma db seed',
+    };
+
+    writeJson(packageJsonPath, packageJson, { spaces: 2 });
+
+    return [tsConfigPath, packageJsonPath];
   },
   async finish() {},
   async uninstall() {

@@ -1,11 +1,12 @@
+import { resolve, extname } from "path";
 import { logger } from "../logger";
 import {
-  convertTemplateDestPaths,
-  convertTemplateSrcPaths,
+  interpolatePath,
+  removeTemplateExtension,
   createContext,
 } from "../context";
 import { getEjsTransform } from "../ejs";
-import { copy, getFiles, runTransforms } from "../fs";
+import { getFiles, runTransforms } from "../fs";
 import { install } from "../package";
 import { throwHandledError } from "../error";
 import { Generator, GeneratorMeta } from "./types";
@@ -29,7 +30,7 @@ export const executeGenerator = async (
     const dependencies = await generator.install(context);
 
     if (dependencies && dependencies.length) {
-      logger.list(dependencies.map((d) => logger.withVariable(d.name)));
+      logger.list(dependencies.map((d) => logger.withCommand(d.name)));
       if (dryRun) {
         logger.newLine();
         logger.warning("Dry run, skipping installation");
@@ -57,28 +58,37 @@ export const executeGenerator = async (
 
     if (scaffoldPaths && scaffoldPaths.length) {
       for (const scaffoldPath of scaffoldPaths) {
-        const src = convertTemplateSrcPaths(
-          generatorInfo.localRootPath,
-          scaffoldPath.src,
-          context
-        );
-        const dest = convertTemplateDestPaths(
-          context.paths.root,
-          scaffoldPath.dest,
-          context
+        const destFilePaths = [];
+        const srcFilePaths = await getFiles(
+          interpolatePath(
+            generatorInfo.localRootPath,
+            scaffoldPath.src,
+            context
+          )
         );
 
-        await copy(src, dest);
+        for (const srcFilePath of srcFilePaths) {
+          const path = extname(scaffoldPath.dest)
+            ? // If dest path is a file, copy the exact name
+              scaffoldPath.dest
+            : // If dest path is a directory, file could be nested
+              scaffoldPath.dest + // e.g. scaffoldPath.dest = /lib/users
+              removeTemplateExtension(srcFilePath) // e.g. srcFilePath = /projects/founding/fx/generators/auth/templates/lib/users/server/accountService.ts
+                .replace(resolve(generatorInfo.localRootPath), "")
+                .replace(scaffoldPath.src, "");
 
-        const files = await getFiles(dest);
-        // TODO: Fix possible performance issue with this
-        for (const filePath of files) {
-          await runTransforms(filePath, [getEjsTransform(filePath), context]);
+          const destPath = interpolatePath(context.paths.root, path, context);
+          await runTransforms({ src: srcFilePath, dest: destPath }, [
+            getEjsTransform(srcFilePath),
+            context,
+          ]);
+          destFilePaths.push(destPath);
         }
+
         logger.list(
-          files.map(
+          destFilePaths.map(
             (f) =>
-              `Generated ${logger.withVariable(
+              `Generated ${logger.withCommand(
                 f.replace(context.paths.root, "")
               )}`
           )
@@ -105,7 +115,7 @@ export const executeGenerator = async (
       logger.list(
         filesModified.map(
           (f) =>
-            `Modified ${logger.withVariable(f.replace(context.paths.root, ""))}`
+            `Modified ${logger.withCommand(f.replace(context.paths.root, ""))}`
         )
       );
       logger.success(

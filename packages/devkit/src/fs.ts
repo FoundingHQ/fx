@@ -84,23 +84,29 @@ export const readJson = (...args: Parameters<typeof fs.readJsonSync>) =>
   fs.readJsonSync(...args);
 
 export const writeJson = (...args: Parameters<typeof fs.writeJsonSync>) =>
-  fs.writeJsonSync(...args);
+  fs.outputJSONSync(...args);
 
 export const readFile = (filePath: string) => fs.readFileSync(filePath, "utf8");
 
 export const writeFile = (filePath: string, content: string) =>
-  fs.writeFileSync(filePath, content);
+  fs.outputFileSync(filePath, content);
 
+type Path = { src: string; dest: string };
 type Transform = (source: string, context: any) => Promise<string | void>;
 
 export const runTransforms = async (
-  filePath: string,
+  filePath: Path | string,
   ...transforms: [Transform, any?][]
 ) => {
-  let source = fs.readFileSync(filePath, "utf8");
+  const isStringPath = typeof filePath === "string";
+  const sourcePath = isStringPath ? filePath : filePath.src;
+  const destinationPath = isStringPath ? filePath : filePath.dest;
+  let source = fs.readFileSync(sourcePath, "utf8");
+
   for (const [transform, context] of transforms) {
     const transformed = await transform(source, context);
     if (transformed) source = transformed;
   }
-  return fs.writeFile(filePath, source);
+
+  return fs.outputFile(destinationPath, source);
 };

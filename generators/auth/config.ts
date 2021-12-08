@@ -101,11 +101,11 @@ export const templates: FilterableList<AuthContext> = [
       },
       {
         src: "templates/lib/auth/server/authConfig.ts.ejs",
-        dest: "lib/auth/server/authConfig.ts.ejs",
+        dest: "lib/auth/server/authConfig.ts",
       },
       {
         src: "templates/lib/auth/server/authService.ts.ejs",
-        dest: "lib/auth/server/authService.ts.ejs",
+        dest: "lib/auth/server/authService.ts",
       },
       {
         src: "templates/lib/users",
@@ -144,11 +144,11 @@ export const templates: FilterableList<AuthContext> = [
     list: [
       {
         src: "templates/lib/auth/server/middlewares/session.ts.ejs",
-        dest: "lib/auth/server/middlewares/session.ts.ejs",
+        dest: "lib/auth/server/middlewares/session.ts",
       },
       {
         src: "templates/redis.ts.ejs",
-        dest: "lib/core/server/redis.ts.ejs",
+        dest: "lib/core/server/redis.ts",
       },
     ],
   },
@@ -157,7 +157,7 @@ export const templates: FilterableList<AuthContext> = [
     list: [
       {
         src: "templates/lib/auth/server/strategy/jwt.ts.ejs",
-        dest: "lib/auth/server/strategy/jwt.ts.ejs",
+        dest: "lib/auth/server/strategy/jwt.ts",
       },
     ],
   },
@@ -167,7 +167,7 @@ export const templates: FilterableList<AuthContext> = [
     list: [
       {
         src: "templates/lib/auth/server/strategy/local.ts.ejs",
-        dest: "lib/auth/server/strategy/local.ts.ejs",
+        dest: "lib/auth/server/strategy/local.ts",
       },
     ],
   },
@@ -176,7 +176,7 @@ export const templates: FilterableList<AuthContext> = [
     list: [
       {
         src: "templates/lib/auth/server/strategy/google.ts.ejs",
-        dest: "lib/auth/server/strategy/google.ts.ejs",
+        dest: "lib/auth/server/strategy/google.ts",
       },
     ],
   },

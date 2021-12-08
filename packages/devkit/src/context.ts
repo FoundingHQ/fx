@@ -90,7 +90,7 @@ const interpolate = (path: string, obj: Record<string, any> = {}) => {
   return func(...keys.map((k) => obj[k]));
 };
 
-export const convertTemplateSrcPaths = (
+export const interpolatePath = (
   root: string,
   path: string,
   context: Context
@@ -98,12 +98,8 @@ export const convertTemplateSrcPaths = (
   return resolve(root, interpolate(path, context));
 };
 
-export const convertTemplateDestPaths = (
-  root: string,
-  path: string,
-  context: Context
-) => {
-  const dest = resolve(root, interpolate(path, context));
-  if (dest.endsWith(".ejs") || dest.endsWith(".eta")) return dest.slice(0, -4);
-  return dest;
+export const removeTemplateExtension = (path: string) => {
+  if (path.split(".").length > 2 && path.endsWith(".ejs"))
+    return path.slice(0, -4);
+  return path;
 };
