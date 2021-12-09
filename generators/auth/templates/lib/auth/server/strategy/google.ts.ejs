@@ -4,9 +4,9 @@ import { createUser } from "@lib/users/server/userService";
 
 export const googleStrategy = new Strategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID || "",
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    callbackURL: process.env.GOOGLE_CALLBACK_URL || "",
+    clientID: process.env.GOOGLE_CLIENT_ID || "GOOGLE_CLIENT_ID",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || "GOOGLE_CLIENT_SECRET",
+    callbackURL: process.env.GOOGLE_CALLBACK_URL || "GOOGLE_CALLBACK_URL",
   },
   async (accessToken, refreshToken, profile, done) => {
     try {

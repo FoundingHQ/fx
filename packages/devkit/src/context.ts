@@ -21,6 +21,8 @@ export type Context<T = {}> = {
   props: T;
   paths: {
     root: string;
+    env: string;
+    envExample: string;
     fxConfig: string;
     tsConfig: string;
     packageJson: string;
@@ -47,6 +49,8 @@ export const createContext = () => {
     props: {},
     paths: {
       root: cwd,
+      env: resolve(cwd, ".env"),
+      envExample: resolve(cwd, ".env.example"),
       fxConfig: resolve(cwd, "fx.config.js"),
       tsConfig: resolve(cwd, "tsconfig.json"),
       packageJson: resolve(cwd, "package.json"),

@@ -7,15 +7,18 @@ export type ScaffoldPath = {
 };
 
 export type Generator<T = any> = {
-  setup: (
+  name?: string;
+  description?: string;
+  version?: number;
+  setup?: (
     context: Context,
     generatorOptions?: Record<string, any>
   ) => Promise<T>;
-  install: (context: Context<T>) => Promise<Package[]>;
-  scaffold: (context: Context<T>) => Promise<ScaffoldPath[]>;
-  codemods: (context: Context<T>) => Promise<string[]>;
-  finish: (context: Context<T>) => Promise<void>;
-  uninstall: () => Promise<{
+  install?: (context: Context<T>) => Promise<Package[]>;
+  scaffold?: (context: Context<T>) => Promise<ScaffoldPath[]>;
+  codemods?: (context: Context<T>) => Promise<string[]>;
+  finish?: (context: Context<T>) => Promise<void>;
+  uninstall?: () => Promise<{
     dependencies: string[];
     templates: string[];
   }>;

@@ -21,7 +21,7 @@ export const getPrettierParser = (filePath: string) => {
   const filetype = filePath.slice(
     filePath.lastIndexOf(".") + 1
   ) as keyof typeof filetypeToPrettierParser;
-  return filetypeToPrettierParser[filetype] || "markdown";
+  return filetypeToPrettierParser[filetype] || null;
 };
 
 export const transformPrettier =

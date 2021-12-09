@@ -9,7 +9,7 @@ import {
   prompts,
   extractFilterableList,
 } from "@founding/devkit";
-import { AuthGenerator, dependencies, templates } from "./config";
+import { AuthGenerator, dependencies, templates, filters } from "./config";
 import * as schemas from "./schema";
 
 const generator: AuthGenerator = {
@@ -72,7 +72,13 @@ const generator: AuthGenerator = {
       },
     ]);
 
-    return { ...res, ...options };
+    return {
+      ...res,
+      // default to prisma session store for now
+      sessionStore: res.type === "session" ? "prisma" : undefined,
+      ...options,
+      f: filters,
+    };
   },
   async install(context) {
     return extractFilterableList(dependencies, context);
@@ -80,9 +86,9 @@ const generator: AuthGenerator = {
   async scaffold(context) {
     return extractFilterableList(templates, context);
   },
-  async codemods({ paths }) {
-    const handlerPath = join(paths.libCore, "server/handler.ts");
-    const schemaPath = paths.scheme;
+  async codemods(context) {
+    const handlerPath = join(context.paths.libCore, "server/handler.ts");
+    const schemaPath = context.paths.scheme;
 
     const handlerTransform = async (source: string) => {
       const { program, j } = createJscodeshiftProgram(source);
@@ -117,6 +123,11 @@ const generator: AuthGenerator = {
       [addPrismaEnum, schemas.tokenTypeEnum],
       [addPrismaEnum, schemas.userRoleEnum]
     );
+
+    if (filters.isSessionStorePrisma(context)) {
+      await runTransforms(schemaPath, [addPrismaModel, schemas.sessionSchema]);
+    }
+
     return [handlerPath, schemaPath];
   },
   async finish() {

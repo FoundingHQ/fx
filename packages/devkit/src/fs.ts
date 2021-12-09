@@ -88,8 +88,17 @@ export const writeJson = (...args: Parameters<typeof fs.writeJsonSync>) =>
 
 export const readFile = (filePath: string) => fs.readFileSync(filePath, "utf8");
 
-export const writeFile = (filePath: string, content: string) =>
-  fs.outputFileSync(filePath, content);
+export const writeFile = (
+  filePath: string,
+  content: string,
+  append = false
+) => {
+  if (fs.existsSync(filePath) && append) {
+    fs.appendFileSync(filePath, content);
+  } else {
+    return fs.outputFileSync(filePath, content);
+  }
+};
 
 type Path = { src: string; dest: string };
 type Transform = (source: string, context: any) => Promise<string | void>;

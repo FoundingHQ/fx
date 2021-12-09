@@ -3,31 +3,40 @@ import { Generator, Context, Filter, FilterableList } from "@founding/devkit";
 export type Props = {
   type: "session" | "jwt";
   scopes: ("local" | "google" | "facebook" | "magic")[];
+  sessionStore?: "redis" | "prisma";
 };
 
 export type AuthGenerator = Generator<Props>;
 export type AuthContext = Context<Props>;
 
-const hasFrameworkExpo: Filter<AuthContext> = ({ config }) => {
-  return config.frameworks.includes("expo");
-};
-const isTypeSession: Filter<AuthContext> = ({ props }) => {
-  return props.type === "session";
-};
-const isTypeJwt: Filter<AuthContext> = ({ props }) => {
-  return props.type === "jwt";
-};
-const hasScopeLocal: Filter<AuthContext> = ({ props }) => {
-  return props.scopes.includes("local");
-};
-const hasScopeGoogle: Filter<AuthContext> = ({ props }) => {
-  return props.scopes.includes("google");
-};
-const hasScopeFacebook: Filter<AuthContext> = ({ props }) => {
-  return props.scopes.includes("facebook");
-};
-const hasScopeMagic: Filter<AuthContext> = ({ props }) => {
-  return props.scopes.includes("magic");
+export const filters: Record<string, Filter<AuthContext>> = {
+  hasFrameworkExpo({ config }) {
+    return config.frameworks.includes("expo");
+  },
+  isTypeSession({ props }) {
+    return props.type === "session";
+  },
+  isSessionStoreRedis({ props }) {
+    return props.sessionStore === "redis";
+  },
+  isSessionStorePrisma({ props }) {
+    return props.sessionStore === "prisma";
+  },
+  isTypeJwt({ props }) {
+    return props.type === "jwt";
+  },
+  hasScopeLocal({ props }) {
+    return props.scopes.includes("local");
+  },
+  hasScopeGoogle({ props }) {
+    return props.scopes.includes("google");
+  },
+  hasScopeFacebook({ props }) {
+    return props.scopes.includes("facebook");
+  },
+  hasScopeMagic({ props }) {
+    return props.scopes.includes("magic");
+  },
 };
 
 export const dependencies: FilterableList<AuthContext> = [
@@ -43,16 +52,23 @@ export const dependencies: FilterableList<AuthContext> = [
   },
   // type
   {
-    filters: [isTypeSession],
+    filters: [filters.isTypeSession],
+    list: [{ name: "next-session" }],
+  },
+  {
+    filters: [filters.isTypeSession, filters.isSessionStorePrisma],
+    list: [{ name: "@quixo3/prisma-session-store" }],
+  },
+  {
+    filters: [filters.isTypeSession, filters.isSessionStoreRedis],
     list: [
-      { name: "next-session" },
       { name: "ioredis" },
       { name: "connect-redis" },
       { name: "@types/connect-redis", isDevDep: true },
     ],
   },
   {
-    filters: [isTypeJwt],
+    filters: [filters.isTypeJwt],
     list: [
       { name: "passport-jwt" },
       { name: "jsonwebtoken" },
@@ -61,25 +77,25 @@ export const dependencies: FilterableList<AuthContext> = [
   },
   // scopes
   {
-    filters: [hasScopeLocal],
+    filters: [filters.hasScopeLocal],
     list: [
       { name: "passport-local" },
       { name: "@types/passport-local", isDevDep: true },
     ],
   },
   {
-    filters: [hasScopeGoogle],
+    filters: [filters.hasScopeGoogle],
     list: [
       { name: "passport-google-oauth20" },
       { name: "@types/passport-google-oauth20", isDevDep: true },
     ],
   },
   {
-    filters: [hasScopeFacebook],
+    filters: [filters.hasScopeFacebook],
     list: [],
   },
   {
-    filters: [hasScopeMagic],
+    filters: [filters.hasScopeMagic],
     list: [],
   },
 ];
@@ -126,7 +142,7 @@ export const templates: FilterableList<AuthContext> = [
     ],
   },
   {
-    filters: [hasFrameworkExpo],
+    filters: [filters.hasFrameworkExpo],
     list: [
       {
         src: "templates/expo/screens",
@@ -140,12 +156,17 @@ export const templates: FilterableList<AuthContext> = [
   },
   // type
   {
-    filters: [isTypeSession],
+    filters: [filters.isTypeSession],
     list: [
       {
         src: "templates/lib/auth/server/middlewares/session.ts.ejs",
         dest: "lib/auth/server/middlewares/session.ts",
       },
+    ],
+  },
+  {
+    filters: [filters.isTypeSession, filters.isSessionStoreRedis],
+    list: [
       {
         src: "templates/redis.ts.ejs",
         dest: "lib/core/server/redis.ts",
@@ -153,7 +174,7 @@ export const templates: FilterableList<AuthContext> = [
     ],
   },
   {
-    filters: [isTypeJwt],
+    filters: [filters.isTypeJwt],
     list: [
       {
         src: "templates/lib/auth/server/strategy/jwt.ts.ejs",
@@ -163,7 +184,7 @@ export const templates: FilterableList<AuthContext> = [
   },
   // scopes
   {
-    filters: [hasScopeLocal],
+    filters: [filters.hasScopeLocal],
     list: [
       {
         src: "templates/lib/auth/server/strategy/local.ts.ejs",
@@ -172,7 +193,7 @@ export const templates: FilterableList<AuthContext> = [
     ],
   },
   {
-    filters: [hasScopeGoogle],
+    filters: [filters.hasScopeGoogle],
     list: [
       {
         src: "templates/lib/auth/server/strategy/google.ts.ejs",
@@ -181,11 +202,11 @@ export const templates: FilterableList<AuthContext> = [
     ],
   },
   {
-    filters: [hasScopeFacebook],
+    filters: [filters.hasScopeFacebook],
     list: [],
   },
   {
-    filters: [hasScopeMagic],
+    filters: [filters.hasScopeMagic],
     list: [],
   },
 ];

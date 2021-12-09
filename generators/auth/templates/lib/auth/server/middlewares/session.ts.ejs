@@ -1,16 +1,32 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextSession from "next-session";
 import { promisifyStore, expressSession } from "next-session/lib/compat";
+<% if (props.f.isSessionStoreRedis({ props })) { %>
 import connectRedis from "connect-redis";
 import { redis } from "@server/redis";
+<% } else { %>
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import { prisma } from "@server/prisma";
+<% } %>
 import { cookieOptions } from "@lib/auth/server/authConfig";
 
+<% if (props.f.isSessionStoreRedis({ props })) { %>
 const RedisStore = connectRedis(expressSession);
 
 const getSession = nextSession({
   store: promisifyStore(new RedisStore({ client: redis })),
   cookie: cookieOptions,
 });
+<% } else { %>
+const getSession = nextSession({
+  store: promisifyStore(
+    new PrismaSessionStore(prisma, {
+      checkPeriod: 10 * 60 * 1000, // 10 minutes
+    })
+  ),
+  cookie: cookieOptions,
+});
+<% } %>
 
 export const sessionMiddleware = async (
   req: NextApiRequest,

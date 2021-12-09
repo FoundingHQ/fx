@@ -1,4 +1,10 @@
-import { Generator, readJson, writeJson } from "@founding/devkit";
+import {
+  Generator,
+  readJson,
+  writeJson,
+  readFile,
+  writeFile,
+} from "@founding/devkit";
 
 type Props = {};
 
@@ -31,7 +37,7 @@ const generator: Generator<Props> = {
   async scaffold() {
     const nextjsTemplates = [
       { src: "templates/_app.tsx.ejs", dest: "pages/_app.tsx" },
-      { src: "templates/.env.local.ejs", dest: ".env.local" },
+      { src: "templates/.env.example.ejs", dest: ".env.example" },
       { src: "templates/docker-compose.yml.ejs", dest: "docker-compose.yml" },
       { src: "templates/query.ts.ejs", dest: "lib/core/util/query.ts" },
       {
@@ -55,7 +61,7 @@ const generator: Generator<Props> = {
     tsConfig.compilerOptions.baseUrl = tsConfig.compilerOptions.baseUrl || ".";
     tsConfig.compilerOptions.paths = {
       ...(tsConfig.compilerOptions.paths || {}),
-      "@ui": ["lib/core/ui/*"],
+      "@ui/*": ["lib/core/ui/*"],
       "@server/*": ["lib/core/server/*"],
       "@util/*": ["lib/core/util/*"],
       "@lib/*": ["lib/*"],
@@ -83,9 +89,11 @@ const generator: Generator<Props> = {
 
     writeJson(packageJsonPath, packageJson, { spaces: 2 });
 
+    const envContents = readFile(context.paths.envExample);
+    writeFile(context.paths.env, envContents, true);
+
     return [tsConfigPath, packageJsonPath];
   },
-  async finish() {},
   async uninstall() {
     return {
       dependencies: [],
