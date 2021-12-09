@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { SEO } from "@components";
 import { use<%= h.changeCase.pascalCase(props.name) %>List } from "@lib/<%= h.changeCase.camelCase(props.name) %>/data/<%= h.changeCase.camelCase(props.name) %>Hooks";
 
 export const ListPage = () => {
@@ -9,7 +8,6 @@ export const ListPage = () => {
 
   return (
     <>
-      <SEO title="List" />
       <h1>List</h1>
       {list.map((item: any) => (
         <li>
