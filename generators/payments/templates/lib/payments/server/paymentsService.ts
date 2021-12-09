@@ -17,14 +17,3 @@ export const getCustomerId = async (email: string) => {
   const newCustomer = await stripe.customers.create({ email });
   return newCustomer.id;
 };
-
-export const generateAccountLink = (accountId: string, origin: string) => {
-  return stripe.accountLinks
-    .create({
-      type: "account_onboarding",
-      account: accountId,
-      refresh_url: `${origin}/onboard-user/refresh`,
-      return_url: `${origin}/success.html`,
-    })
-    .then((link) => link.url);
-}

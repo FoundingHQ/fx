@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
 import Link from "next/link";
 
-import { SEO } from "@components";
 import { use<%= h.changeCase.pascalCase(props.name) %>Show } from "@lib/<%= h.changeCase.camelCase(props.name) %>/data/<%= h.changeCase.camelCase(props.name) %>Hooks"
 
 const ShowPage = () => {
@@ -14,7 +13,6 @@ const ShowPage = () => {
 
   return (
     <>
-      <SEO title="Show" />
       <h1>Show</h1>
       <Show id={id} />
     </>

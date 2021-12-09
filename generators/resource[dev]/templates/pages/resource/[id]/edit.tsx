@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { SEO } from "@components";
 import <%= h.changeCase.pascalCase(props.name) %>Form from "@lib/<%= h.changeCase.camelCase(props.name) %>/components/<%= h.changeCase.pascalCase(props.name) %>Form";
 import { use<%= h.changeCase.pascalCase(props.name) %>Show, use<%= h.changeCase.pascalCase(props.name) %>Destroy } from "@lib/user/data/<%= h.changeCase.camelCase(props.name) %>Hooks";
 
@@ -15,7 +14,6 @@ const EditPage = () => {
 
   return (
     <>
-      <SEO title="Edit" />
       <h1>Edit</h1>
       <Edit id={id} />
     </>
