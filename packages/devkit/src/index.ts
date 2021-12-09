@@ -1,7 +1,6 @@
 export * from "./config";
 export * from "./context";
 export * from "./migrations";
-export * from "./ejs";
 export * from "./error";
 export * from "./fs";
 export * from "./generator";

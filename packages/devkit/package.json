@@ -37,6 +37,7 @@
     "inflection": "^1.13.1",
     "jscodeshift": "^0.13.0",
     "ora": "^5.4.1",
+    "prettier": "^2.5.1",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "tar": "^6.1.11",

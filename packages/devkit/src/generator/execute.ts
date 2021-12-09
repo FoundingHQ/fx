@@ -1,11 +1,12 @@
 import { resolve, extname } from "path";
+import { transformEjs } from "../transforms/ejs";
+import { transformPrettier } from "../transforms/prettier";
 import { logger } from "../logger";
 import {
   interpolatePath,
   removeTemplateExtension,
   createContext,
 } from "../context";
-import { getEjsTransform } from "../ejs";
 import { getFiles, runTransforms } from "../fs";
 import { install } from "../package";
 import { throwHandledError } from "../error";
@@ -78,10 +79,11 @@ export const executeGenerator = async (
                 .replace(scaffoldPath.src, "");
 
           const destPath = interpolatePath(context.paths.root, path, context);
-          await runTransforms({ src: srcFilePath, dest: destPath }, [
-            getEjsTransform(srcFilePath),
-            context,
-          ]);
+          await runTransforms(
+            { src: srcFilePath, dest: destPath },
+            [transformEjs, context],
+            [transformPrettier(destPath)]
+          );
           destFilePaths.push(destPath);
         }
 
