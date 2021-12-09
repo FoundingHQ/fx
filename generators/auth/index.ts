@@ -5,6 +5,7 @@ import {
   addPrismaEnum,
   createJscodeshiftProgram,
   addImport,
+  transformPrettier,
   syncGeneratorMigrations,
   prompts,
   extractFilterableList,
@@ -114,7 +115,12 @@ const generator: AuthGenerator = {
       return program.toSource();
     };
 
-    await runTransforms(handlerPath, [handlerTransform]);
+    await runTransforms(
+      handlerPath,
+      [handlerTransform],
+      [transformPrettier(handlerPath)]
+    );
+
     await runTransforms(
       schemaPath,
       [addPrismaModel, schemas.accountSchema],

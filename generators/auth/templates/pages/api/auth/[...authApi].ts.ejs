@@ -47,8 +47,8 @@ handler
   .post(authRoutes.logout, async (req, res) => {
     req.logout();
     <% if (props.f.isTypeJwt({ props })) { %>
-    // destroyRefreshToken(res);
-    // res.redirect("/");
+    destroyRefreshToken(res);
+    res.redirect("/");
     <% } %>
     <% if (props.f.isTypeSession({ props })) { %>
     res.redirect("/");
