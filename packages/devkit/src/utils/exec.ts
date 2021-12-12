@@ -1,6 +1,14 @@
 import spawn from "cross-spawn";
 
-export const runCommand = (
+export const execSync = (
+  command: string,
+  args: string[],
+  options: any = {}
+) => {
+  return spawn.sync(command, args, options);
+};
+
+export const exec = (
   command: string,
   args: string[],
   withStdio: boolean = true

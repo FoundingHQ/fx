@@ -1,5 +1,5 @@
 import p from "prompts";
-import { throwHandledError } from "./error";
+import { throwHandledError } from "../utils/error";
 
 export const prompts = <T extends string = string>(
   questions: p.PromptObject<T> | Array<p.PromptObject<T>>,

@@ -1,12 +1,16 @@
-import fs from "fs-extra";
 import { join, resolve, dirname } from "path";
-import { Generator, GeneratorMeta, GeneratorLocation } from "./types";
-import { setupTsTranspiler } from "../ts-transpiler";
-import { gotJSON, isUrlValid } from "../network";
-import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../config";
-import { install } from "../package";
-import { cloneRepo } from "../repo";
-import { logger } from "../logger";
+import {
+  Generator,
+  GeneratorMeta,
+  GeneratorLocation,
+  logger,
+  readJson,
+  install,
+} from "@founding/devkit";
+import { setupTsTranspiler } from "../utils/ts-transpiler";
+import { gotJSON, isUrlValid } from "../utils/network";
+import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../utils/config";
+import { cloneRepo } from "../utils/repo";
 
 export const normalizeGeneratorPath = (feature: string) => {
   // feature == `auth`
@@ -61,10 +65,6 @@ const skipDependencies: Record<string, boolean> = {
   "@founding/devkit": true,
 };
 
-const requireJSON = (file: string) => {
-  return JSON.parse(fs.readFileSync(file).toString("utf-8"));
-};
-
 export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
   // Since the generator may be a .ts file, we need to setup a tsnode runtime
   setupTsTranspiler();
@@ -105,9 +105,7 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
         generatorInfo.subdirectory
       );
 
-      const generatorPackageJson = requireJSON(
-        generatorInfo.localPackageJsonPath
-      );
+      const generatorPackageJson = readJson(generatorInfo.localPackageJsonPath);
 
       if (!generatorPackageJson.main) {
         logger.error(
@@ -122,7 +120,7 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
         generatorPackageJson.dependencies ||
         generatorPackageJson.devDependencies
       ) {
-        const projectPackageJson = requireJSON(join(cwd, "package.json"));
+        const projectPackageJson = readJson(join(cwd, "package.json"));
         const allProjectDependencies = [
           ...Object.keys(projectPackageJson.dependencies || {}),
           ...Object.keys(projectPackageJson.devDependencies || {}),

@@ -1,13 +1,12 @@
 import {
   prompts,
-  getOfficialGeneratorList,
-  normalizeGeneratorPath,
   GeneratorLocation,
-  extractGenerator,
   removeDir,
   logger,
   uninstall,
 } from "@founding/devkit";
+import { getOfficialGeneratorList } from "../generator/list";
+import { extractGenerator, normalizeGeneratorPath } from "../generator/extract";
 
 export const remove = async (
   feature: string = "",

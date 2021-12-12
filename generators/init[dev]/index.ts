@@ -94,6 +94,7 @@ const generator: Generator<Props> = {
 
     return [tsConfigPath, packageJsonPath];
   },
+  async finish() {},
   async uninstall() {
     return {
       dependencies: [],

@@ -1,19 +1,19 @@
-import { runCommand, sleep } from "./exec";
-import { logger } from "./logger";
+import { exec, sleep } from "../utils/exec";
+import { logger } from "../utils/logger";
 
 export const startDocker = async () => {
   console.log("Starting docker instance");
-  await runCommand("docker-compose", ["up", "-d"]);
+  await exec("docker-compose", ["up", "-d"]);
 };
 
 export const stopDocker = async () => {
   console.log("Stopping docker instance");
-  await runCommand("docker-compose", ["down"]);
+  await exec("docker-compose", ["down"]);
 };
 
 export const runMigrations = async (name = "") => {
   console.log("Running local migrations");
-  await runCommand("npx", [
+  await exec("npx", [
     "dotenv",
     "-e",
     ".env.local",

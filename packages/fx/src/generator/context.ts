@@ -1,6 +1,12 @@
-import fs from "fs-extra";
+import {
+  Context,
+  Frameworks,
+  Language,
+  readJson,
+  fileExists,
+} from "@founding/devkit";
 import { resolve } from "path";
-import { cwd } from "./config";
+import { cwd } from "../utils/config";
 
 const inflection = require("inflection");
 const changeCase = require("change-case");
@@ -11,35 +17,6 @@ const helpers = {
   capitalize: (s: string) => s.charAt(0).toUpperCase() + s.slice(1),
   inflection,
   changeCase,
-};
-
-export type Frameworks = "next" | "expo";
-export type Language = "typescript" | "javascript";
-export type Theme = "skeleton";
-
-export type Context<T = {}> = {
-  props: T;
-  paths: {
-    root: string;
-    env: string;
-    envExample: string;
-    fxConfig: string;
-    tsConfig: string;
-    packageJson: string;
-    scheme: string;
-    lib: string;
-    libCore: string;
-    mobile: string;
-    appJson: string;
-    pages: string;
-    api: string;
-  };
-  config: {
-    frameworks: Frameworks[];
-    language: Language;
-    theme: Theme;
-  };
-  h: typeof helpers;
 };
 
 export const createContext = () => {
@@ -75,14 +52,14 @@ export const createContext = () => {
 
 export const getFrameworks = () => {
   const frameworks: Frameworks[] = [];
-  const packageJson = fs.readJSONSync(resolve(cwd, "package.json"));
+  const packageJson = readJson(resolve(cwd, "package.json"));
   if (packageJson["dependencies"]["next"]) frameworks.push("next");
   if (packageJson["dependencies"]["expo"]) frameworks.push("expo");
   return frameworks;
 };
 
 export const getLanguage = () => {
-  const l: Language = fs.existsSync(resolve(cwd, "tsconfig.json"))
+  const l: Language = fileExists(resolve(cwd, "tsconfig.json"))
     ? "typescript"
     : "javascript";
   return l;

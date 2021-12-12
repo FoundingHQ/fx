@@ -1,13 +1,12 @@
 import {
   prompts,
-  getOfficialGeneratorList,
-  normalizeGeneratorPath,
   GeneratorLocation,
-  extractGenerator,
-  executeGenerator,
   removeDir,
   logger,
 } from "@founding/devkit";
+import { extractGenerator, normalizeGeneratorPath } from "../generator/extract";
+import { executeGenerator } from "../generator/execute";
+import { getOfficialGeneratorList } from "../generator/list";
 import { parseArgs } from "../utils/args";
 
 export const add = async (

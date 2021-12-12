@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { checkAndNotifyUpdates, logger } from "@founding/devkit";
+import { logger, checkAndNotifyUpdates } from "@founding/devkit";
 
 import packageJson from "../package.json";
 import { init } from "./commands/init";

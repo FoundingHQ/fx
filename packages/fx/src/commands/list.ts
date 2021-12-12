@@ -1,4 +1,5 @@
-import { logger, getOfficialGeneratorList } from "@founding/devkit";
+import { logger } from "@founding/devkit";
+import { getOfficialGeneratorList } from "../generator/list";
 
 export const list = async () => {
   const spinner = logger.spinner(`Loading feature list`);

@@ -1,8 +1,7 @@
-import rimraf from "rimraf";
-import fs from "fs-extra";
 import tar from "tar";
 import { Stream } from "stream";
 import { promisify } from "util";
+import { makeDir, removeDir } from "@founding/devkit";
 import { gotStream } from "./network";
 import { CODE_ROOT } from "./config";
 
@@ -17,8 +16,8 @@ export const cloneRepo = (
   //packages/generator
   subdirectory: string = ""
 ) => {
-  rimraf.sync(root);
-  fs.mkdirsSync(root);
+  removeDir(root);
+  makeDir(root);
 
   const repoName = repoFullName.split("/")[1];
   const depth = subdirectory ? subdirectory.split("/").length + 1 : 1;

@@ -1,6 +1,6 @@
 # `create-fx-app` CLI
 
-Quickly start a new FX project with everything set up for you.
+Quickly start a new FX project with everything set up for you. `create-fx-app` is just a shortcut for running `npx create-next-app` followed by `npm i -D @founding/fx` and `npx fx init`.
 
 ```bash
 npx create-fx-app

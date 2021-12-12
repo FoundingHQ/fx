@@ -1,5 +1,5 @@
-import { gotJSON } from "../network";
-import { API_ROOT } from "../config";
+import { gotJSON } from "../utils/network";
+import { API_ROOT } from "../utils/config";
 
 interface Tree {
   path: string;

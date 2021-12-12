@@ -1,8 +1,7 @@
-import spawn from "cross-spawn";
 import validateProjectName from "validate-npm-package-name";
-import chalk from "chalk";
 import checkForUpdate from "update-check";
-import { runCommand } from "./exec";
+import { exec, execSync } from "./exec";
+import { logger } from "./logger";
 
 export type Package = {
   name: string;
@@ -40,7 +39,7 @@ export const install = async (
       args = useYarn
         ? ["add", "--exact", "--cwd", root, ...deps]
         : ["install", "--save-exact", "--save", ...deps];
-      await runCommand(command, args, withStdio);
+      await exec(command, args, withStdio);
     }
 
     if (devDeps.length) {
@@ -48,18 +47,18 @@ export const install = async (
       args = useYarn
         ? ["add", "--exact", "--cwd", root, ...devDeps]
         : ["install", "--save-exact", "--save-dev", ...devDeps];
-      await runCommand(command, args, withStdio);
+      await exec(command, args, withStdio);
     }
 
     if (expoDeps.length) {
       command = "expo";
       args = ["install", ...expoDeps];
-      await runCommand(command, args, withStdio);
+      await exec(command, args, withStdio);
     }
   } else {
     command = useYarn ? "yarnpkg" : "npm";
     args = useYarn ? [] : ["install"];
-    await runCommand(command, args, withStdio);
+    await exec(command, args, withStdio);
   }
 
   process.chdir(originalCwd);
@@ -78,7 +77,7 @@ export const uninstall = async (
     : ["uninstall", ...dependencies];
 
   process.chdir(root);
-  await runCommand(command, args, withStdio);
+  await exec(command, args, withStdio);
   process.chdir(originalCwd);
 };
 
@@ -101,7 +100,7 @@ export const shouldUseYarn = () => {
   try {
     const userAgent = process.env.npm_config_user_agent;
     if (userAgent) return Boolean(userAgent && userAgent.startsWith("yarn"));
-    if (spawn.sync("yarn", ["--version"]).status === 0) return true;
+    if (execSync("yarn", ["--version"]).status === 0) return true;
     return false;
   } catch (e) {
     return false;
@@ -114,18 +113,14 @@ export const checkAndNotifyUpdates = async (
   try {
     const res = await checkForUpdate(packageJson).catch(() => null);
     if (res?.latest) {
-      console.log();
-      console.log(
-        chalk.yellow.bold(
-          `A new version of "${packageJson.name}" is available!`
-        )
-      );
-      console.log(
-        `You can update by running: ${chalk.cyan(
+      logger.newLine();
+      logger.warning(`A new version of "${packageJson.name}" is available!`);
+      logger.log(
+        `You can update by running: ${logger.withVariable(
           `npm update ${packageJson.name}`
         )}`
       );
-      console.log();
+      logger.newLine();
     }
     process.exit();
   } catch {

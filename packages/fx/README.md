@@ -1,4 +1,4 @@
-# FX CLI
+# `fx` CLI
 
 This CLI tool enables you to add/remove prebuilt features inside to a FX project:
 

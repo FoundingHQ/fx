@@ -1,13 +1,12 @@
 import {
   GeneratorLocation,
-  normalizeGeneratorPath,
-  extractGenerator,
-  executeGenerator,
   removeDir,
   logger,
-  getFrameworks,
   throwHandledError,
 } from "@founding/devkit";
+import { extractGenerator, normalizeGeneratorPath } from "../generator/extract";
+import { executeGenerator } from "../generator/execute";
+import { getFrameworks } from "../generator/context";
 
 export const init = async (options: Record<string, any> = {}) => {
   const spinner = logger.spinner(`Initializing FX for your project`);
