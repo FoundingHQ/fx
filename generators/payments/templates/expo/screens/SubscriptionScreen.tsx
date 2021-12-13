@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Subscription from "../lib/payments/components/Subscription";
+import Subscription from "../lib/payments/ui/Subscription";
 
 export const SubscriptionScreen = () => {
   return (

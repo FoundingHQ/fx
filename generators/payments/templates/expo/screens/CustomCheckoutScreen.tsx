@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import CustomCheckout from "../lib/payments/components/CustomCheckout";
+import CustomCheckout from "../lib/payments/ui/CustomCheckout";
 
 export const CustomCheckoutScreen = () => {
   return (

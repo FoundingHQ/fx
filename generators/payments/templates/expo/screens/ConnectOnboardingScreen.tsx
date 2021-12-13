@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import ConnectOnboarding from "../lib/payments/components/ConnectOnboarding";
+import ConnectOnboarding from "../lib/payments/ui/ConnectOnboarding";
 
 export const ConnectOnboardingScreen = () => {
   return (

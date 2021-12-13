@@ -34,8 +34,8 @@ export const resourceFrameworkConfig: Record<
     dependencies: [],
     templates: [
       {
-        src: "templates/lib/resource/components/ResourceForm.tsx",
-        dest: "lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}Form.tsx",
+        src: "templates/lib/resource/ui/ResourceForm.tsx",
+        dest: "lib/${h.changeCase.camelCase(props.name)}/ui/${h.changeCase.pascalCase(props.name)}Form.tsx",
       },
       {
         src: "templates/pages/resource",
@@ -47,20 +47,20 @@ export const resourceFrameworkConfig: Record<
     dependencies: [],
     templates: [
       {
-        src: "templates/expo/components/ResourceEdit.tsx",
-        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}Edit.tsx",
+        src: "templates/expo/ui/ResourceEdit.tsx",
+        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/ui/${h.changeCase.pascalCase(props.name)}Edit.tsx",
       },
       {
-        src: "templates/expo/components/ResourceList.tsx",
-        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}List.tsx",
+        src: "templates/expo/ui/ResourceList.tsx",
+        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/ui/${h.changeCase.pascalCase(props.name)}List.tsx",
       },
       {
-        src: "templates/expo/components/ResourceNew.tsx",
-        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}New.tsx",
+        src: "templates/expo/ui/ResourceNew.tsx",
+        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/ui/${h.changeCase.pascalCase(props.name)}New.tsx",
       },
       {
-        src: "templates/expo/components/ResourceShow.tsx",
-        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/components/${h.changeCase.pascalCase(props.name)}Show.tsx",
+        src: "templates/expo/ui/ResourceShow.tsx",
+        dest: "expo/lib/${h.changeCase.camelCase(props.name)}/ui/${h.changeCase.pascalCase(props.name)}Show.tsx",
       },
       {
         src: "templates/expo/screens/ResourceEditScreen.tsx",

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Checkout from "../lib/payments/components/Checkout";
+import Checkout from "../lib/payments/ui/Checkout";
 
 export const CheckoutScreen = () => {
   return (
@@ -20,4 +20,3 @@ const styles = StyleSheet.create({
 });
 
 export default CheckoutScreen;
-

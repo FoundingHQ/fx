@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import ConnectCheckout from "../lib/payments/components/ConnectCheckout";
+import ConnectCheckout from "../lib/payments/ui/ConnectCheckout";
 
 export const ConnectCheckoutScreen = () => {
   return (

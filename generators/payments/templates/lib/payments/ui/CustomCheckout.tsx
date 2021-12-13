@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Stripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import { useSubscription } from "@lib/payments/data/paymentsHooks";
+import { useCustomCheckout } from "@lib/payments/data/paymentsHooks";
 import { getStripe } from "@lib/payments/util/stripe";
-import { CheckoutForm } from "@lib/payments/components/CheckoutForm";
+import { CheckoutForm } from "@lib/payments/ui/CheckoutForm";
 
-export const Subscription = () => {
+export const CustomCheckout = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
 
-  const { mutate: subscription } = useSubscription((paymentIntent: any) => {
+  const { mutate: customCheckout } = useCustomCheckout((paymentIntent: any) => {
     if (paymentIntent) {
       setClientSecret(paymentIntent?.clientSecret);
     }
@@ -20,18 +20,18 @@ export const Subscription = () => {
     const loadStripe = async () => {
       const stripe = await getStripe();
       setStripePromise(stripe);
-    };
+    }
     loadStripe();
-  }, []);
+  }, [])
 
   const onClick = async () => {
-    subscription({
+    customCheckout({
       email: "test@example.com",
-      price: "price_1Jxd31Ht7fGQ7D9xWVpvb999",
+      items: [],
     });
   };
 
-  const appearance: { ["theme"]: "stripe" } = {
+  const appearance: {["theme"]: "stripe"} = {
     theme: "stripe",
   };
 
@@ -42,7 +42,9 @@ export const Subscription = () => {
 
   return (
     <div>
-      <button onClick={onClick}>Create Subscription</button>
+      <button onClick={onClick}>
+        Create payment intent
+      </button>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />

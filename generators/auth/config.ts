@@ -104,8 +104,8 @@ export const templates: FilterableList<AuthContext> = [
   {
     list: [
       {
-        src: "templates/lib/auth/components",
-        dest: "lib/auth/components",
+        src: "templates/lib/auth/ui",
+        dest: "lib/auth/ui",
       },
       {
         src: "templates/lib/auth/data",
@@ -149,7 +149,7 @@ export const templates: FilterableList<AuthContext> = [
         dest: "expo/screens",
       },
       {
-        src: "templates/expo/components",
+        src: "templates/expo/ui",
         dest: "lib/auth/expo",
       },
     ],

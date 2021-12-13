@@ -1,4 +1,4 @@
-import { CustomCheckout } from "@lib/payments/components/CustomCheckout";
+import { CustomCheckout } from "@lib/payments/ui/CustomCheckout";
 
 export const CustomCheckoutPage = () => {
   return (

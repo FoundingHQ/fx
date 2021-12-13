@@ -1,4 +1,4 @@
-import { Checkout } from "@lib/payments/components/Checkout";
+import { Checkout } from "@lib/payments/ui/Checkout";
 
 export const CheckoutPage = () => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import <%= h.changeCase.pascalCase(props.name) %>Edit from "../lib/<%= h.changeCase.camelCase(props.name) %>/components/<%= h.changeCase.pascalCase(props.name) %>Edit";
+import <%= h.changeCase.pascalCase(props.name) %>Edit from "../lib/<%= h.changeCase.camelCase(props.name) %>/ui/<%= h.changeCase.pascalCase(props.name) %>Edit";
 
 export const <%= h.changeCase.pascalCase(props.name) %>EditScreen = () => {
   return (

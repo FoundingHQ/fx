@@ -1,4 +1,4 @@
-import <%= h.changeCase.pascalCase(props.name) %>Form from "@lib/<%= h.changeCase.camelCase(props.name) %>/components/<%= h.changeCase.pascalCase(props.name) %>Form";
+import <%= h.changeCase.pascalCase(props.name) %>Form from "@lib/<%= h.changeCase.camelCase(props.name) %>/ui/<%= h.changeCase.pascalCase(props.name) %>Form";
 
 export const NewPage = () => {
   return (
