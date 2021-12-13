@@ -1,6 +1,6 @@
 {
   "name": "create-fx-app",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "keywords": [],
   "description": "Bootstrap a FX app with one command",
   "repository": {
@@ -28,7 +28,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@founding/devkit": "^0.0.11",
+    "@founding/devkit": "^0.0.12",
     "commander": "^8.3.0",
     "validate-npm-package-name": "^3.0.0"
   },
