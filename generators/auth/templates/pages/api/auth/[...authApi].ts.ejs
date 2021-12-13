@@ -1,13 +1,13 @@
-import createHandler from "@server/handler";
-import { passport } from "@lib/auth/server/middlewares/passport";
-import { authRoutes } from "@lib/auth/server/authConfig";
+import createHandler from "@api/handler";
+import { passport } from "@lib/auth/api/middlewares/passport";
+import { authRoutes } from "@lib/auth/api/authConfig";
 <% if (props.f.isTypeJwt({ props })) { %>
 import {
   createAccessToken,
   createRefreshToken,
   attachRefreshToken,
   destroyRefreshToken,
-} from "@lib/auth/server/authService";
+} from "@lib/auth/api/authService";
 <% } %>
 const handler = createHandler({ attachParams: true });
 

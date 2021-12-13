@@ -1,5 +1,5 @@
-import createHandler from "@server/handler";
-import { stripe, getCustomerId } from "@lib/payments/server/paymentsService";
+import createHandler from "@api/handler";
+import { stripe, getCustomerId } from "@lib/payments/api/paymentsService";
 
 const handler = createHandler();
 

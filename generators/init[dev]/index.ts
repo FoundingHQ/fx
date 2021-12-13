@@ -15,9 +15,10 @@ const generator: Generator<Props> = {
   async install() {
     const nextjsDeps = [
       { name: "@prisma/client" },
-      { name: "cross-fetch" },
       { name: "next-connect" },
+      { name: "cross-fetch" },
       { name: "react-query" },
+      { name: "redaxios" },
       { name: "dotenv-cli", isDevDep: true },
       { name: "prisma", isDevDep: true },
     ];
@@ -39,13 +40,13 @@ const generator: Generator<Props> = {
       { src: "templates/_app.tsx.ejs", dest: "pages/_app.tsx" },
       { src: "templates/.env.example.ejs", dest: ".env.example" },
       { src: "templates/docker-compose.yml.ejs", dest: "docker-compose.yml" },
-      { src: "templates/query.ts.ejs", dest: "lib/core/util/query.ts" },
+      { src: "templates/fetcher.ts.ejs", dest: "lib/core/util/fetcher.ts" },
       {
         src: "templates/trustProxy.ts.ejs",
-        dest: "lib/core/server/middlewares/trustProxy.ts",
+        dest: "lib/core/api/middlewares/trustProxy.ts",
       },
-      { src: "templates/handler.ts.ejs", dest: "lib/core/server/handler.ts" },
-      { src: "templates/prisma.ts.ejs", dest: "lib/core/server/prisma.ts" },
+      { src: "templates/handler.ts.ejs", dest: "lib/core/api/handler.ts" },
+      { src: "templates/prisma.ts.ejs", dest: "lib/core/api/prisma.ts" },
       { src: "templates/schema.prisma.ejs", dest: "prisma/schema.prisma" },
       { src: "templates/seed.ts.ejs", dest: "prisma/seed.ts" },
     ];
@@ -62,7 +63,7 @@ const generator: Generator<Props> = {
     tsConfig.compilerOptions.paths = {
       ...(tsConfig.compilerOptions.paths || {}),
       "@ui/*": ["lib/core/ui/*"],
-      "@server/*": ["lib/core/server/*"],
+      "@api/*": ["lib/core/api/*"],
       "@util/*": ["lib/core/util/*"],
       "@lib/*": ["lib/*"],
     };

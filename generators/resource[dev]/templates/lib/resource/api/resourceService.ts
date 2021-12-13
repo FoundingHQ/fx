@@ -1,4 +1,4 @@
-import { prisma } from "@server/prisma";
+import { prisma } from "@api/prisma";
 import { Create<%= h.changeCase.pascalCase(props.name) %>Input, Update<%= h.changeCase.pascalCase(props.name) %>Input } from "@lib/<%= h.changeCase.camelCase(props.name) %>/data/<%= h.changeCase.camelCase(props.name) %>Hooks"
 import { <%= h.changeCase.pascalCase(props.name) %> } from "@prisma/client";
 

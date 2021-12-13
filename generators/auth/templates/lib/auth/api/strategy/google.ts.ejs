@@ -1,6 +1,6 @@
 import { Strategy } from "passport-google-oauth20";
-import { getAccount } from "@lib/users/server/accountService";
-import { createUser } from "@lib/users/server/userService";
+import { getAccount } from "@lib/users/api/accountService";
+import { createUser } from "@lib/users/api/userService";
 
 export const googleStrategy = new Strategy(
   {

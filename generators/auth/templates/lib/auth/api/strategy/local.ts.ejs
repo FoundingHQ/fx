@@ -1,6 +1,6 @@
 import { Strategy } from "passport-local";
-import { createUser, getUserPasswordHash } from "@lib/users/server/userService";
-import { validatePassword } from "@lib/auth/server/authService";
+import { createUser, getUserPasswordHash } from "@lib/users/api/userService";
+import { validatePassword } from "@lib/auth/api/authService";
 
 export const signupStrategy = new Strategy(
   { usernameField: "email", passReqToCallback: true },

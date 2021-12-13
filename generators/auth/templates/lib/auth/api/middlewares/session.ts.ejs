@@ -3,12 +3,12 @@ import nextSession from "next-session";
 import { promisifyStore, expressSession } from "next-session/lib/compat";
 <% if (props.f.isSessionStoreRedis({ props })) { %>
 import connectRedis from "connect-redis";
-import { redis } from "@server/redis";
+import { redis } from "@api/redis";
 <% } else { %>
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { prisma } from "@server/prisma";
+import { prisma } from "@api/prisma";
 <% } %>
-import { cookieOptions } from "@lib/auth/server/authConfig";
+import { cookieOptions } from "@lib/auth/api/authConfig";
 
 <% if (props.f.isSessionStoreRedis({ props })) { %>
 const RedisStore = connectRedis(expressSession);

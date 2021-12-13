@@ -8,12 +8,12 @@ export const baseConfig: GeneratorConfigDefinition = {
       dest: "lib/${h.changeCase.camelCase(props.name)}/data/${h.changeCase.camelCase(props.name)}Hooks.ts",
     },
     {
-      src: "templates/lib/resource/server/resourceConfig.ts",
-      dest: "lib/${h.changeCase.camelCase(props.name)}/server/${h.changeCase.camelCase(props.name)}Config.ts",
+      src: "templates/lib/resource/api/resourceConfig.ts",
+      dest: "lib/${h.changeCase.camelCase(props.name)}/api/${h.changeCase.camelCase(props.name)}Config.ts",
     },
     {
-      src: "templates/lib/resource/server/resourceService.ts",
-      dest: "lib/${h.changeCase.camelCase(props.name)}/server/${h.changeCase.camelCase(props.name)}Service.ts",
+      src: "templates/lib/resource/api/resourceService.ts",
+      dest: "lib/${h.changeCase.camelCase(props.name)}/api/${h.changeCase.camelCase(props.name)}Service.ts",
     },
     {
       src: "templates/pages/api/resource/index.ts",

@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQueryClient, useQuery, useMutation } from "react-query";
-import { fetcher } from "@util/query";
+import { fetcher } from "@util/fetcher";
 import {
   clientAuthRoutes,
   <% if (props.f.isTypeJwt({ props })) { %>ACCESS_TOKEN_TIMEOUT<% } %>
-} from "@lib/auth/server/authConfig";
+} from "@lib/auth/api/authConfig";
 
 // We should subset this to only interface we need.
 import { User as PrismaUser } from "@prisma/client";

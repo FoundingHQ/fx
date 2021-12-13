@@ -1,9 +1,9 @@
 import passport from "passport";
 <% if (props.f.hasScopeGoogle({ props })) { %>
-import { googleStrategy } from "@lib/auth/server/strategy/google";
+import { googleStrategy } from "@lib/auth/api/strategy/google";
 <% } %>
-import { signupStrategy, loginStrategy } from "@lib/auth/server/strategy/local";
-import { serializeUser, deserializeUser } from "@lib/users/server/userService";
+import { signupStrategy, loginStrategy } from "@lib/auth/api/strategy/local";
+import { serializeUser, deserializeUser } from "@lib/users/api/userService";
 
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);

@@ -1,9 +1,9 @@
 import type { ReactElement, ReactNode } from "react";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
-import { QueryClientProvider } from "react-query";
+import { useState } from "react";
+import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { queryClient } from "@util/query";
 
 import "styles/globals.css";
 
@@ -16,11 +16,14 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const [queryClient] = useState(() => new QueryClient());
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <QueryClientProvider client={queryClient}>
-      {getLayout(<Component {...pageProps} />)}
+      <Hydrate state={pageProps.dehydratedState}>
+        {getLayout(<Component {...pageProps} />)}
+      </Hydrate>
       <ReactQueryDevtools />
     </QueryClientProvider>
   );

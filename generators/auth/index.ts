@@ -88,15 +88,15 @@ const generator: AuthGenerator = {
     return extractFilterableList(templates, context);
   },
   async codemods(context) {
-    const handlerPath = join(context.paths.libCore, "server/handler.ts");
+    const handlerPath = join(context.paths.libCore, "api/handler.ts");
     const schemaPath = context.paths.scheme;
 
     const handlerTransform = async (source: string) => {
       const { program, j } = createJscodeshiftProgram(source);
       const sessionImport = j.template
-        .statement`import { sessionMiddleware } from "@lib/auth/server/middlewares/session";`;
+        .statement`import { sessionMiddleware } from "@lib/auth/api/middlewares/session";`;
       const passportImport = j.template
-        .statement`import { passport } from "@lib/auth/server/middlewares/passport";`;
+        .statement`import { passport } from "@lib/auth/api/middlewares/passport";`;
 
       addImport(program, sessionImport);
       addImport(program, passportImport);

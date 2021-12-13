@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { <%= h.changeCase.pascalCase(props.name) %> } from "@prisma/client";
 
 import { fetcher } from "@util/query";
-import { client<%= h.changeCase.pascalCase(props.name) %>Routes } from "@lib/<%= h.changeCase.camelCase(props.name) %>/server/<%= h.changeCase.camelCase(props.name) %>Config";
+import { client<%= h.changeCase.pascalCase(props.name) %>Routes } from "@lib/<%= h.changeCase.camelCase(props.name) %>/api/<%= h.changeCase.camelCase(props.name) %>Config";
 
 export type Create<%= h.changeCase.pascalCase(props.name) %>Input = Omit<<%= h.changeCase.pascalCase(props.name) %>, "id" | "createdAt" | "updatedAt">
 export type Update<%= h.changeCase.pascalCase(props.name) %>Input = Omit<<%= h.changeCase.pascalCase(props.name) %>, "createdAt" | "updatedAt">

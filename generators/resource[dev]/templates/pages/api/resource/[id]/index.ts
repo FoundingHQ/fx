@@ -1,9 +1,9 @@
-import createHandler from "@server/handler";
+import createHandler from "@api/handler";
 import {
   get<%= h.changeCase.pascalCase(props.name) %>,
   update<%= h.changeCase.pascalCase(props.name) %>,
   delete<%= h.changeCase.pascalCase(props.name) %>,
-} from "@lib/<%= h.changeCase.camelCase(props.name) %>/server/<%= h.changeCase.camelCase(props.name) %>Service";
+} from "@lib/<%= h.changeCase.camelCase(props.name) %>/api/<%= h.changeCase.camelCase(props.name) %>Service";
 
 const handler = createHandler({ attachParams: true });
 

@@ -1,5 +1,5 @@
-import createHandler from "@server/handler";
-import { stripe } from "@lib/payments/server/paymentsService";
+import createHandler from "@api/handler";
+import { stripe } from "@lib/payments/api/paymentsService";
 
 // Stripe requires the raw body to construct the event.
 export const config = {

@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
-import { fetcher } from "@util/query";
+import { fetcher } from "@util/fetcher";
 
-import { clientPaymentsRoutes } from "../server/paymentsConfig";
+import { clientPaymentsRoutes } from "../api/paymentsConfig";
 
 export type PaymentsInput = { email: string; quantity: number; price: string };
 

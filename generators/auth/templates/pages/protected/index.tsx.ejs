@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import createHandler, { AppRequest, AppResponse } from "@server/handler";
+import createHandler, { AppRequest, AppResponse } from "@api/handler";
 import { User, useLogout } from "@lib/auth/data/authHooks";
 
 type Props = {

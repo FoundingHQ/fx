@@ -78,7 +78,7 @@ export const executeGenerator = async (
               scaffoldPath.dest
             : // If dest path is a directory, file could be nested
               scaffoldPath.dest + // e.g. scaffoldPath.dest = /lib/users
-              removeTemplateExtension(srcFilePath) // e.g. srcFilePath = /projects/founding/fx/generators/auth/templates/lib/users/server/accountService.ts
+              removeTemplateExtension(srcFilePath) // e.g. srcFilePath = /projects/founding/fx/generators/auth/templates/lib/users/api/accountService.ts
                 .replace(resolve(generatorInfo.localRootPath), "")
                 .replace(scaffoldPath.src, "");
 

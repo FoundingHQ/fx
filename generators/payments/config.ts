@@ -8,12 +8,12 @@ export const baseConfig: GeneratorConfigDefinition = {
   ],
   templates: [
     {
-      src: "templates/lib/payments/server/paymentsConfig.ts",
-      dest: "lib/payments/server/paymentsConfig.ts",
+      src: "templates/lib/payments/api/paymentsConfig.ts",
+      dest: "lib/payments/api/paymentsConfig.ts",
     },
     {
-      src: "templates/lib/payments/server/paymentsService.ts",
-      dest: "lib/payments/server/paymentsService.ts",
+      src: "templates/lib/payments/api/paymentsService.ts",
+      dest: "lib/payments/api/paymentsService.ts",
     },
     {
       src: "templates/pages/api/payments/webhook.ts",

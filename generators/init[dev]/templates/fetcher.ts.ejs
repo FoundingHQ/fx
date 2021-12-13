@@ -1,0 +1,14 @@
+import fetch from "cross-fetch";
+import redaxios, { Options } from "redaxios";
+
+const defaultOptions: Options = {
+  withCredentials: true,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://localhost:3000/api",
+  fetch,
+};
+
+export const createFetcher = (options: Options = {}): typeof redaxios => {
+  return redaxios.create({ ...defaultOptions, ...options });
+};
+
+export const fetcher = createFetcher();
