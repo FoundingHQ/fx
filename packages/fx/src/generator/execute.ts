@@ -8,13 +8,13 @@ import {
   throwHandledError,
   Generator,
   GeneratorMeta,
-  install,
 } from "@founding/devkit";
 import {
   interpolatePath,
   removeTemplateExtension,
   createContext,
 } from "./context";
+import { install } from "../utils/package";
 
 export const executeGenerator = async (
   generatorInfo: GeneratorMeta,

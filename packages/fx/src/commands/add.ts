@@ -62,11 +62,6 @@ export const add = async (
   const generatorOptions = parseArgs(args);
   const generatorInfo = normalizeGeneratorPath(feature);
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
-    // Start off with a clean folder if we're cloning a remote generator
-    removeDir(generatorInfo.localRootPath);
-  }
-
   /**
    * Extract the generator from either:
    * - an official generator (e.g. auth)

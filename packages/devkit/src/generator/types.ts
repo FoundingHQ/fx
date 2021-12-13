@@ -1,4 +1,9 @@
-import { Package } from "../utils/package";
+export type Package = {
+  name: string;
+  version?: string;
+  isDevDep?: boolean;
+  isExpoDep?: boolean;
+};
 
 export type Frameworks = "next" | "expo";
 export type Language = "typescript" | "javascript";

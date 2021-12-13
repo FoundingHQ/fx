@@ -20,10 +20,6 @@ export const init = async (options: Record<string, any> = {}) => {
     });
   }
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
-    removeDir(generatorInfo.localRootPath);
-  }
-
   const { generator } = await extractGenerator(generatorInfo);
   spinner.succeed(
     `Framework${frameworks.length ? "s" : ""} detected: ${frameworks.join(

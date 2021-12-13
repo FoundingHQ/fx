@@ -23,4 +23,4 @@ export * from "./utils/error";
 export * from "./utils/exec";
 export * from "./utils/fs";
 export * from "./utils/logger";
-export * from "./utils/package";
+export * from "./utils/notify-updates";

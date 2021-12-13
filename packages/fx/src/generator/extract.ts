@@ -5,12 +5,12 @@ import {
   GeneratorLocation,
   logger,
   readJson,
-  install,
 } from "@founding/devkit";
 import { setupTsTranspiler } from "../utils/ts-transpiler";
 import { gotJSON, isUrlValid } from "../utils/network";
 import { GH_ROOT, API_ROOT, RAW_ROOT, cwd } from "../utils/config";
 import { cloneRepo } from "../utils/repo";
+import { install } from "../utils/package";
 
 export const normalizeGeneratorPath = (feature: string) => {
   // feature == `auth`

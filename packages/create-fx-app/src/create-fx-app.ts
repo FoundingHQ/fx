@@ -1,13 +1,8 @@
 #!/usr/bin/env node
 import { resolve, basename } from "path";
 import { Command } from "commander";
-import {
-  logger,
-  prompts,
-  validateNpmName,
-  checkAndNotifyUpdates,
-} from "@founding/devkit";
-import { scaffold } from "./scaffold";
+import { logger, prompts, checkAndNotifyUpdates } from "@founding/devkit";
+import { scaffold, validateNpmName } from "./scaffold";
 import packageJson from "../package.json";
 
 const program = new Command();

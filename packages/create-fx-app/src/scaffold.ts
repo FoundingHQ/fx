@@ -1,4 +1,5 @@
 import { resolve, dirname, basename } from "path";
+import validateProjectName from "validate-npm-package-name";
 import { logger, exec, isWriteable } from "@founding/devkit";
 
 export const scaffold = async ({ appPath }: { appPath: string }) => {
@@ -12,11 +13,16 @@ export const scaffold = async ({ appPath }: { appPath: string }) => {
     process.exit(1);
   }
 
-  logger.log(`Creating a new FX project in ${logger.withVariable(root)}.`, 0);
+  // Run `create-next-app`
   await exec("npx", ["create-next-app@latest", appName, "--ts", "--use-npm"]);
 
+  // Run `fx` commands
+  logger.log(
+    `Adding FX into ${logger.withVariable(appName)} project:`,
+    0,
+    true
+  );
   process.chdir(appName);
-  console.log(`Adding FX into ${appName} project:`);
   await exec("npm", ["i", "@founding/fx", "-D"]);
   await exec("npx", ["fx", "init"]);
 
@@ -24,4 +30,19 @@ export const scaffold = async ({ appPath }: { appPath: string }) => {
     `${logger.withVariable("Success!")} Created ${appName} at ${appPath}`
   );
   logger.newLine();
+};
+
+export const validateNpmName = (name: string) => {
+  const nameValidation = validateProjectName(name);
+  if (nameValidation.validForNewPackages) {
+    return { valid: true };
+  }
+
+  return {
+    valid: false,
+    problems: [
+      ...(nameValidation.errors || []),
+      ...(nameValidation.warnings || []),
+    ],
+  };
 };

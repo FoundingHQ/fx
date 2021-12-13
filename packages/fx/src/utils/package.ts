@@ -1,14 +1,4 @@
-import validateProjectName from "validate-npm-package-name";
-import checkForUpdate from "update-check";
-import { exec, execSync } from "./exec";
-import { logger } from "./logger";
-
-export type Package = {
-  name: string;
-  version?: string;
-  isDevDep?: boolean;
-  isExpoDep?: boolean;
-};
+import { exec, execSync, Package } from "@founding/devkit";
 
 const mapPackage = (p: Package) => {
   if (!p.version) return p.name;
@@ -81,21 +71,6 @@ export const uninstall = async (
   process.chdir(originalCwd);
 };
 
-export const validateNpmName = (name: string) => {
-  const nameValidation = validateProjectName(name);
-  if (nameValidation.validForNewPackages) {
-    return { valid: true };
-  }
-
-  return {
-    valid: false,
-    problems: [
-      ...(nameValidation.errors || []),
-      ...(nameValidation.warnings || []),
-    ],
-  };
-};
-
 export const shouldUseYarn = () => {
   try {
     const userAgent = process.env.npm_config_user_agent;
@@ -104,26 +79,5 @@ export const shouldUseYarn = () => {
     return false;
   } catch (e) {
     return false;
-  }
-};
-
-export const checkAndNotifyUpdates = async (
-  packageJson: Record<string, any>
-) => {
-  try {
-    const res = await checkForUpdate(packageJson).catch(() => null);
-    if (res?.latest) {
-      logger.newLine();
-      logger.warning(`A new version of "${packageJson.name}" is available!`);
-      logger.log(
-        `You can update by running: ${logger.withVariable(
-          `npm update ${packageJson.name}`
-        )}`
-      );
-      logger.newLine();
-    }
-    process.exit();
-  } catch {
-    // ignore error
   }
 };
