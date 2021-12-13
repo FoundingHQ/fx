@@ -15,8 +15,17 @@ const program = new Command();
 const main = async () => {
   program
     .version(packageJson.version)
-    .arguments("[project-directory]")
+    .description(
+      `Quickly start a new FX project with everything set up for you. ${logger.withCommand(
+        `create-fx-app`
+      )} is a shortcut for running ${logger.withCommand(
+        `npx create-next-app`
+      )} followed by ${logger.withCommand(
+        `npm i -D @founding/fx`
+      )} and ${logger.withCommand(`npx fx init`)}.`
+    )
     .usage(`${logger.withVariable("[project-directory]")} [options]`)
+    .arguments("[project-directory]")
     .allowUnknownOption()
     .action(run);
 
