@@ -12,16 +12,22 @@ const generator: Generator<Props> = {
   async setup(_context, options) {
     return { ...options };
   },
-  async install() {
-    const nextjsDeps = [
-      { name: "@prisma/client" },
-      { name: "next-connect" },
-      { name: "cross-fetch" },
-      { name: "react-query" },
-      { name: "redaxios" },
-      { name: "dotenv-cli", isDevDep: true },
-      { name: "prisma", isDevDep: true },
-    ];
+  async install(context) {
+    const deps = [];
+
+    if (context.config.frameworks.includes("next")) {
+      deps.push(
+        ...[
+          { name: "@prisma/client" },
+          { name: "next-connect" },
+          { name: "cross-fetch" },
+          { name: "react-query" },
+          { name: "redaxios" },
+          { name: "dotenv-cli", isDevDep: true },
+          { name: "prisma", isDevDep: true },
+        ]
+      );
+    }
 
     const expoDeps = [
       { name: "expo" },
@@ -33,27 +39,36 @@ const generator: Generator<Props> = {
       { name: "@types/react-native", isDevDep: true },
     ];
 
-    return nextjsDeps;
+    return deps;
   },
-  async scaffold() {
-    const nextjsTemplates = [
-      { src: "templates/_app.tsx.ejs", dest: "pages/_app.tsx" },
-      { src: "templates/.env.example.ejs", dest: ".env.example" },
-      { src: "templates/docker-compose.yml.ejs", dest: "docker-compose.yml" },
-      { src: "templates/fetcher.ts.ejs", dest: "lib/core/util/fetcher.ts" },
-      {
-        src: "templates/trustProxy.ts.ejs",
-        dest: "lib/core/api/middlewares/trustProxy.ts",
-      },
-      { src: "templates/handler.ts.ejs", dest: "lib/core/api/handler.ts" },
-      { src: "templates/prisma.ts.ejs", dest: "lib/core/api/prisma.ts" },
-      { src: "templates/schema.prisma.ejs", dest: "prisma/schema.prisma" },
-      { src: "templates/seed.ts.ejs", dest: "prisma/seed.ts" },
-    ];
+  async scaffold(context) {
+    const templates = [];
+
+    if (context.config.frameworks.includes("next")) {
+      templates.push(
+        ...[
+          { src: "templates/_app.tsx.ejs", dest: "pages/_app.tsx" },
+          { src: "templates/.env.example.ejs", dest: ".env.example" },
+          {
+            src: "templates/docker-compose.yml.ejs",
+            dest: "docker-compose.yml",
+          },
+          { src: "templates/fetcher.ts.ejs", dest: "lib/core/util/fetcher.ts" },
+          {
+            src: "templates/trust-proxy.ts.ejs",
+            dest: "lib/core/api/middlewares/trust-proxy.ts",
+          },
+          { src: "templates/handler.ts.ejs", dest: "lib/core/api/handler.ts" },
+          { src: "templates/prisma.ts.ejs", dest: "lib/core/api/prisma.ts" },
+          { src: "templates/schema.prisma.ejs", dest: "prisma/schema.prisma" },
+          { src: "templates/seed.ts.ejs", dest: "prisma/seed.ts" },
+        ]
+      );
+    }
 
     const expoTemplates = [];
 
-    return nextjsTemplates;
+    return templates;
   },
   async codemods(context) {
     const tsConfigPath = context.paths.tsConfig;
