@@ -19,6 +19,7 @@ export const cookieOptions = {
 };
 
 export const authRoutes = {
+  session: "/api/auth/session",
   signup: "/api/auth/signup",
   login: "/api/auth/login",
   logout: "/api/auth/logout",
@@ -33,15 +34,4 @@ export const authRoutes = {
   <% if (props.f.isTypeJwt({ props })) { %>
   refresh: "/api/auth/refresh_token",
   <% } %>
-  currentUser: "/api/auth/current_user",
 };
-
-type AuthRoutes = typeof authRoutes;
-
-export const clientAuthRoutes = Object.keys(authRoutes).reduce((map, key) => {
-  map[key as keyof AuthRoutes] = authRoutes[key as keyof AuthRoutes].replace(
-    "/api",
-    ""
-  );
-  return map;
-}, {} as AuthRoutes);

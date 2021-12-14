@@ -1,25 +1,27 @@
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useQueryClient, useQuery, useMutation } from "react-query";
-import { fetcher } from "@util/fetcher";
-import {
-  clientAuthRoutes,
-  <% if (props.f.isTypeJwt({ props })) { %>ACCESS_TOKEN_TIMEOUT<% } %>
-} from "@lib/auth/api/authConfig";
+import { useQueryClient, useQuery, useMutation, QueryKey } from "react-query";
+import { fetcher, hydrateQueries } from "@util/fetcher";
+import { authRoutes } from "@lib/auth/api/authConfig";
+import { Session } from "@lib/auth/data/authSchema";
 
-// We should subset this to only interface we need.
-import { User as PrismaUser } from "@prisma/client";
-export type User = Pick<PrismaUser, "id" | "email" | "name" | "image" | "role">;
-export type Session = { accessToken: string; user: User };
+export const sessionKey: QueryKey = "session";
 
-export type AuthInput = { email: string; password: string };
+export const getSession = async (config = {}) => {
+  const { data } = await fetcher.get<Session>(authRoutes.session, config);
+  return data;
+};
 
-const sessionKey = "session";
-<% if (props.f.isTypeJwt({ props })) { %>
-const defaultSessionTimeout = ACCESS_TOKEN_TIMEOUT - 1000;
-<% } %>
+export const useSession = () => {
+  return useQuery(sessionKey, getSession);
+};
 
-const useHandleAuth = (shouldInvalidate = false) => {
+export const hydrateSession = (context: GetServerSidePropsContext) => {
+  return hydrateQueries(context, [[sessionKey, getSession]]);
+};
+
+const useHandleAuth = (redirectRoute = "/", shouldInvalidate = false) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const handleAuth = ({ accessToken, user }: Session) => {
@@ -27,84 +29,40 @@ const useHandleAuth = (shouldInvalidate = false) => {
     if (shouldInvalidate) {
       queryClient.invalidateQueries();
     }
+    router.push(redirectRoute);
   };
 
   return handleAuth;
 };
 
-export const useCurrentUser = () => {
-  return useQuery<Session>(sessionKey, () =>
-    fetcher.post(clientAuthRoutes.currentUser)
-  );
+export type AuthInput = { email: string; password: string };
+
+export const login = async (input: AuthInput) => {
+  const { data } = await fetcher.post<Session>(authRoutes.login, input);
+  return data;
 };
 
-const useAuthRedirect = (shouldBeAuthed: boolean, redirectPath: string) => {
-  const { data, isLoading, isSuccess, isError } = useCurrentUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      if (shouldBeAuthed && !data.user) {
-        router.push(redirectPath);
-      }
-      if (!shouldBeAuthed && data.user) {
-        router.push(redirectPath);
-      }
-    }
-  }, [isSuccess, data]);
-
-  return { data, isLoading, isSuccess, isError };
+export const useLogin = (redirectPath = "/") => {
+  const handleAuth = useHandleAuth(redirectPath);
+  return useMutation(login, { onSuccess: handleAuth });
 };
 
-export const useRequireAuth = (redirectPath: string) => {
-  return useAuthRedirect(true, redirectPath);
+export const signup = async (input: AuthInput) => {
+  const { data } = await fetcher.post<Session>(authRoutes.signup, input);
+  return data;
 };
 
-export const useRedirectOnceAuthed = (redirectPath: string) => {
-  return useAuthRedirect(false, redirectPath);
-};
-<% if (props.f.isTypeJwt({ props })) { %>
-export const useSession = () => {
-  const [refetchInterval, setRefetchInterval] = useState(defaultSessionTimeout);
-  return useQuery<Session>(
-    sessionKey,
-    () => fetcher.post(clientAuthRoutes.refresh),
-    {
-      onError: () => setRefetchInterval(0),
-      refetchInterval: refetchInterval,
-      refetchIntervalInBackground: refetchInterval ? true : false,
-      refetchOnMount: refetchInterval ? true : false,
-      refetchOnReconnect: refetchInterval ? true : false,
-      refetchOnWindowFocus: refetchInterval ? true : false,
-      retry: false,
-      retryOnMount: false,
-    }
-  );
-};
-<% } %>
-export const useLogin = () => {
-  const handleAuth = useHandleAuth();
-  return useMutation(
-    (data: AuthInput) => fetcher.post(clientAuthRoutes.login, data),
-    {
-      onSuccess: handleAuth,
-    }
-  );
+export const useSignup = (redirectPath = "/") => {
+  const handleAuth = useHandleAuth(redirectPath);
+  return useMutation(signup, { onSuccess: handleAuth });
 };
 
-export const useSignup = () => {
-  const handleAuth = useHandleAuth();
-  return useMutation(
-    (data: AuthInput) => fetcher.post(clientAuthRoutes.signup, data),
-    {
-      onSuccess: handleAuth,
-    }
-  );
+export const logout = async () => {
+  const { data } = await fetcher.post<Session>(authRoutes.logout);
+  return data;
 };
 
-export const useLogout = () => {
-  const handleAuth = useHandleAuth(true);
-  return useMutation(() => fetcher.post(clientAuthRoutes.logout), {
-    onSuccess: handleAuth,
-  });
+export const useLogout = (redirectPath = "/") => {
+  const handleAuth = useHandleAuth(redirectPath, true);
+  return useMutation(logout, { onSuccess: handleAuth });
 };

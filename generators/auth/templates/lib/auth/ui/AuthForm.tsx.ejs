@@ -6,8 +6,8 @@ type Props = {
 };
 
 export const AuthForm = ({ authType, submitButtonText }: Props) => {
-  const { mutate: signup } = useSignup();
-  const { mutate: login } = useLogin();
+  const { mutate: signup } = useSignup("/protected");
+  const { mutate: login } = useLogin("/protected");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

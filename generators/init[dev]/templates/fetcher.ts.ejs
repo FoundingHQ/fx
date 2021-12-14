@@ -1,9 +1,13 @@
+import { GetServerSidePropsContext } from "next";
 import fetch from "cross-fetch";
 import redaxios, { Options } from "redaxios";
+import { dehydrate, QueryClient, QueryKey } from "react-query";
+
+import { serializeCookie } from "./cookie";
 
 const defaultOptions: Options = {
   withCredentials: true,
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://localhost:3000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://localhost:3000",
   fetch,
 };
 
@@ -12,3 +16,34 @@ export const createFetcher = (options: Options = {}): typeof redaxios => {
 };
 
 export const fetcher = createFetcher();
+
+type PrefetchQueries = [QueryKey, (options: Options) => Promise<any>][];
+
+export const hydrateQueries = async (
+  { req }: GetServerSidePropsContext,
+  prefetch: PrefetchQueries = []
+) => {
+  const queryClient = new QueryClient();
+  const queryKeys: Record<string, QueryKey> = {};
+
+  await Promise.all(
+    prefetch.map(([queryKey, queryFn]) => {
+      return queryClient.prefetchQuery(queryKey, () => {
+        queryKeys[queryKey as string] = queryKey;
+        const options: Options = {};
+        if (req.cookies && req.cookies.sid) {
+          options.headers = {
+            Cookie: serializeCookie("sid", req.cookies.sid),
+          };
+        }
+        return queryFn(options);
+      });
+    })
+  );
+
+  return {
+    queryKeys,
+    queryClient,
+    dehydratedState: dehydrate(queryClient),
+  };
+};

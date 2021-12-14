@@ -12,9 +12,12 @@ import {
 const handler = createHandler({ attachParams: true });
 
 handler
+  .get(authRoutes.session, async (req, res) => {
+    res.status(200).json({ user: req.user });
+  })
   .post(
     authRoutes.signup,
-    passport.authenticate("signup", { session: true }),
+    passport.authenticate("signup"),
     async (req, res) => {
       <% if (props.f.isTypeJwt({ props })) { %>
       const accessToken = createAccessToken(req.user!);
@@ -30,7 +33,7 @@ handler
   )
   .post(
     authRoutes.login,
-    passport.authenticate("login", { session: true }),
+    passport.authenticate("login"),
     async (req, res) => {
       <% if (props.f.isTypeJwt({ props })) { %>
       const accessToken = createAccessToken(req.user!);
@@ -48,37 +51,29 @@ handler
     req.logout();
     <% if (props.f.isTypeJwt({ props })) { %>
     destroyRefreshToken(res);
-    res.redirect("/");
     <% } %>
-    <% if (props.f.isTypeSession({ props })) { %>
-    res.redirect("/");
-    <% } %>
+    res.status(200).json({ user: null });
   })
   <% if (props.f.isTypeJwt({ props })) { %>
   .post(
     authRoutes.refresh,
-    passport.authenticate("refreshToken", { session: false }),
+    passport.authenticate("refreshToken"),
     async (req, res) => {
       const accessToken = createAccessToken(req.user!);
       res.status(200).json({ user: req.user, accessToken });
     }
   )
   <% } %>
-  .post(authRoutes.currentUser, async (req, res) => {
-    res.status(200).json({ user: req.user });
-  })
   .get(
     authRoutes.google,
     passport.authenticate("google", {
-      scope: ["profile", "email"],
-      session: true,
+      scope: ["profile", "email"]
     })
   )
   .get(
     authRoutes.googleCallback,
     passport.authenticate("google", {
-      failureRedirect: "/auth/login",
-      session: true,
+      failureRedirect: "/auth/login"
     }),
     async (req, res) => {
       <% if (props.f.isTypeJwt({ props })) { %>
@@ -87,8 +82,8 @@ handler
       <% } %>
       <% if (props.f.isTypeSession({ props })) { %>
       req.session.userId = req.user?.id;
-      res.redirect("/");
       <% } %>
+      res.redirect("/");
     }
   );
 

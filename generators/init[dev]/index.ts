@@ -23,8 +23,10 @@ const generator: Generator<Props> = {
           { name: "cross-fetch" },
           { name: "react-query" },
           { name: "redaxios" },
+          { name: "cookie" },
           { name: "dotenv-cli", isDevDep: true },
           { name: "prisma", isDevDep: true },
+          { name: "@types/cookie", isDevDep: true },
         ]
       );
     }
@@ -54,9 +56,10 @@ const generator: Generator<Props> = {
             dest: "docker-compose.yml",
           },
           { src: "templates/fetcher.ts.ejs", dest: "lib/core/util/fetcher.ts" },
+          { src: "templates/cookie.ts.ejs", dest: "lib/core/util/cookie.ts" },
           {
-            src: "templates/trust-proxy.ts.ejs",
-            dest: "lib/core/api/middlewares/trust-proxy.ts",
+            src: "templates/trustProxy.ts.ejs",
+            dest: "lib/core/api/middlewares/trustProxy.ts",
           },
           { src: "templates/handler.ts.ejs", dest: "lib/core/api/handler.ts" },
           { src: "templates/prisma.ts.ejs", dest: "lib/core/api/prisma.ts" },

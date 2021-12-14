@@ -1,0 +1,28 @@
+import { GetServerSidePropsContext } from "next";
+import { Session } from "@lib/auth/data/authSchema";
+import { hydrateSession } from "@lib/auth/data/authHooks";
+
+export const requireAuth = async (
+  context: GetServerSidePropsContext,
+  redirectTo = "/"
+) => {
+  const { dehydratedState, queryClient, queryKeys } = await hydrateSession(
+    context
+  );
+  const session = queryClient.getQueryState<Session>(queryKeys.session);
+
+  if (session?.data?.user) {
+    return {
+      props: {
+        dehydratedState,
+      },
+    };
+  }
+
+  return {
+    redirect: {
+      destination: redirectTo,
+      permanent: false,
+    },
+  };
+};
