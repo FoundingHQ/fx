@@ -1,6 +1,6 @@
 {
   "name": "@founding/create-fx-generator",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "keywords": [],
   "description": "Creates a FX generator from a next.js app",
   "repository": {
@@ -28,7 +28,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@founding/devkit": "^0.0.12",
+    "@founding/devkit": "^0.0.13",
     "commander": "^8.3.0"
   },
   "devDependencies": {
