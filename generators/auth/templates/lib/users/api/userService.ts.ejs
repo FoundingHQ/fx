@@ -14,26 +14,16 @@ const defaultSelect = {
   passwordHash: false,
 };
 
-type CreateUserInput = {
-  email?: string;
-  name?: string;
-  image?: string;
-  password?: string;
-  account?: {
-    provider: string;
-    providerAccountId: string;
-    accessToken: string;
-    refreshToken: string;
-  };
-};
-
 export const createUser = async ({
   email,
   name,
   image,
   password,
   account,
-}: CreateUserInput) => {
+}: Prisma.UserCreateInput & {
+  password?: string;
+  account?: Prisma.AccountCreateInput;
+}) => {
   const data: Prisma.UserCreateInput = { email, name, image };
 
   if (password) {
@@ -59,12 +49,7 @@ export const createUser = async ({
   });
 };
 
-type GetUserInput = {
-  id?: string;
-  email?: string;
-};
-
-export const getUser = async ({ email, id }: GetUserInput) => {
+export const getUser = async ({ email, id }: Prisma.UserWhereUniqueInput) => {
   const where = email ? { email } : { id };
 
   return prisma.user.findUnique({
@@ -73,7 +58,10 @@ export const getUser = async ({ email, id }: GetUserInput) => {
   });
 };
 
-export const getUserPasswordHash = async ({ email, id }: GetUserInput) => {
+export const getUserPasswordHash = async ({
+  email,
+  id,
+}: Prisma.UserWhereUniqueInput) => {
   const where = email ? { email } : { id };
   const user = await prisma.user.findUnique({ where });
 

@@ -1,12 +1,10 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "@api/prisma";
 
 export const getAccount = async ({
   provider,
   providerAccountId,
-}: {
-  provider: string;
-  providerAccountId: string;
-}) => {
+}: Prisma.AccountProviderProviderAccountIdCompoundUniqueInput) => {
   return prisma.account.findUnique({
     where: {
       provider_providerAccountId: {

@@ -1,8 +1,9 @@
 import { GetServerSidePropsContext } from "next";
+import { AppRequest, AppResponse } from "@api/handler";
 import { Session } from "@lib/auth/data/authSchema";
 import { hydrateSession } from "@lib/auth/data/authHooks";
 
-export const requireAuth = async (
+export const pageRequiresAuth = async (
   context: GetServerSidePropsContext,
   redirectTo = "/"
 ) => {
@@ -25,4 +26,16 @@ export const requireAuth = async (
       permanent: false,
     },
   };
+};
+
+export const apiRequiresAuth = (
+  req: AppRequest,
+  res: AppResponse,
+  next: () => void
+) => {
+  if (!req.user) {
+    res.status(401).send("Unauthorized");
+  } else {
+    next();
+  }
 };
