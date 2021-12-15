@@ -65,23 +65,23 @@ const skipDependencies: Record<string, boolean> = {
   "@founding/devkit": true,
 };
 
-export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
+export const extractGenerator = async (generatorMeta: GeneratorMeta) => {
   // Since the generator may be a .ts file, we need to setup a tsnode runtime
   setupTsTranspiler();
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
-    const apiUrl = generatorInfo.path.replace(GH_ROOT, API_ROOT);
-    const rawUrl = generatorInfo.path.replace(GH_ROOT, RAW_ROOT);
+  if (generatorMeta.location === GeneratorLocation.Remote) {
+    const apiUrl = generatorMeta.path.replace(GH_ROOT, API_ROOT);
+    const rawUrl = generatorMeta.path.replace(GH_ROOT, RAW_ROOT);
     const repoInfo = await gotJSON(apiUrl);
     const packageJsonPath = join(
       `${rawUrl}`,
       repoInfo.default_branch,
-      generatorInfo.subdirectory ?? "",
+      generatorMeta.subdirectory ?? "",
       "package.json"
     );
 
     if (!(await isUrlValid(packageJsonPath))) {
-      logger.error(`Could not find generator for "${generatorInfo.feature}"\n`);
+      logger.error(`Could not find generator for "${generatorMeta.feature}"\n`);
       logger.title("Please provide one of the following:");
       logger.log(`1. The name of a feature to install (e.g. "auth")`);
       logger.meta(
@@ -96,16 +96,16 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
       logger.log(`4. A file path to a locally-written generator.`, 0, true);
       process.exit(1);
     } else {
-      const tempDir = generatorInfo.localRootPath;
+      const tempDir = generatorMeta.localRootPath;
 
       await cloneRepo(
         tempDir,
         repoInfo.full_name,
         repoInfo.default_branch,
-        generatorInfo.subdirectory
+        generatorMeta.subdirectory
       );
 
-      const generatorPackageJson = readJson(generatorInfo.localPackageJsonPath);
+      const generatorPackageJson = readJson(generatorMeta.localPackageJsonPath);
 
       if (!generatorPackageJson.main) {
         logger.error(
@@ -150,7 +150,7 @@ export const extractGenerator = async (generatorInfo: GeneratorMeta) => {
       return { generator, packageJson: generatorPackageJson };
     }
   } else {
-    const generatorEntry = resolve(cwd, generatorInfo.path);
+    const generatorEntry = resolve(cwd, generatorMeta.path);
     const generator: Generator = require(generatorEntry).default;
 
     return { generator, packageJson: {} };

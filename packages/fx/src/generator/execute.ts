@@ -22,9 +22,12 @@ import { install } from "../utils/package";
 
 const executeSetupGenerator = async (
   generator: Generator,
-  generatorOptions: Record<string, any> = {}
+  generatorOptions: Record<string, any> = {},
+  generatorMeta: GeneratorMeta
 ) => {
   const context = createContext();
+  context.generatorMeta = generatorMeta;
+
   // Setup generator to assign props to the context
   const props = await generator.setup(context, generatorOptions);
   context.props = props;
@@ -63,7 +66,7 @@ const executeInstallDependencies = async (
 const executeScaffolds = async (
   generator: Generator,
   context: Context,
-  generatorInfo: GeneratorMeta,
+  generatorMeta: GeneratorMeta,
   force: boolean
 ) => {
   logger.log("Generating feature source code:");
@@ -79,7 +82,7 @@ const executeScaffolds = async (
 
   for (const scaffoldPath of scaffoldPaths) {
     const srcFilePaths = await getFilePaths(
-      resolve(generatorInfo.localRootPath, scaffoldPath.src)
+      resolve(generatorMeta.localRootPath, scaffoldPath.src)
     );
 
     for (const srcFilePath of srcFilePaths) {
@@ -90,7 +93,7 @@ const executeScaffolds = async (
         : // If dest path is a directory, file could be nested
           scaffoldPath.dest + // e.g. scaffoldPath.dest = /lib/users
           removeTemplateExtension(srcFilePath)
-            .replace(resolve(generatorInfo.localRootPath), "")
+            .replace(resolve(generatorMeta.localRootPath), "")
             .replace(scaffoldPath.src, "");
 
       const destFilePath = resolve(
@@ -176,18 +179,22 @@ const executeFinish = async (generator: Generator, context: Context) => {
 };
 
 export const executeGenerator = async (
-  generatorInfo: GeneratorMeta,
+  generatorMeta: GeneratorMeta,
   generator: Generator,
   generatorOptions: Record<string, any> = {},
   cliOptions: Record<string, any> = {}
 ) => {
   const dryRun = cliOptions.dryRun || false;
   const force = cliOptions.force || false;
-  const context = await executeSetupGenerator(generator, generatorOptions);
+  const context = await executeSetupGenerator(
+    generator,
+    generatorOptions,
+    generatorMeta
+  );
 
   try {
     await executeInstallDependencies(generator, context, dryRun);
-    await executeScaffolds(generator, context, generatorInfo, force);
+    await executeScaffolds(generator, context, generatorMeta, force);
     await executeCodemods(generator, context);
   } catch (error) {
     throwHandledError({

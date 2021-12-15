@@ -5,6 +5,11 @@ export type Package = {
   isExpoDep?: boolean;
 };
 
+export type ScaffoldPath = {
+  src: string;
+  dest: string;
+};
+
 export type Frameworks = "next" | "expo";
 export type Language = "typescript" | "javascript";
 export type Theme = "skeleton";
@@ -32,11 +37,7 @@ export type Context<T = {}> = {
     theme: Theme;
   };
   h: Record<string, any>;
-};
-
-export type ScaffoldPath = {
-  src: string;
-  dest: string;
+  generatorMeta?: GeneratorMeta;
 };
 
 export type Generator<T = any> = {
@@ -51,7 +52,7 @@ export type Generator<T = any> = {
   scaffold: (context: Context<T>) => Promise<ScaffoldPath[]>;
   codemods: (context: Context<T>) => Promise<string[]>;
   finish: (context: Context<T>) => Promise<void>;
-  uninstall: () => Promise<{
+  uninstall: (context: Context<T>) => Promise<{
     dependencies: string[];
     templates: string[];
   }>;

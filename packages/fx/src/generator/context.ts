@@ -3,6 +3,7 @@ import {
   Context,
   Frameworks,
   Language,
+  Theme,
   readJson,
   fileExists,
 } from "@founding/devkit";
@@ -43,7 +44,7 @@ export const createContext = () => {
     config: {
       frameworks: getFrameworks(),
       language: getLanguage(),
-      theme: "skeleton",
+      theme: getTheme(),
     },
     h: helpers,
   };
@@ -60,10 +61,15 @@ export const getFrameworks = () => {
 };
 
 export const getLanguage = () => {
-  const l: Language = fileExists(resolve(cwd, "tsconfig.json"))
+  const language: Language = fileExists(resolve(cwd, "tsconfig.json"))
     ? "typescript"
     : "javascript";
-  return l;
+  return language;
+};
+
+export const getTheme = () => {
+  const theme: Theme = "skeleton";
+  return theme;
 };
 
 export const interpolate = (path: string, obj: Record<string, any> = {}) => {

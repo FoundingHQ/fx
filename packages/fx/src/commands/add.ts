@@ -60,7 +60,7 @@ export const add = async (
    * => { scope: 'a', lame: true }
    **/
   const generatorOptions = parseArgs(args);
-  const generatorInfo = normalizeGeneratorPath(feature);
+  const generatorMeta = normalizeGeneratorPath(feature);
 
   /**
    * Extract the generator from either:
@@ -73,16 +73,16 @@ export const add = async (
    **/
   const generatorName = logger.withVariable(feature);
   const spinner = logger.spinner(`Installing ${generatorName} generator`);
-  const { generator } = await extractGenerator(generatorInfo);
+  const { generator } = await extractGenerator(generatorMeta);
   spinner.succeed(`Generator installed`);
 
   logger.success(`Running ${generatorName} generator`);
   logger.newLine();
-  await executeGenerator(generatorInfo, generator, generatorOptions, options);
+  await executeGenerator(generatorMeta, generator, generatorOptions, options);
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
+  if (generatorMeta.location === GeneratorLocation.Remote) {
     // Remove the temporary directory if cloned from a remote generator
-    removeDir(generatorInfo.localRootPath);
+    removeDir(generatorMeta.localRootPath);
   }
 
   logger.success(

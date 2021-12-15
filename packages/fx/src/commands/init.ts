@@ -10,7 +10,7 @@ import { getFrameworks } from "../generator/context";
 
 export const init = async (options: Record<string, any> = {}) => {
   const spinner = logger.spinner(`Initializing FX for your project`);
-  const generatorInfo = normalizeGeneratorPath(options.path || "init[dev]");
+  const generatorMeta = normalizeGeneratorPath(options.path || "init[dev]");
   const frameworks = getFrameworks();
 
   if (frameworks.length === 0 || !frameworks.includes("next")) {
@@ -20,7 +20,7 @@ export const init = async (options: Record<string, any> = {}) => {
     });
   }
 
-  const { generator } = await extractGenerator(generatorInfo);
+  const { generator } = await extractGenerator(generatorMeta);
   spinner.succeed(
     `Framework${frameworks.length ? "s" : ""} detected: ${frameworks.join(
       ", "
@@ -29,10 +29,10 @@ export const init = async (options: Record<string, any> = {}) => {
 
   logger.success(`Converting project to be FX compatible`);
   logger.newLine();
-  await executeGenerator(generatorInfo, generator, {}, options);
+  await executeGenerator(generatorMeta, generator, {}, options);
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
-    removeDir(generatorInfo.localRootPath);
+  if (generatorMeta.location === GeneratorLocation.Remote) {
+    removeDir(generatorMeta.localRootPath);
   }
 
   logger.success(

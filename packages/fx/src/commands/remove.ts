@@ -55,13 +55,13 @@ export const remove = async (
 
   const spinner = logger.spinner(`Removing ${feature} feature from project`);
   const dryRun = options.dryRun || false;
-  const generatorInfo = normalizeGeneratorPath(feature);
+  const generatorMeta = normalizeGeneratorPath(feature);
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
-    removeDir(generatorInfo.localRootPath);
+  if (generatorMeta.location === GeneratorLocation.Remote) {
+    removeDir(generatorMeta.localRootPath);
   }
 
-  const { generator } = await extractGenerator(generatorInfo);
+  const { generator } = await extractGenerator(generatorMeta);
   const { dependencies, templates } = await generator.uninstall();
 
   spinner.stop();
@@ -110,8 +110,8 @@ export const remove = async (
     logger.newLine();
   }
 
-  if (generatorInfo.location === GeneratorLocation.Remote) {
-    removeDir(generatorInfo.localRootPath);
+  if (generatorMeta.location === GeneratorLocation.Remote) {
+    removeDir(generatorMeta.localRootPath);
   }
 
   logger.warning(
