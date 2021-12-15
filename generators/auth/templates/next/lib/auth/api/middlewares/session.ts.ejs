@@ -1,3 +1,6 @@
+---
+filter: <%= props.f.isTypeSession({ props }) %>
+---
 import { NextApiRequest, NextApiResponse } from "next";
 import nextSession from "next-session";
 <% if (props.f.isSessionStoreRedis({ props })) { %>

@@ -8,9 +8,13 @@ import {
   transformPrettier,
   syncGeneratorMigrations,
   prompts,
-  extractFilterableList,
 } from "@founding/devkit";
-import { AuthGenerator, dependencies, templates, filters } from "./config";
+import {
+  AuthGenerator,
+  filters,
+  getDependencies,
+  getTemplates,
+} from "./config";
 import * as schemas from "./schema";
 
 const generator: AuthGenerator = {
@@ -82,10 +86,10 @@ const generator: AuthGenerator = {
     };
   },
   async install(context) {
-    return extractFilterableList(dependencies, context);
+    return getDependencies(context);
   },
   async scaffold(context) {
-    return extractFilterableList(templates, context);
+    return getTemplates(context);
   },
   async codemods(context) {
     const handlerPath = join(context.paths.libCore, "api/handler.ts");
@@ -148,16 +152,10 @@ const generator: AuthGenerator = {
       await syncGeneratorMigrations("fx_add_auth");
     }
   },
-  async uninstall() {
+  async uninstall(context) {
     return {
-      dependencies: dependencies
-        .map((d) => d.list)
-        .flat()
-        .map((d) => d.name),
-      templates: templates
-        .map((t) => t.list)
-        .flat()
-        .map((t) => t.dest),
+      dependencies: getDependencies(context).map((d) => d.name),
+      templates: [],
     };
   },
 };

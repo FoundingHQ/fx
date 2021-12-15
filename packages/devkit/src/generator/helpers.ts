@@ -1,21 +1,24 @@
+import { Package, ScaffoldPath } from "../generator/types";
+
 export type Filter<T> = (context: T) => boolean;
 
-export type FilterableList<T> = {
-  filters?: Filter<T>[];
-  list: any[];
-}[];
+const filterList = <T>(list: { filters: Filter<T>[] }[], context: T) => {
+  return list.filter(({ filters }) => {
+    if (filters) return filters.every((filter) => filter(context));
+    return true;
+  });
+};
 
-export const extractFilterableList = <T>(
-  filterList: FilterableList<T>,
+export const filterDependencies = <T>(
+  dependencies: (Package & { filters: Filter<T>[] })[],
   context: T
 ) => {
-  return filterList.reduce((res, current) => {
-    if (!current.filters) {
-      res.push(...current.list);
-    } else if (current.filters.every((filter) => filter(context))) {
-      res.push(...current.list);
-    }
+  return filterList(dependencies, context) as unknown as Package[];
+};
 
-    return res;
-  }, [] as any[]);
+export const filterTemplates = <T>(
+  templates: (ScaffoldPath & { filters: Filter<T>[] })[],
+  context: T
+) => {
+  return filterList(templates, context) as unknown as ScaffoldPath[];
 };
