@@ -44,32 +44,21 @@ const generator: Generator<Props> = {
     return deps;
   },
   async scaffold(context) {
-    const templates = [];
+    const templates = [
+      { src: "templates/.env.example.ejs", dest: ".env.example" },
+      {
+        src: "templates/docker-compose.yml.ejs",
+        dest: "docker-compose.yml",
+      },
+    ];
 
     if (context.config.frameworks.includes("next")) {
-      templates.push(
-        ...[
-          { src: "templates/_app.tsx.ejs", dest: "pages/_app.tsx" },
-          { src: "templates/.env.example.ejs", dest: ".env.example" },
-          {
-            src: "templates/docker-compose.yml.ejs",
-            dest: "docker-compose.yml",
-          },
-          { src: "templates/fetcher.ts.ejs", dest: "lib/core/util/fetcher.ts" },
-          { src: "templates/cookie.ts.ejs", dest: "lib/core/util/cookie.ts" },
-          {
-            src: "templates/trustProxy.ts.ejs",
-            dest: "lib/core/api/middlewares/trustProxy.ts",
-          },
-          { src: "templates/handler.ts.ejs", dest: "lib/core/api/handler.ts" },
-          { src: "templates/prisma.ts.ejs", dest: "lib/core/api/prisma.ts" },
-          { src: "templates/schema.prisma.ejs", dest: "prisma/schema.prisma" },
-          { src: "templates/seed.ts.ejs", dest: "prisma/seed.ts" },
-        ]
-      );
+      templates.push({ src: "templates/next", dest: "./" });
     }
 
-    const expoTemplates = [];
+    if (context.config.frameworks.includes("expo")) {
+      templates.push({ src: "templates/expo", dest: "./" });
+    }
 
     return templates;
   },

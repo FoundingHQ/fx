@@ -1,12 +1,13 @@
-import * as fs from "fs";
 import { join } from "path";
-import { getSchema, Model } from "@mrleebo/prisma-ast";
 import {
   Generator,
   prompts,
+  throwHandledError,
   addImport,
   createJscodeshiftProgram,
   runTransforms,
+  readFile,
+  produceSchema,
 } from "@founding/devkit";
 import * as config from "./config";
 
@@ -24,51 +25,37 @@ const generator: Generator<Props> = {
         name: "name",
         message: "What is the name of the resource?",
       },
-      {
-        type: () => (options.stack ? null : "select"),
-        name: "stack",
-        message: "What do you want to generate?",
-        initial: 0,
-        choices: [
-          {
-            title: "Full Stack",
-            description: "Frontend and backend",
-            value: "full-stack",
-          },
-          {
-            title: "API only",
-            description: "Backend only",
-            value: "api",
-          },
-        ],
-      },
     ]);
 
     // Get attributes by introspecting Prisma schema
-    const source = fs.readFileSync(paths.scheme, "utf8");
-    const schema = getSchema(source);
+    const source = readFile(paths.scheme);
 
-    const list = schema["list"];
-    const [existingModel] = list.filter((item) => {
-      return item.type === "model" && item.name === res.name;
-    });
-
-    const attributes: any = {};
+    const attributes: Record<string, string> = {};
     const systemFields = ["id", "createdAt", "updatedAt"];
 
-    if (existingModel) {
-      const properties = (existingModel as Model).properties;
-      properties.forEach((property) => {
-        if (property["type"] === "field") {
-          const propertyName = property["name"];
-          const propertyFieldType = property["fieldType"];
+    produceSchema(source, ({ list }) => {
+      const [existingModel] = list.filter((item) => {
+        return item.type === "model" && item.name === res.name;
+      });
 
+      if (!existingModel) {
+        throwHandledError({
+          command: "setup",
+          message: `Cannot find "${res}" Model in your schema`,
+        });
+      }
+
+      const properties = existingModel.properties;
+      (properties || []).forEach((property) => {
+        if (property.type === "field") {
+          const propertyName = property.name;
+          const propertyFieldType = property.fieldType;
           if (!systemFields.includes(propertyName)) {
             attributes[propertyName] = propertyFieldType;
           }
         }
       });
-    }
+    });
 
     return { ...res, ...options, attributes };
   },
