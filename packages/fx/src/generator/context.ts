@@ -1,3 +1,4 @@
+import fm from "front-matter";
 import {
   Context,
   Frameworks,
@@ -65,22 +66,44 @@ export const getLanguage = () => {
   return l;
 };
 
-const interpolate = (path: string, obj: Record<string, any> = {}) => {
+export const interpolate = (path: string, obj: Record<string, any> = {}) => {
   const keys = Object.keys(obj);
   const func = Function(...keys, "return `" + path + "`;");
   return func(...keys.map((k) => obj[k]));
-};
-
-export const interpolatePath = (
-  root: string,
-  path: string,
-  context: Context
-) => {
-  return resolve(root, interpolate(path, context));
 };
 
 export const removeTemplateExtension = (path: string) => {
   if (path.split(".").length > 2 && path.endsWith(".ejs"))
     return path.slice(0, -4);
   return path;
+};
+
+type FmAttributes = {
+  force?: boolean;
+  filter?: boolean;
+  inject?: boolean;
+  append?: boolean;
+  // Below are not implemented yet
+  prepend?: boolean;
+  before?: RegExp;
+  after?: RegExp;
+  skip_if?: RegExp;
+};
+
+export const readAttributes = (source: string) => {
+  const defaultAttributes: FmAttributes = {
+    force: false,
+    filter: true,
+    inject: false,
+    append: false,
+  };
+  const { attributes, body } = fm<FmAttributes>(source);
+
+  return {
+    attributes: {
+      ...defaultAttributes,
+      ...attributes,
+    },
+    body,
+  };
 };

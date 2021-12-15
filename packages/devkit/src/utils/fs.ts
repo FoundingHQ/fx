@@ -37,16 +37,22 @@ export const readFile = (filePath: string) => fs.readFileSync(filePath, "utf8");
 export const writeFile = (
   filePath: string,
   content: string,
-  append = false
+  options: { force?: boolean; append?: boolean } = {
+    force: false,
+    append: false,
+  }
 ) => {
-  if (fs.existsSync(filePath) && append) {
-    fs.appendFileSync(filePath, content);
-  } else {
+  const exists = fs.existsSync(filePath);
+  if (exists && options.append) {
+    return fs.appendFileSync(filePath, content);
+  }
+  if (!exists || (exists && options.force)) {
     return fs.outputFileSync(filePath, content);
   }
+  throw new Error(`Cannot write file to ${filePath}`);
 };
 
-type Path = { src: string; dest: string };
+type Path = { src: string; dest?: string };
 type Transform = (source: string, context: any) => Promise<string | void>;
 
 export const runTransforms = async (
@@ -63,5 +69,9 @@ export const runTransforms = async (
     if (transformed) source = transformed;
   }
 
-  return fs.outputFile(destinationPath, source);
+  if (destinationPath) {
+    return fs.outputFile(destinationPath, source);
+  }
+
+  return source;
 };

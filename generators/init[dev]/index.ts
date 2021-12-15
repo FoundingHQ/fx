@@ -98,7 +98,9 @@ const generator: Generator<Props> = {
     writeJson(packageJsonPath, packageJson, { spaces: 2 });
 
     const envContents = readFile(context.paths.envExample);
-    writeFile(context.paths.env, envContents, true);
+    writeFile(context.paths.env, envContents, {
+      append: true,
+    });
 
     return [tsConfigPath, packageJsonPath];
   },
