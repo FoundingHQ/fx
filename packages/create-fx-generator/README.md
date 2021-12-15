@@ -1,1 +1,0 @@
-# `create-fx-generator` CLI
