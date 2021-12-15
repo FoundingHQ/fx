@@ -86,15 +86,15 @@ const executeScaffolds = async (
     );
 
     for (const srcFilePath of srcFilePaths) {
-      // srcFilePath = /projects/founding/fx/generators/auth/templates/lib/users/api/accountService.ts
+      // srcFilePath = /projects/founding/fx/generators/auth/templates/lib/users/api/accountService.ts.ejs
       const path = extname(scaffoldPath.dest)
         ? // If dest path is a file, copy the exact name
           scaffoldPath.dest
         : // If dest path is a directory, file could be nested
-          scaffoldPath.dest + // e.g. scaffoldPath.dest = /lib/users
+          scaffoldPath.dest + // ./
           removeTemplateExtension(srcFilePath)
-            .replace(resolve(generatorMeta.localRootPath), "")
-            .replace(scaffoldPath.src, "");
+            .replace(resolve(generatorMeta.localRootPath) + "/", "") // /Users/kaiyuhsu/Documents/projects/founding/fx/generators/auth
+            .replace(scaffoldPath.src + "/", ""); // templates/next
 
       const destFilePath = resolve(
         context.paths.root,
@@ -112,30 +112,27 @@ const executeScaffolds = async (
 
       const source = await transformPrettier(destFilePath)(body);
 
-      if (!attributes.filter) {
-        skippedFiles.push(readableDestFilePath);
-        break;
-      }
-
-      try {
-        writeFile(destFilePath, source, {
-          force: force || attributes.force,
-          append: attributes.inject && attributes.append,
-        });
-        destFilePaths.push(readableDestFilePath);
-      } catch {
-        const res = await prompts({
-          type: "confirm",
-          name: "force",
-          message: `${readableDestFilePath} file already exists, would you like to overwrite it?`,
-          initial: true,
-        });
-
-        if (res.force) {
-          writeFile(destFilePath, source, { force: true });
+      if (attributes.filter) {
+        try {
+          writeFile(destFilePath, source, {
+            force: force || attributes.force,
+            append: attributes.inject && attributes.append,
+          });
           destFilePaths.push(readableDestFilePath);
-        } else {
-          skippedFiles.push(readableDestFilePath);
+        } catch {
+          const res = await prompts({
+            type: "confirm",
+            name: "force",
+            message: `${readableDestFilePath} file already exists, would you like to overwrite it?`,
+            initial: true,
+          });
+
+          if (res.force) {
+            writeFile(destFilePath, source, { force: true });
+            destFilePaths.push(readableDestFilePath);
+          } else {
+            skippedFiles.push(readableDestFilePath);
+          }
         }
       }
     }
@@ -145,9 +142,7 @@ const executeScaffolds = async (
     logger.list(destFilePaths.map((f) => `Generated ${logger.withCommand(f)}`));
   skippedFiles.length &&
     logger.list(
-      skippedFiles.map((f) =>
-        logger.withWarning(`Skipped generation of ${logger.withCommand(f)}`)
-      )
+      skippedFiles.map((f) => logger.withWarning(`Skipped generation of ${f}`))
     );
   logger.success("Source files generated");
   logger.newLine();

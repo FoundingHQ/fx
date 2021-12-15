@@ -64,6 +64,7 @@ handler
     }
   )
   <% } %>
+  <% if (props.f.hasScopeGoogle({ props })) { %>
   .get(
     authRoutes.google,
     passport.authenticate("google", {
@@ -85,6 +86,7 @@ handler
       <% } %>
       res.redirect("/");
     }
-  );
+  )
+  <% } %>
 
 export default handler;

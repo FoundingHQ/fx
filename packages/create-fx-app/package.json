@@ -33,7 +33,7 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^16.11.12",
+    "@types/node": "^16.11.13",
     "@types/validate-npm-package-name": "^3.0.3"
   },
   "engines": {
