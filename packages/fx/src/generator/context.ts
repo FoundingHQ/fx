@@ -46,7 +46,10 @@ export const createContext = () => {
       language: getLanguage(),
       theme: getTheme(),
     },
+    helpers,
+    // alias
     h: helpers,
+    p: {},
   };
 
   return context;

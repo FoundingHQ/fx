@@ -31,6 +31,7 @@ const executeSetupGenerator = async (
   // Setup generator to assign props to the context
   const props = await generator.setup(context, generatorOptions);
   context.props = props;
+  context.p = props;
 
   return context;
 };

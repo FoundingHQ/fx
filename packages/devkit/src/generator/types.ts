@@ -36,8 +36,11 @@ export type Context<T = {}> = {
     language: Language;
     theme: Theme;
   };
-  h: Record<string, any>;
+  helpers: Record<string, any>;
   generatorMeta?: GeneratorMeta;
+  // alias
+  h: Record<string, any>;
+  p: T;
 };
 
 export type Generator<T = any> = {
