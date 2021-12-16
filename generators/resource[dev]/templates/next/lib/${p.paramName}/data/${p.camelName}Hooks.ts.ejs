@@ -53,7 +53,7 @@ export const update<%- p.pascalName %> = async (
   input: <%- p.idTypeName %> & Prisma.<%- p.pascalName %>UpdateInput,
   options?: Options
 ) => {
-  const { data } = await fetcher.post<<%- p.pascalName %>>("/<%- p.apiName %>", input, options);
+  const { data } = await fetcher.patch<<%- p.pascalName %>>("/<%- p.apiName %>", input, options);
   return data;
 };
 
