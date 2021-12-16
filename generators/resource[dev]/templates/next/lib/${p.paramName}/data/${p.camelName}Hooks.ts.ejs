@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { fetcher, Options } from "@util/fetcher";
 import { Prisma, <%- p.pascalName %> } from "@prisma/client";
 
@@ -13,16 +13,17 @@ const queryKeys = {
   detail: (id: string) => [...queryKeys.all, "detail", id],
 };
 
-export const create<%- p.pascalName %> = async (
-  input: Prisma.<%- p.pascalName %>CreateInput,
-  options?: Options
-) => {
-  const { data } = await fetcher.post<<%- p.pascalName %>>("/<%- p.apiName %>", input, options);
+export const get<%- p.pascalName %>List = async (options?: Options) => {
+  const { data } = await fetcher.get<{ list: <%- p.pascalName %>[] }>("/api/<%- p.apiName %>", options);
   return data;
 };
 
-export const use<%- p.pascalName %>Create = () => {
-  return useMutation(create<%- p.pascalName %>);
+export const use<%- p.pascalName %>List = (filters?: Record<string, string>) => {
+  return useQuery(queryKeys.list(filters), () =>
+    get<%- p.pascalName %>List({
+      params: filters,
+    })
+  );
 };
 
 export const get<%- p.pascalName %> = async (input: <%- p.idTypeName %>, options?: Options) => {
@@ -36,42 +37,60 @@ export const use<%- p.pascalName %> = (input: <%- p.idTypeName %>) => {
   });
 };
 
-export const get<%- p.pascalName %>List = async (options?: Options) => {
-  const { data } = await fetcher.get<{ list: <%- p.pascalName %>[] }>("/<%- p.apiName %>", options);
+export const create<%- p.pascalName %> = async (
+  input: Prisma.<%- p.pascalName %>CreateInput,
+  options?: Options
+) => {
+  const { data } = await fetcher.post<<%- p.pascalName %>>("/api/<%- p.apiName %>", input, options);
   return data;
 };
 
-export const use<%- p.pascalName %>List = (filters?: Record<string, string>) => {
-  return useQuery(queryKeys.list(filters), () =>
-    get<%- p.pascalName %>List({
-      params: filters,
-    })
-  );
+export const use<%- p.pascalName %>Create = () => {
+  const queryClient = useQueryClient();
+  return useMutation(create<%- p.pascalName %>, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(queryKeys.list());
+    },
+  });
 };
 
 export const update<%- p.pascalName %> = async (
   input: <%- p.idTypeName %> & Prisma.<%- p.pascalName %>UpdateInput,
   options?: Options
 ) => {
-  const { data } = await fetcher.patch<<%- p.pascalName %>>("/<%- p.apiName %>", input, options);
+  const { data } = await fetcher.patch<<%- p.pascalName %>>(
+    `/api/<%- p.apiName %>/${input.id}`,
+    input,
+    options
+  );
   return data;
 };
 
 export const use<%- p.pascalName %>Update = () => {
-  return useMutation(create<%- p.pascalName %>);
+  const queryClient = useQueryClient();
+  return useMutation(update<%- p.pascalName %>, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(queryKeys.detail(data.id), data);
+    },
+  });
 };
 
 export const delete<%- p.pascalName %> = async (
   input: <%- p.idTypeName %>,
   options?: Options
 ) => {
-  const { data } = await fetcher.delete<<%- p.pascalName %>>("/<%- p.apiName %>", {
-    data: { ...input },
-    ...options,
-  });
+  const { data } = await fetcher.delete<<%- p.pascalName %>>(
+    `/api/<%- p.apiName %>/${input.id}`,
+    options
+  );
   return data;
 };
 
 export const use<%- p.pascalName %>Delete = () => {
-  return useMutation(delete<%- p.pascalName %>);
+  const queryClient = useQueryClient();
+  return useMutation(delete<%- p.pascalName %>, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(queryKeys.list());
+    },
+  });
 };

@@ -5,6 +5,8 @@ import { dehydrate, QueryClient, QueryKey } from "react-query";
 
 import { serializeCookie } from "./cookie";
 
+export type { Options } from "redaxios";
+
 const defaultOptions: Options = {
   withCredentials: true,
   baseURL: process.env.NEXT_PUBLIC_API_URL || "https://localhost:3000",

@@ -1,10 +1,8 @@
 import { prisma } from "@api/prisma";
 import { <%- p.pascalName %>, Prisma } from "@prisma/client";
 
-export const <%- p.createName %> = async (input: <%- p.createInputTypeName %>) => {
-  return prisma.<%- p.camelName %>.create({
-    data: input,
-  });
+export const <%- p.getListName %> = async () => {
+  return prisma.<%- p.camelName %>.findMany();
 };
 
 export const <%- p.getName %> = async (input: <%- p.idTypeName %>) => {
@@ -13,8 +11,10 @@ export const <%- p.getName %> = async (input: <%- p.idTypeName %>) => {
   });
 };
 
-export const <%- p.getListName %> = async () => {
-  return prisma.<%- p.camelName %>.findMany();
+export const <%- p.createName %> = async (input: <%- p.createInputTypeName %>) => {
+  return prisma.<%- p.camelName %>.create({
+    data: input,
+  });
 };
 
 export const <%- p.updateName %> = async (

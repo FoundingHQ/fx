@@ -9,9 +9,10 @@ export const AuthForm = ({ authType, submitButtonText }: Props) => {
   const { mutate: signup } = useSignup("/protected");
   const { mutate: login } = useLogin("/protected");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const input = e.currentTarget.elements as AuthInput;
+    const data = new FormData(e.target as HTMLFormElement);
+    const input = Object.fromEntries(data.entries()) as AuthInput;
     const action = authType === "signup" ? signup : login;
     action(input);
   };

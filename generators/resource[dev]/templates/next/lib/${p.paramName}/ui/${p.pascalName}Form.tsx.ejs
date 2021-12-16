@@ -1,7 +1,8 @@
 import {
+  use<%- p.pascalName %>,
   use<%- p.pascalName %>Create,
   use<%- p.pascalName %>Update,
-  use<%- p.pascalName %>,
+  use<%- p.pascalName %>Delete,
 } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
 import { <%- p.pascalName %> } from "@prisma/client";
 
@@ -14,15 +15,20 @@ export const <%- p.pascalName %>Form = ({ id }: Props) => {
   const { mutate: create } = use<%- p.pascalName %>Create();
   const { mutate: update } = use<%- p.pascalName %>Update();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const input = e.currentTarget.elements as Partial<<%- p.pascalName %>>;
+    const data = new FormData(e.target as HTMLFormElement);
+    const input = Object.fromEntries(data.entries()) as <%- p.pascalName %>;
     const action = data ? update : create;
     try {
       await action(input);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDelete = () => {
+    if (data) remove(data);
   };
 
   return (
@@ -32,10 +38,15 @@ export const <%- p.pascalName %>Form = ({ id }: Props) => {
           name="<%- attr.name %>"
           type="text"
           placeholder="<%- p.pascalName %> <%- attr.camelName %>"
-          value={data?.<%- attr.camelName %> || ""}
+          defaultValue={data?.<%- attr.camelName %> || ""}
         />
       <% }) %>
       <button type="submit">{data ? "update" : "create"}</button>
+      {data && (
+        <button type="button" onClick={handleDelete}>
+          delete
+        </button>
+      )}
     </form>
   );
 };

@@ -7,7 +7,7 @@ const DetailView = ({ data }: { data?: <%- p.pascalName %> }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   if (!data) {
-    return <CommentForm />;
+    return <<%- p.pascalName %>Form />;
   }
 
   if (isEdit) {
