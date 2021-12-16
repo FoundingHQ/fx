@@ -1,0 +1,77 @@
+import { useMutation, useQuery } from "react-query";
+import { fetcher, Options } from "@util/fetcher";
+import { Prisma, <%- p.pascalName %> } from "@prisma/client";
+
+// Follows https://tkdodo.eu/blog/effective-react-query-keys
+const queryKeys = {
+  all: ["<%- p.apiName %>"],
+  list: (filters?: Record<string, string>) => [
+    ...queryKeys.all,
+    "list",
+    ...(filters ? [{ filters }] : []),
+  ],
+  detail: (id: string) => [...queryKeys.all, "detail", id],
+};
+
+export const create<%- p.pascalName %> = async (
+  input: Prisma.<%- p.pascalName %>CreateInput,
+  options?: Options
+) => {
+  const { data } = await fetcher.post<<%- p.pascalName %>>("/<%- p.apiName %>", input, options);
+  return data;
+};
+
+export const use<%- p.pascalName %>Create = () => {
+  return useMutation(create<%- p.pascalName %>);
+};
+
+export const get<%- p.pascalName %> = async (input: <%- p.idTypeName %>, options?: Options) => {
+  const { data } = await fetcher.get<<%- p.pascalName %>>(`/<%- p.apiName %>/${input.id}`, options);
+  return data;
+};
+
+export const use<%- p.pascalName %> = (input: <%- p.idTypeName %>) => {
+  return useQuery(queryKeys.detail(input.id), () => get<%- p.pascalName %>(input), {
+    enabled: Boolean(input.id),
+  });
+};
+
+export const get<%- p.pascalName %>List = async (options?: Options) => {
+  const { data } = await fetcher.get<<%- p.pascalName %>[]>("/<%- p.apiName %>", options);
+  return data;
+};
+
+export const use<%- p.pascalName %>List = (filters?: Record<string, string>) => {
+  return useQuery(queryKeys.list(filters), () =>
+    get<%- p.pascalName %>List({
+      params: filters,
+    })
+  );
+};
+
+export const update<%- p.pascalName %> = async (
+  input: <%- p.idTypeName %> & Prisma.<%- p.pascalName %>UpdateInput,
+  options?: Options
+) => {
+  const { data } = await fetcher.post<<%- p.pascalName %>>("/<%- p.apiName %>", input, options);
+  return data;
+};
+
+export const use<%- p.pascalName %>Update = () => {
+  return useMutation(create<%- p.pascalName %>);
+};
+
+export const delete<%- p.pascalName %> = async (
+  input: <%- p.idTypeName %>,
+  options?: Options
+) => {
+  const { data } = await fetcher.delete<<%- p.pascalName %>>("/<%- p.apiName %>", {
+    data: { ...input },
+    ...options,
+  });
+  return data;
+};
+
+export const use<%- p.pascalName %>Delete = () => {
+  return useMutation(delete<%- p.pascalName %>);
+};

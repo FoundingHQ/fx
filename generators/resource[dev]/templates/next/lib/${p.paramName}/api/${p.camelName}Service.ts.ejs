@@ -1,0 +1,34 @@
+import { prisma } from "@api/prisma";
+import { <%- p.pascalName %>, Prisma } from "@prisma/client";
+
+export const <%- p.createName %> = async (input: <%- p.createInputTypeName %>) => {
+  return prisma.<%- p.camelName %>.create({
+    data: input,
+  });
+};
+
+export const <%- p.getName %> = async (input: <%- p.idTypeName %>) => {
+  return prisma.<%- p.camelName %>.findUnique({
+    where: { id: input.id },
+  });
+};
+
+export const <%- p.getListName %> = async () => {
+  return prisma.<%- p.camelName %>.findMany();
+};
+
+export const <%- p.updateName %> = async (
+  input: <%- p.updateInputTypeName %>
+) => {
+  const { id, ...data } = input;
+  return prisma.<%- p.camelName %>.update({
+    where: { id },
+    data,
+  });
+};
+
+export const <%- props.deleteName %> = async (input: <%- p.idTypeName %>) => {
+  return prisma.<%- p.camelName %>.delete({
+    where: { id: input.id },
+  });
+};

@@ -13,19 +13,19 @@ export const stopDocker = async () => {
 
 export const runMigrations = async (name = "") => {
   console.log("Running local migrations");
-  await exec("npx", [
-    "dotenv",
-    "-e",
-    ".env.local",
+  await exec("npm", [
+    "run",
+    "prisma:migrate:dev",
     "--",
-    "prisma",
-    "migrate",
-    "dev",
-    "--skip-seed",
     "-n",
     name,
     "--skip-seed",
   ]);
+};
+
+export const runPrismaCodegen = async () => {
+  console.log("Running prisma codegen");
+  await exec("npm", ["run", "prisma:generate"]);
 };
 
 export const syncGeneratorMigrations = async (migrationName: string) => {

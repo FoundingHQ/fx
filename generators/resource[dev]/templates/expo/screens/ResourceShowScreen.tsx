@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import <%= h.changeCase.pascalCase(props.name) %>Show from "../lib/<%= h.changeCase.camelCase(props.name) %>/ui/<%= h.changeCase.pascalCase(props.name) %>Show";
+import <%- h.changeCase.pascalCase(props.name) %>Show from "../lib/<%- h.changeCase.camelCase(props.name) %>/ui/<%- h.changeCase.pascalCase(props.name) %>Show";
 
-export const <%= h.changeCase.pascalCase(props.name) %>ShowScreen = () => {
+export const <%- h.changeCase.pascalCase(props.name) %>ShowScreen = () => {
   return (
     <View style={styles.container}>
-      <<%= h.changeCase.pascalCase(props.name) %>ShowList />
+      <<%- h.changeCase.pascalCase(props.name) %>ShowList />
     </View>
   );
 };
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default <%= h.changeCase.pascalCase(props.name) %>ListShow;
+export default <%- h.changeCase.pascalCase(props.name) %>ListShow;

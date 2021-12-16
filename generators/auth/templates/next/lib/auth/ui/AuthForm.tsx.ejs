@@ -1,4 +1,4 @@
-import { useSignup, useLogin } from "@lib/auth/data/authHooks";
+import { useSignup, useLogin, AuthInput } from "@lib/auth/data/authHooks";
 
 type Props = {
   authType: "signup" | "login";
@@ -11,10 +11,9 @@ export const AuthForm = ({ authType, submitButtonText }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-expect-error
-    const { email, password } = e.currentTarget.elements;
+    const input = e.currentTarget.elements as AuthInput;
     const action = authType === "signup" ? signup : login;
-    action({ email: email.value, password: password.value });
+    action(input);
   };
 
   return (

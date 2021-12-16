@@ -7,6 +7,7 @@ import {
   readFile,
   produceSchema,
   logger,
+  runPrismaCodegen,
 } from "@founding/devkit";
 import { ResourceGenerator, getDependencies, getTemplates } from "./config";
 
@@ -23,10 +24,10 @@ const generator: ResourceGenerator = {
     // Get attributes by introspecting Prisma schema
     const source = readFile(paths.scheme);
 
-    const attributes: Record<string, string> = {};
+    const attributes: Record<string, any> = {};
     const systemFields = ["id", "createdAt", "updatedAt"];
 
-    produceSchema(source, ({ list }) => {
+    await produceSchema(source, ({ list }) => {
       const modelName = h.capitalize(res.name);
       const [existingModel] = list.filter((item) => {
         return item.type === "model" && item.name === modelName;
@@ -40,24 +41,54 @@ const generator: ResourceGenerator = {
       const properties = existingModel.properties;
       (properties || []).forEach((property) => {
         if (property.type === "field") {
-          const propertyName = property.name;
-          const propertyFieldType = property.fieldType;
-          if (!systemFields.includes(propertyName)) {
-            attributes[propertyName] = propertyFieldType;
+          const { name, fieldType } = property as Record<
+            "name" | "fieldType",
+            string
+          >;
+          if (!systemFields.includes(name)) {
+            attributes[name] = {
+              name,
+              pascalName: h.changeCase.pascalCase(name),
+              camelName: h.changeCase.camelCase(name),
+              fieldType,
+            };
           }
         }
       });
     });
 
-    console.log(attributes);
+    const pluralName = h.inflection.pluralize(res.name);
+    const pascalName = h.changeCase.pascalCase(res.name);
+    const camelName = h.changeCase.camelCase(res.name);
+    const paramName = h.changeCase.paramCase(res.name);
+
+    const apiName = h.changeCase.paramCase(pluralName);
+    const createName = `create${pascalName}`;
+    const getName = `get${pascalName}`;
+    const getListName = `get${pascalName}List`;
+    const updateName = `update${pascalName}`;
+    const deleteName = `delete${pascalName}`;
+    const idTypeName = `Pick<${pascalName}, "id">`;
+    const createInputTypeName = `Prisma.${pascalName}CreateInput`;
+    const updateInputTypeName = `${idTypeName} & Prisma.${pascalName}UpdateInput`;
 
     return {
       ...res,
       ...options,
       attributes,
-      pluralName: h.inflection.pluralize(res.name),
-      pascalName: h.changeCase.pascalCase(res.name),
-      camelName: h.changeCase.camelCase(res.name),
+      pluralName,
+      pascalName,
+      camelName,
+      paramName,
+      apiName,
+      createName,
+      getName,
+      getListName,
+      updateName,
+      deleteName,
+      idTypeName,
+      createInputTypeName,
+      updateInputTypeName,
     };
   },
   async install(context) {
@@ -99,7 +130,9 @@ const generator: ResourceGenerator = {
 
     return [mobilePath];
   },
-  async finish() {},
+  async finish() {
+    await runPrismaCodegen();
+  },
   async uninstall() {
     return {
       dependencies: [],
