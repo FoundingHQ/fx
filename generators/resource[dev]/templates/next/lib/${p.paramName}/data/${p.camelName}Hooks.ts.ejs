@@ -49,6 +49,7 @@ export const use<%- p.pascalName %>Create = () => {
   const queryClient = useQueryClient();
   return useMutation(create<%- p.pascalName %>, {
     onSuccess: () => {
+      queryClient.setQueryData(queryKeys.detail(data.id), data);
       queryClient.invalidateQueries(queryKeys.list());
     },
   });
@@ -58,7 +59,7 @@ export const update<%- p.pascalName %> = async (
   input: <%- p.idTypeName %> & Prisma.<%- p.pascalName %>UpdateInput,
   options?: Options
 ) => {
-  const { data } = await fetcher.patch<<%- p.pascalName %>>(
+  const { data } = await fetcher.put<<%- p.pascalName %>>(
     `/api/<%- p.apiName %>/${input.id}`,
     input,
     options
@@ -71,6 +72,7 @@ export const use<%- p.pascalName %>Update = () => {
   return useMutation(update<%- p.pascalName %>, {
     onSuccess: (data) => {
       queryClient.setQueryData(queryKeys.detail(data.id), data);
+      queryClient.invalidateQueries(queryKeys.list());
     },
   });
 };
@@ -89,7 +91,8 @@ export const delete<%- p.pascalName %> = async (
 export const use<%- p.pascalName %>Delete = () => {
   const queryClient = useQueryClient();
   return useMutation(delete<%- p.pascalName %>, {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.removeQueries(queryKeys.detail(data.id));
       queryClient.invalidateQueries(queryKeys.list());
     },
   });

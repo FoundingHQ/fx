@@ -12,8 +12,9 @@ export const <%- p.getName %> = async (input: <%- p.idTypeName %>) => {
 };
 
 export const <%- p.createName %> = async (input: <%- p.createInputTypeName %>) => {
+  const { id, ...data } = input;
   return prisma.<%- p.camelName %>.create({
-    data: input,
+    data,
   });
 };
 
