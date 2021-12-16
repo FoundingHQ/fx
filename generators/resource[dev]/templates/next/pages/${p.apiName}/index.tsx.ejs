@@ -3,32 +3,28 @@ import { <%- p.pascalName %>Form } from "@lib/<%- p.paramName %>/ui/<%- p.pascal
 import { use<%- p.pascalName %>List } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
 import { <%- p.pascalName %> } from "@prisma/client";
 
-const DetailView = ({ data }: { data?: <%- p.pascalName %> }) => {
+const DetailView = ({ data }: { data: <%- p.pascalName %> }) => {
   const [isEdit, setIsEdit] = useState(false);
-
-  if (!data) {
-    return <<%- p.pascalName %>Form />;
-  }
 
   if (isEdit) {
     return (
       <div>
-        <button type="button" onClick={() => setIsEdit(!isEdit)}>
+        <button type="button" onClick={() => setIsEdit(false)}>
           Cancel
         </button>
-        <<%- p.pascalName %>Form id={data.id} />
+        <<%- p.pascalName %>Form id={data.id} onComplete={() => setIsEdit(false)} />
       </div>
     );
   }
 
   return (
     <div>
-      <button type="button" onClick={() => setIsEdit(!isEdit)}>
+      <button type="button" onClick={() => setIsEdit(true)}>
         Edit
       </button>
       <div>
         <% Object.values(props.attributes).forEach((attr) => { %>
-          <div>{data?.<%- attr.camelName %> || ""}</div>
+          <div>{data.<%- attr.camelName %> || ""}</div>
         <% }) %>
       </div>
     </div>
@@ -43,9 +39,9 @@ export const <%- p.pascalName %>Page = () => {
     return (
       <div>
         <button type="button" onClick={() => setShowForm(!showForm)}>
-          Add New
+          {showForm ? "close" : "add new"}
         </button>
-        {showForm && <DetailView />}
+        {showForm && <<%- p.pascalName %>Form onComplete={() => setShowForm(false)} />}
         {!!data.list.length &&
           data.list.map((<%- p.camelName %>) => (
             <DetailView key={<%- p.camelName %>.id} data={<%- p.camelName %>} />
