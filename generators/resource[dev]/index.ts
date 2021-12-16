@@ -1,15 +1,19 @@
-import { join } from "path";
 import {
   prompts,
-  addImport,
-  createJscodeshiftProgram,
-  runTransforms,
   readFile,
   produceSchema,
   logger,
   runPrismaCodegen,
+  ScaffoldPath,
+  Package,
 } from "@founding/devkit";
-import { ResourceGenerator, getDependencies, getTemplates } from "./config";
+import {
+  ResourceGenerator,
+  getNextTemplates,
+  runNextCodemods,
+  getExpoTemplates,
+  runExpoCodemods,
+} from "./config";
 
 const generator: ResourceGenerator = {
   async setup({ paths, h }, options = {}) {
@@ -91,44 +95,35 @@ const generator: ResourceGenerator = {
       updateInputTypeName,
     };
   },
-  async install(context) {
-    return getDependencies(context);
+  async install() {
+    const dependencies: Package[] = [];
+    return dependencies;
   },
   async scaffold(context) {
-    return getTemplates(context);
+    const templates: ScaffoldPath[] = [];
+
+    if (context.config.frameworks.includes("next")) {
+      templates.push(...getNextTemplates());
+    }
+
+    if (context.config.frameworks.includes("expo")) {
+      templates.push(...getExpoTemplates());
+    }
+
+    return templates;
   },
-  async codemods({ props: { name }, config: { frameworks }, paths }) {
-    if (!frameworks.includes("expo")) return [];
+  async codemods(context) {
+    const pathsChanged: string[] = [];
 
-    const mobilePath = join(paths.mobile, "App.tsx");
-    const screenTransform = async (source: string) => {
-      const crudScreen = ["Edit", "List", "New", "Show"];
+    if (context.config.frameworks.includes("next")) {
+      pathsChanged.push(...(await runNextCodemods(context)));
+    }
 
-      let { program, j } = createJscodeshiftProgram(source);
+    if (context.config.frameworks.includes("expo")) {
+      pathsChanged.push(...(await runExpoCodemods(context)));
+    }
 
-      crudScreen.forEach((screen) => {
-        const importStatement = `import ${name}${screen}Screen from "./screens/${name}${screen}Screen";`;
-        const screenExpression = `{
-          name: "${name}${screen}",
-          component: ${name}${screen}Screen,
-        }`;
-
-        addImport(program, j.template.statement([importStatement]));
-
-        program
-          .find(j.VariableDeclarator, { id: { name: "screens" } })
-          .find(j.ArrayExpression)
-          .forEach((p) =>
-            p.get("elements").push(j.template.expression([screenExpression]))
-          );
-      });
-
-      return program.toSource();
-    };
-
-    await runTransforms(mobilePath, [screenTransform]);
-
-    return [mobilePath];
+    return pathsChanged;
   },
   async finish() {
     await runPrismaCodegen();

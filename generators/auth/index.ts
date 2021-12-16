@@ -8,12 +8,16 @@ import {
   transformPrettier,
   syncGeneratorMigrations,
   prompts,
+  Package,
+  ScaffoldPath,
 } from "@founding/devkit";
 import {
   AuthGenerator,
   filters,
-  getDependencies,
-  getTemplates,
+  getNextDependencies,
+  getNextTemplates,
+  getExpoDependencies,
+  getExpoTemplates,
 } from "./config";
 import * as schemas from "./schema";
 
@@ -86,10 +90,30 @@ const generator: AuthGenerator = {
     };
   },
   async install(context) {
-    return getDependencies(context);
+    const dependencies: Package[] = [];
+
+    if (context.config.frameworks.includes("next")) {
+      dependencies.push(...getNextDependencies(context));
+    }
+
+    if (context.config.frameworks.includes("expo")) {
+      dependencies.push(...getExpoDependencies(context));
+    }
+
+    return dependencies;
   },
   async scaffold(context) {
-    return getTemplates(context);
+    const templates: ScaffoldPath[] = [];
+
+    if (context.config.frameworks.includes("next")) {
+      templates.push(...getNextTemplates());
+    }
+
+    if (context.config.frameworks.includes("expo")) {
+      templates.push(...getExpoTemplates());
+    }
+
+    return templates;
   },
   async codemods(context) {
     const handlerPath = join(context.paths.libCore, "api/handler.ts");
@@ -152,9 +176,9 @@ const generator: AuthGenerator = {
       await syncGeneratorMigrations("fx_add_auth");
     }
   },
-  async uninstall(context) {
+  async uninstall() {
     return {
-      dependencies: getDependencies(context).map((d) => d.name),
+      dependencies: [],
       templates: [],
     };
   },

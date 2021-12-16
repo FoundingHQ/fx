@@ -41,79 +41,73 @@ export const filters: Record<string, Filter<AuthContext>> = {
   },
 };
 
-export const getDependencies = (context: AuthContext) => {
-  const dependencies = [];
-
-  if (context.config.frameworks.includes("next")) {
-    dependencies.push(
-      ...filterDependencies(
-        [
-          { name: "nodemailer" },
-          { name: "passport" },
-          { name: "bcrypt" },
-          { name: "@types/bcrypt", isDevDep: true },
-          { name: "@types/passport", isDevDep: true },
-          // type == "session"
-          { name: "next-session", filters: [filters.isTypeSession] },
-          // sessionStore == "prisma"
-          {
-            name: "@quixo3/prisma-session-store",
-            filters: [filters.isTypeSession, filters.isSessionStorePrisma],
-          },
-          // sessionStore == "redis"
-          {
-            name: "ioredis",
-            filters: [filters.isTypeSession, filters.isSessionStoreRedis],
-          },
-          {
-            name: "connect-redis",
-            filters: [filters.isTypeSession, filters.isSessionStoreRedis],
-          },
-          {
-            name: "@types/connect-redis",
-            isDevDep: true,
-            filters: [filters.isTypeSession, filters.isSessionStoreRedis],
-          },
-          // type == "jwt"
-          { name: "passport-jwt", filters: [filters.isTypeJwt] },
-          { name: "jsonwebtoken", filters: [filters.isTypeJwt] },
-          {
-            name: "@types/jsonwebtoken",
-            isDevDep: true,
-            filters: [filters.isTypeJwt],
-          },
-          // scope == "local"
-          { name: "passport-local", filters: [filters.hasScopeLocal] },
-          {
-            name: "@types/passport-local",
-            isDevDep: true,
-            filters: [filters.hasScopeLocal],
-          },
-          // scope == "google"
-          {
-            name: "passport-google-oauth20",
-            filters: [filters.hasScopeGoogle],
-          },
-          {
-            name: "@types/passport-google-oauth20",
-            isDevDep: true,
-            filters: [filters.hasScopeGoogle],
-          },
-        ],
-        context
-      )
-    );
-  }
-
-  return dependencies;
+export const getNextDependencies = (context: AuthContext) => {
+  return filterDependencies(
+    [
+      { name: "nodemailer" },
+      { name: "passport" },
+      { name: "bcrypt" },
+      { name: "@types/bcrypt", isDevDep: true },
+      { name: "@types/passport", isDevDep: true },
+      // type == "session"
+      { name: "next-session", filters: [filters.isTypeSession] },
+      // sessionStore == "prisma"
+      {
+        name: "@quixo3/prisma-session-store",
+        filters: [filters.isTypeSession, filters.isSessionStorePrisma],
+      },
+      // sessionStore == "redis"
+      {
+        name: "ioredis",
+        filters: [filters.isTypeSession, filters.isSessionStoreRedis],
+      },
+      {
+        name: "connect-redis",
+        filters: [filters.isTypeSession, filters.isSessionStoreRedis],
+      },
+      {
+        name: "@types/connect-redis",
+        isDevDep: true,
+        filters: [filters.isTypeSession, filters.isSessionStoreRedis],
+      },
+      // type == "jwt"
+      { name: "passport-jwt", filters: [filters.isTypeJwt] },
+      { name: "jsonwebtoken", filters: [filters.isTypeJwt] },
+      {
+        name: "@types/jsonwebtoken",
+        isDevDep: true,
+        filters: [filters.isTypeJwt],
+      },
+      // scope == "local"
+      { name: "passport-local", filters: [filters.hasScopeLocal] },
+      {
+        name: "@types/passport-local",
+        isDevDep: true,
+        filters: [filters.hasScopeLocal],
+      },
+      // scope == "google"
+      {
+        name: "passport-google-oauth20",
+        filters: [filters.hasScopeGoogle],
+      },
+      {
+        name: "@types/passport-google-oauth20",
+        isDevDep: true,
+        filters: [filters.hasScopeGoogle],
+      },
+    ],
+    context
+  );
 };
 
-export const getTemplates = (context: AuthContext) => {
-  const templates = [];
+export const getNextTemplates = () => {
+  return [{ src: "templates/next", dest: "./" }];
+};
 
-  if (context.config.frameworks.includes("next")) {
-    templates.push({ src: "templates/next", dest: "./" });
-  }
+export const getExpoDependencies = (_context: AuthContext) => {
+  return [];
+};
 
-  return templates;
+export const getExpoTemplates = () => {
+  return [{ src: "templates/expo", dest: "./expo" }];
 };
