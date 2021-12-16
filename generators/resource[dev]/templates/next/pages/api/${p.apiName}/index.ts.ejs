@@ -9,7 +9,7 @@ const handler = createHandler();
 handler
   .get(async (_req, res) => {
     const list = await get<%- p.pascalName %>List();
-    res.status(200).json(list);
+    res.status(200).json({ list });
   })
   .post(async (req, res) => {
     const created = await create<%- p.pascalName %>(req.body);

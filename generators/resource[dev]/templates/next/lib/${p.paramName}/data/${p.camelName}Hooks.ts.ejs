@@ -37,7 +37,7 @@ export const use<%- p.pascalName %> = (input: <%- p.idTypeName %>) => {
 };
 
 export const get<%- p.pascalName %>List = async (options?: Options) => {
-  const { data } = await fetcher.get<<%- p.pascalName %>[]>("/<%- p.apiName %>", options);
+  const { data } = await fetcher.get<{ list: <%- p.pascalName %>[] }>("/<%- p.apiName %>", options);
   return data;
 };
 

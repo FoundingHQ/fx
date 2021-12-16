@@ -1,25 +1,61 @@
-import Link from "next/link";
+import { useState } from "react";
+import { <%- p.pascalName %>Form } from "@lib/<%- p.paramName %>/ui/<%- p.pascalName %>Form";
+import { use<%- p.pascalName %>List } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
+import { <%- p.pascalName %> } from "@prisma/client";
 
-import { use<%- h.changeCase.pascalCase(props.name) %>List } from "@lib/<%- h.changeCase.camelCase(props.name) %>/data/<%- h.changeCase.camelCase(props.name) %>Hooks";
+const DetailView = ({ data }: { data?: <%- p.pascalName %> }) => {
+  const [isEdit, setIsEdit] = useState(false);
 
-export const ListPage = () => {
-  const listResponse = use<%- h.changeCase.pascalCase(props.name) %>List();
-  const list = listResponse?.data?.<%- h.pluralizedCamelCase(props.name) %> || [];
+  if (!data) {
+    return <CommentForm />;
+  }
+
+  if (isEdit) {
+    return (
+      <div>
+        <button type="button" onClick={() => setIsEdit(!isEdit)}>
+          Cancel
+        </button>
+        <<%- p.pascalName %>Form id={data.id} />
+      </div>
+    );
+  }
 
   return (
-    <>
-      <h1>List</h1>
-      {list.map((item: any) => (
-        <li>
-          <Link href={`/<%- h.pluralizedCamelCase(props.name) %>/${item.id}`}>
-            <dl>
-              <% Object.keys(props.attributes).forEach((attributeKey) => { %><dt><%- attributeKey %></dt><dd>{item.<%- attributeKey %>}</dd><% }) %>
-            </dl>
-          </Link>
-        </li>
-      ))}
-    </>
+    <div>
+      <button type="button" onClick={() => setIsEdit(!isEdit)}>
+        Edit
+      </button>
+      <div>
+        <% Object.values(props.attributes).forEach((attr) => { %>
+          <div>{data?.<%- attr.camelName %> || ""}</div>
+        <% }) %>
+      </div>
+    </div>
   );
 };
 
-export default ListPage;
+export const <%- p.pascalName %>Page = () => {
+  const [showForm, setShowForm] = useState(false);
+  const { data } = use<%- p.pascalName %>List();
+
+  if (data) {
+    return (
+      <div>
+        <button type="button" onClick={() => setShowForm(!showForm)}>
+          Add New
+        </button>
+        {showForm && <DetailView />}
+        {!!data.list.length &&
+          data.list.map((<%- p.camelName %>) => (
+            <DetailView key={<%- p.camelName %>.id} data={<%- p.camelName %>} />
+          ))}
+        {!data.list.length && <div>No data to show</div>}
+      </div>
+    );
+  }
+
+  return "Loading...";
+};
+
+export default <%- p.pascalName %>Page;
