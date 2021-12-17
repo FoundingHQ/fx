@@ -72,13 +72,13 @@ npx fx add [feature]
 
 Current supported frameworks:
 
-| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [Blitz](https://blitzjs.com/) | [CRA](https://create-react-app.dev/) |
-| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | ----------------------------: | -----------------------------------: |
-| [Auth](generators/auth)              |                             ✅ |                           |                             |                               |                                      |
-| [Payments](generators/payments[dev]) |                                |                           |                             |                               |                                      |
-| [Resource](generators/resource)      |                             ✅ |                           |                             |                               |                                      |
-| [Uploads](generators/uploads)        |                                |                           |                             |                               |                                      |
-| [Analytics](generators/analytics)    |                                |                           |                             |                               |                                      |
+| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [Blitz](https://blitzjs.com/) | [CRA](https://create-react-app.dev/) | [Bedrock](https://bedrock.mxstbr.com/) |
+| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | ----------------------------: | -----------------------------------: | -------------------------------------: |
+| [Authentication](generators/auth)    |                             ✅ |                           |                             |                               |                                      |                                        |
+| [Payments](generators/payments[dev]) |                                |                           |                             |                               |                                      |                                        |
+| [Resource](generators/resource)      |                             ✅ |                           |                             |                               |                                      |                                        |
+| [Uploads](generators/uploads)        |                                |                           |                             |                               |                                      |                                        |
+| [Analytics](generators/analytics)    |                                |                           |                             |                               |                                      |                                        |
 
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 
@@ -114,23 +114,7 @@ Current supported frameworks:
 
 ## Contributing
 
-```sh
-# Clone and setup the repo
-git clone git@github.com:foundinghq/fx.git
-cd fx && npm i
-
-# Watches all package files for changes and recompiles
-npm run dev
-
-# A `local` package is generated during setup which
-# allows you to test your project locally
-cd packages/local
-npx fx add ../../
-
-# There's a lot we need to do to make local
-# development work easier. We also need to
-# add tests 🤫
-```
+Coming soon
 
 ## Inspired by these amazing projects
 
