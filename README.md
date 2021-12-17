@@ -1,18 +1,19 @@
 <img src="./docs/public/logo.svg" alt="fx logo" width="130">
 
-Scaffold prebuilt features directly into your [Next.js](https://nextjs.org/) project 💾
+Scaffold prebuilt features directly into your web projects 💾
 
 [![npm (scoped)](https://img.shields.io/npm/v/@founding/fx)](https://www.npmjs.com/package/@founding/fx)
 [![npm](https://img.shields.io/npm/dm/@founding/fx)](https://www.npmjs.com/package/@founding/fx)
 [![GitHub last commit](https://img.shields.io/github/last-commit/foundinghq/fx)](https://github.com/foundinghq/fx)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-%237289DA)](https://discord.gg/YtafKzR)
 
-It's as easy as:
+Focus on building your product and let FX generate the application logic
 
 ```bash
 npx fx add auth
 # ???
 # username/password authentication with google login done
+
 npx fx add payments
 # ???
 # stripe integration done
@@ -28,13 +29,12 @@ FX was born out of my own frustration with starting and building new application
 
 - 🔨 &nbsp; Fully transparent source code generation with **_no black boxes_**
 - 📦 &nbsp; Generated features **_just work_** out of the box. No manual intervention required
-- 🧳 &nbsp; No runtime dependency on FX, all it does is scaffold
+- 🧳 &nbsp; No runtime dependency on FX, all it does is generate source code
 - 📚 &nbsp; Anything generated is also documented
-- 💄 &nbsp; Features are headless by default and assumes no prior project dependencies
+- 💄 &nbsp; Features have minimal UI, style the way you want!
 - 🔗 &nbsp; Each feature is fully compatible with one another
-- 📱 &nbsp; [Code share]() between your web and native applications
-- 🔩 &nbsp; Support for both JavaScript and TypeScript
 - ⚡️ &nbsp; Build fully featured applications in lightning speed
+- 📱 &nbsp; [Code share]() between your web and native applications
 
 ## Quickstart
 
@@ -72,13 +72,13 @@ npx fx add [feature]
 
 Current supported frameworks:
 
-| Feature                              | Next.js | Expo | Remix |
-| ------------------------------------ | ------: | ---: | ----: |
-| [Auth](generators/auth)              |      ✅ |      |       |
-| [Payments](generators/payments[dev]) |         |      |       |
-| [Resource](generators/resource)      |      ✅ |      |       |
-| [Uploads](generators/uploads)        |         |      |       |
-| [Analytics](generators/analytics)    |         |      |       |
+| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [Blitz](https://blitzjs.com/) | [CRA](https://create-react-app.dev/) |
+| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | ----------------------------: | -----------------------------------: |
+| [Auth](generators/auth)              |                             ✅ |                           |                             |                               |                                      |
+| [Payments](generators/payments[dev]) |                                |                           |                             |                               |                                      |
+| [Resource](generators/resource)      |                             ✅ |                           |                             |                               |                                      |
+| [Uploads](generators/uploads)        |                                |                           |                             |                               |                                      |
+| [Analytics](generators/analytics)    |                                |                           |                             |                               |                                      |
 
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 
