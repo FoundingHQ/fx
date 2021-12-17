@@ -3,7 +3,7 @@ import {
   readFile,
   produceSchema,
   logger,
-  runPrismaCodegen,
+  syncGeneratorMigrations,
   ScaffoldPath,
   Package,
 } from "@founding/devkit";
@@ -48,8 +48,8 @@ const generator: ResourceGenerator = {
           if (!systemFields.includes(property.name)) {
             attributes[property.name] = {
               ...property,
-              pascalName: h.changeCase.pascalCase(name),
-              camelName: h.changeCase.camelCase(name),
+              pascalName: h.changeCase.pascalCase(property.name),
+              camelName: h.changeCase.camelCase(property.name),
             };
           }
         }
@@ -120,8 +120,17 @@ const generator: ResourceGenerator = {
 
     return pathsChanged;
   },
-  async finish() {
-    await runPrismaCodegen();
+  async finish(context) {
+    const res = await prompts({
+      type: "confirm",
+      name: "value",
+      message: "Would you like to run migrations?",
+      initial: true,
+    });
+
+    if (res.value) {
+      await syncGeneratorMigrations(`fx_add_resource_${context.props.name}`);
+    }
   },
   async uninstall() {
     return {

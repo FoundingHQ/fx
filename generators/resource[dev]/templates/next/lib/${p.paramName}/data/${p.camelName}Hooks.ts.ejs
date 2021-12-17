@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { fetcher, Options } from "@util/fetcher";
 import { Prisma } from "@prisma/client";
-import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/<%- p.camelName %>Schema"
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Schema"
 
 // Follows https://tkdodo.eu/blog/effective-react-query-keys
 const queryKeys = {
@@ -28,7 +28,7 @@ export const use<%- p.pascalName %>List = (filters?: Record<string, string>) => 
 };
 
 export const get<%- p.pascalName %> = async (input: <%- p.idTypeName %>, options?: Options) => {
-  const { data } = await fetcher.get<<%- p.pascalName %>>(`/<%- p.apiName %>/${input.id}`, options);
+  const { data } = await fetcher.get<<%- p.pascalName %>>(`/api/<%- p.apiName %>/${input.id}`, options);
   return data;
 };
 
@@ -49,7 +49,7 @@ export const create<%- p.pascalName %> = async (
 export const use<%- p.pascalName %>Create = () => {
   const queryClient = useQueryClient();
   return useMutation(create<%- p.pascalName %>, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.setQueryData(queryKeys.detail(data.id), data);
       queryClient.invalidateQueries(queryKeys.list());
     },

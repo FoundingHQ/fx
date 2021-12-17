@@ -1,6 +1,6 @@
 import { prisma } from "@api/prisma";
 import { Prisma } from "@prisma/client";
-import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/<%- p.camelName %>Schema"
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Schema"
 
 export const <%- p.getListName %> = async () => {
   const list = await prisma.<%- p.camelName %>.findMany();

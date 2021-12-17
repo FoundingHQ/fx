@@ -135,11 +135,18 @@ const generator: AuthGenerator = {
         .find(j.VariableDeclarator, { id: { name: "middlewares" } })
         .find(j.ArrayExpression)
         .forEach((p) => {
-          p.get("elements").push(
-            j.template.expression`sessionMiddleware`,
-            j.template.expression`passport.initialize()`,
-            j.template.expression`passport.session()`
-          );
+          const elements = p.get("elements");
+          const exists = !!elements.filter(
+            (node) => node.value.name === "sessionMiddleware"
+          ).length;
+
+          if (!exists) {
+            elements.push(
+              j.template.expression`sessionMiddleware`,
+              j.template.expression`passport.initialize()`,
+              j.template.expression`passport.session()`
+            );
+          }
         });
 
       return program.toSource();
