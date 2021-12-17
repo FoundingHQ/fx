@@ -1,0 +1,8 @@
+{
+  "name": "@founding/fx-generator-analytics",
+  "main": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@founding/devkit": "latest"
+  }
+}

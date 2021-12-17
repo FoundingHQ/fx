@@ -72,11 +72,13 @@ npx fx add [feature]
 
 Current supported frameworks:
 
-| Feature                         | Description | Next.js | Expo |
-| ------------------------------- | ----------- | ------: | ---: |
-| [Auth](generators/auth)         |             |      ✅ |      |
-| [Payments](generators/payments) |             |      ✅ |      |
-| [Resource](generators/resource) |             |         |      |
+| Feature                              | Next.js | Expo | Remix |
+| ------------------------------------ | ------: | ---: | ----: |
+| [Auth](generators/auth)              |      ✅ |      |       |
+| [Payments](generators/payments[dev]) |         |      |       |
+| [Resource](generators/resource)      |      ✅ |      |       |
+| [Uploads](generators/uploads)        |         |      |       |
+| [Analytics](generators/analytics)    |         |      |       |
 
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 

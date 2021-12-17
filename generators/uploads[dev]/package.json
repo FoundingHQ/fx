@@ -1,0 +1,8 @@
+{
+  "name": "@founding/fx-generator-uploads",
+  "main": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@founding/devkit": "latest"
+  }
+}
