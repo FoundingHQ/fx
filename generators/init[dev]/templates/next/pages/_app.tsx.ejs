@@ -19,9 +19,14 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  // React Query SSR Hydration:
+  // https://react-query.tanstack.com/guides/ssr#using-hydration
   const [queryClient] = useState(() => new QueryClient());
-  // Use the layout defined at the page level, if available
+
+  // Use the layout defined at the page level, if available:
+  // https://nextjs.org/docs/basic-features/layouts
   const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>

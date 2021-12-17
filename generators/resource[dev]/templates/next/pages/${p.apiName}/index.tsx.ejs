@@ -1,57 +1,100 @@
 import { useState } from "react";
 import { <%- p.pascalName %>Form } from "@lib/<%- p.paramName %>/ui/<%- p.pascalName %>Form";
 import { use<%- p.pascalName %>List } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
-import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Schema"
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Schema";
 
-const DetailView = ({ data }: { data: <%- p.pascalName %> }) => {
-  const [isEdit, setIsEdit] = useState(false);
-
-  if (isEdit) {
-    return (
-      <div>
-        <button type="button" onClick={() => setIsEdit(false)}>
-          Cancel
-        </button>
-        <<%- p.pascalName %>Form id={data.id} onComplete={() => setIsEdit(false)} />
-      </div>
-    );
-  }
-
+const DetailView = ({
+  data,
+  onEdit,
+}: {
+  data: <%- p.pascalName %>;
+  onEdit: (id: <%- p.pascalName %>["id"]) => void;
+}) => {
   return (
-    <div>
-      <button type="button" onClick={() => setIsEdit(true)}>
-        Edit
-      </button>
-      <div>
-        <% Object.values(props.attributes).forEach((attr) => { %>
-          <div>{data.<%- attr.camelName %> || ""}</div>
-        <% }) %>
-      </div>
-    </div>
+    <tr>
+      <% Object.values(props.attributes).forEach((attr) => { %>
+        <td>{data.<%- attr.camelName %> || ""}</td>
+      <% }) %>
+      <td>
+        <button type="button" onClick={() => onEdit(data.id)}>
+          Edit
+        </button>
+      </td>
+    </tr>
   );
 };
 
-export const <%- p.pascalName %>Page = () => {
-  const [showForm, setShowForm] = useState(false);
+export const Page = () => {
+  const [editing, setEditing] = useState<false | string>(false);
   const { data } = use<%- p.pascalName %>List();
 
   if (data) {
     return (
-      <div>
-        <button type="button" onClick={() => setShowForm(!showForm)}>
-          {showForm ? "close" : "add new"}
-        </button>
-        {showForm && <<%- p.pascalName %>Form onComplete={() => setShowForm(false)} />}
-        {!!data.list.length &&
-          data.list.map((<%- p.camelName %>) => (
-            <DetailView key={<%- p.camelName %>.id} data={<%- p.camelName %>} />
-          ))}
-        {!data.list.length && <div>No data to show</div>}
-      </div>
+      <>
+        <nav className="container-fluid">
+          <ul>
+            <li>
+              <a className="contrast">
+                <strong><%- p.pascalName %>s</strong>
+              </a>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <button type="button" onClick={() => setEditing("")}>
+                Create
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <main className="container">
+          {editing !== false && (
+            <dialog key={editing} open>
+              <article>
+                <button
+                  aria-label="Close"
+                  className="close"
+                  onClick={() => setEditing(false)}
+                />
+                <<%- p.pascalName %>Form id={editing} onComplete={() => setEditing(false)} />
+              </article>
+            </dialog>
+          )}
+          {!data.list.length && <div>No data to show</div>}
+          {!!data.list.length && (
+            <figure>
+              <table role="grid">
+                <tbody>
+                  {data.list.map((<%- p.camelName %>) => (
+                    <DetailView
+                      key={<%- p.camelName %>.id}
+                      data={<%- p.camelName %>}
+                      onEdit={(id) => setEditing(id)}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+          )}
+        </main>
+      </>
     );
   }
 
   return "Loading...";
 };
 
-export default <%- p.pascalName %>Page;
+// Some basic styles, remove this block after generation.
+Page.getLayout = (page: React.ReactElement) => {
+  return (
+    <>
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+      />
+      {page}
+    </>
+  );
+};
+
+export default Page;

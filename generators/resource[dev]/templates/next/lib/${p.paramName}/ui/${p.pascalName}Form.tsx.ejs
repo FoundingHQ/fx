@@ -31,27 +31,33 @@ export const <%- p.pascalName %>Form = ({ id, onComplete }: Props) => {
   };
 
   const handleDelete = () => {
-    if (data) remove(data);
+    if (data) {
+      remove(data);
+      onComplete && onComplete(data);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="hidden" name="id" value={data?.id || ""} />
-      <% Object.values(props.attributes).forEach((attr) => { %>
-        <input
-          name="<%- attr.name %>"
-          type="text"
-          placeholder="<%- p.pascalName %> <%- attr.camelName %>"
-          defaultValue={data?.<%- attr.camelName %> || ""}
-        />
-      <% }) %>
-      <button type="submit">{data ? "update" : "create"}</button>
-      {data && (
-        <button type="button" onClick={handleDelete}>
-          delete
-        </button>
-      )}
-    </form>
+    <>
+      <h3>{data ? "Update" : "Create New"}</h3>
+      <form onSubmit={handleSubmit}>
+        <input type="hidden" name="id" value={data?.id || ""} />
+        <% Object.values(props.attributes).forEach((attr) => { %>
+          <input
+            name="<%- attr.name %>"
+            type="text"
+            placeholder="<%- p.pascalName %> <%- attr.camelName %>"
+            defaultValue={data?.<%- attr.camelName %> || ""}
+          />
+        <% }) %>
+        <button type="submit">{data ? "Update" : "Create"}</button>
+        {data && (
+          <button type="button" className="secondary" onClick={handleDelete}>
+            Delete
+          </button>
+        )}
+      </form>
+    </>
   );
 };
 

@@ -10,9 +10,9 @@ export type ScaffoldPath = {
   dest: string;
 };
 
-export type Frameworks = "next" | "expo";
+export type Frameworks = "next" | "expo" | "bedrock" | "remix" | "blitz";
 export type Language = "typescript" | "javascript";
-export type Theme = "skeleton";
+export type Theme = "pico";
 
 export type Context<T = {}> = {
   props: T;

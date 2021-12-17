@@ -71,7 +71,7 @@ export const getLanguage = () => {
 };
 
 export const getTheme = () => {
-  const theme: Theme = "skeleton";
+  const theme: Theme = "pico";
   return theme;
 };
 

@@ -1,6 +1,6 @@
 import { AuthForm } from "@lib/auth/ui/AuthForm";
 
-export const LoginPage = () => {
+const Page = () => {
   return (
     <>
       <h1>Login</h1>
@@ -9,4 +9,17 @@ export const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+// Some basic styles, remove this block after generation.
+Page.getLayout = (page: React.ReactElement) => {
+  return (
+    <>
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+      />
+      {page}
+    </>
+  );
+};
+
+export default Page;
