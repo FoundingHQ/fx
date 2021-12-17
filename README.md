@@ -36,6 +36,11 @@ FX was born out of my own frustration with starting and building new application
 - ⚡️ &nbsp; Build fully featured applications in lightning speed
 - 📱 &nbsp; [Code share]() between your web and native applications
 
+_TODO: Replace this gif with a FX one_
+<img width="600" src="https://user-images.githubusercontent.com/105127/100917537-4661e100-34a5-11eb-89bd-565b7bc31919.gif" alt="illustration of fx">
+
+> 📄 Full docs page coming soon
+
 ## Quickstart
 
 <p>1) Create a new project with your default toolset:</p>
@@ -56,11 +61,6 @@ npm i @founding/fx -D
 # Convert the project into a FX compatible one
 npx fx init
 ```
-
-_TODO: Replace this gif with a FX one_
-<img width="600" src="https://user-images.githubusercontent.com/105127/100917537-4661e100-34a5-11eb-89bd-565b7bc31919.gif" alt="illustration of fx">
-
-> 📄 Full docs page coming soon
 
 ## Features
 
