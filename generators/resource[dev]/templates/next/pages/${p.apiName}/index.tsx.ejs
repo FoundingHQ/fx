@@ -12,9 +12,9 @@ const DetailView = ({
 }) => {
   return (
     <tr>
-      <% Object.values(props.attributes).forEach((attr) => { %>
-        <td>{data.<%- attr.camelName %> || ""}</td>
-      <% }) %>
+      <% Object.values(props.attributes).forEach((attr) => { -%>
+        <td>{data.<%- attr.camelName %>}</td>
+      <% }) -%>
       <td>
         <button type="button" onClick={() => onEdit(data.id)}>
           Edit

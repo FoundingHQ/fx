@@ -2,10 +2,17 @@ import { AuthForm } from "@lib/auth/ui/AuthForm";
 
 const Page = () => {
   return (
-    <>
-      <h1>Signup</h1>
-      <AuthForm authType="signup" submitButtonText="sign up" />
-    </>
+    <main className="container">
+      <article>
+        <div>
+          <hgroup>
+            <h1>Sign Up</h1>
+            <h2>Authentication generated with FX</h2>
+          </hgroup>
+          <AuthForm authType="signup" submitButtonText="Sign up" />
+        </div>
+      </article>
+    </main>
   );
 };
 

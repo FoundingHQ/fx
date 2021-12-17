@@ -1,7 +1,7 @@
 import passport from "passport";
-<% if (props.f.hasScopeGoogle({ props })) { %>
+<% if (props.f.hasScopeGoogle({ props })) { -%>
 import { googleStrategy } from "@lib/auth/api/strategy/google";
-<% } %>
+<% } -%>
 import { signupStrategy, loginStrategy } from "@lib/auth/api/strategy/local";
 import { serializeUser, deserializeUser } from "@lib/user/api/userService";
 
@@ -10,8 +10,8 @@ passport.deserializeUser(deserializeUser);
 
 passport.use("signup", signupStrategy);
 passport.use("login", loginStrategy);
-<% if (props.f.hasScopeGoogle({ props })) { %>
+<% if (props.f.hasScopeGoogle({ props })) { -%>
 passport.use(googleStrategy);
-<% } %>
+<% } -%>
 
 export { passport };

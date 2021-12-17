@@ -1,5 +1,5 @@
 import { hash, compare } from "bcrypt";
-<% if (props.f.isTypeJwt({ props })) { %>
+<% if (props.f.isTypeJwt({ props })) { -%>
 import { User } from "@prisma/client";
 import { sign } from "jsonwebtoken";
 import {
@@ -9,7 +9,8 @@ import {
   REFRESH_TOKEN_SECRET,
   cookieOptions,
 } from "./authConfig";
-<% } %>
+<% } -%>
+
 const SALT_ROUNDS = 10;
 
 export const createPasswordHash = async (password: string) => {
@@ -48,4 +49,4 @@ export const attachRefreshToken = (refreshToken: string, res: any) => {
 export const destroyRefreshToken = (res: any) => {
   res.cookie(REFRESH_TOKEN_COOKIE_NAME, "", cookieOptions);
 };
-<% } %>
+<% } -%>

@@ -3,7 +3,7 @@ filter: <%- props.f.isTypeSession({ props }) %>
 ---
 import { NextApiRequest, NextApiResponse } from "next";
 import nextSession from "next-session";
-<% if (props.f.isSessionStoreRedis({ props })) { %>
+<% if (props.f.isSessionStoreRedis({ props })) { -%>
 import { promisifyStore, expressSession } from "next-session/lib/compat";
 import connectRedis from "connect-redis";
 import { redis } from "@api/redis";
@@ -11,7 +11,7 @@ import { redis } from "@api/redis";
 import { promisifyStore } from "next-session/lib/compat";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { prisma } from "@api/prisma";
-<% } %>
+<% } -%>
 import { cookieOptions } from "@lib/auth/api/authConfig";
 
 <% if (props.f.isSessionStoreRedis({ props })) { %>
@@ -30,7 +30,7 @@ const getSession = nextSession({
   ),
   cookie: cookieOptions,
 });
-<% } %>
+<% } -%>
 
 export const sessionMiddleware = async (
   req: NextApiRequest,

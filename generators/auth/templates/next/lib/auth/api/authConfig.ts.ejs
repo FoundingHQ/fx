@@ -6,7 +6,7 @@ export const ACCESS_TOKEN_SECRET =
 export const REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
 export const REFRESH_TOKEN_SECRET =
   process.env.REFRESH_TOKEN_SECRET || "r-secret";
-<% } %>
+<% } -%>
 export const COOKIE_SECRET = process.env.COOKIE_SECRET || "c-secret";
 
 export const cookieOptions = {
@@ -23,15 +23,17 @@ export const authRoutes = {
   signup: "/api/auth/signup",
   login: "/api/auth/login",
   logout: "/api/auth/logout",
-  <% if (props.f.hasScopeGoogle({ props })) { %>
+  requestReset: "/api/auth/request-reset",
+  confirmReset: "/api/auth/confirm-reset",
+  <% if (props.f.hasScopeGoogle({ props })) { -%>
   google: "/api/auth/google",
   googleCallback: "/api/auth/google/callback",
-  <% } %>
-  <% if (props.f.hasScopeFacebook({ props })) { %>
+  <% } -%>
+  <% if (props.f.hasScopeFacebook({ props })) { -%>
   facebook: "/api/auth/facebook",
   facebookCallback: "/api/auth/facebook/callback",
-  <% } %>
-  <% if (props.f.isTypeJwt({ props })) { %>
+  <% } -%>
+  <% if (props.f.isTypeJwt({ props })) { -%>
   refresh: "/api/auth/refresh_token",
-  <% } %>
+  <% } -%>
 };

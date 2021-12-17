@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useQueryClient, useQuery, useMutation, QueryKey } from "react-query";
 import { fetcher, hydrateQueries, Options } from "@util/fetcher";
 import { authRoutes } from "@lib/auth/api/authConfig";
-import { Session } from "@lib/auth/data/authSchema";
+import { Session, AuthInput } from "@lib/auth/data/authSchema";
 
 export const sessionKey: QueryKey = ["session"];
 
@@ -41,8 +41,6 @@ const useHandleAuth = (redirectRoute = "/") => {
   return handleAuth;
 };
 
-export type AuthInput = { email: string; password: string };
-
 export const login = async (input: AuthInput) => {
   const { data } = await fetcher.post<Session>(authRoutes.login, input);
   return data;
@@ -71,4 +69,24 @@ export const logout = async () => {
 export const useLogout = (redirectPath = "/") => {
   const handleAuth = useHandleAuth(redirectPath);
   return useMutation(logout, { onSuccess: handleAuth });
+};
+
+export const requestReset = async (input: Pick<AuthInput, "email">) => {
+  const { data } = await fetcher.post<Session>(authRoutes.requestReset, input);
+  return data;
+};
+
+export const useRequestReset = (redirectPath = "/") => {
+  const handleAuth = useHandleAuth(redirectPath);
+  return useMutation(requestReset, { onSuccess: handleAuth });
+};
+
+export const confirmReset = async (input: Pick<AuthInput, "password">) => {
+  const { data } = await fetcher.post<Session>(authRoutes.confirmReset, input);
+  return data;
+};
+
+export const useConfirmReset = (redirectPath = "/") => {
+  const handleAuth = useHandleAuth(redirectPath);
+  return useMutation(confirmReset, { onSuccess: handleAuth });
 };

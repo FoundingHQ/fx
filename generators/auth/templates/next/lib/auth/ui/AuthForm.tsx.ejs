@@ -1,27 +1,48 @@
-import { useSignup, useLogin, AuthInput } from "@lib/auth/data/authHooks";
+import {
+  useSignup,
+  useLogin,
+  useRequestReset,
+  useConfirmReset,
+} from "@lib/auth/data/authHooks";
+import { AuthInput } from "@lib/auth/data/authSchema";
 
 type Props = {
-  authType: "signup" | "login";
+  authType: "signup" | "login" | "request" | "confirm";
   submitButtonText: React.ReactNode;
 };
 
 export const AuthForm = ({ authType, submitButtonText }: Props) => {
   const { mutate: signup } = useSignup("/protected");
   const { mutate: login } = useLogin("/protected");
+  const { mutate: request } = useRequestReset("/protected");
+  const { mutate: confirm } = useConfirmReset("/protected");
+
+  const actionMap: Record<Props["authType"], (input: AuthInput) => void> = {
+    signup,
+    login,
+    request,
+    confirm,
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
     const input = Object.fromEntries(data.entries()) as AuthInput;
-    const action = authType === "signup" ? signup : login;
+    const action = actionMap[authType];
     action(input);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="email" type="email" placeholder="Email" />
-      <input name="password" type="password" placeholder="Password" />
-      <button type="submit">{submitButtonText}</button>
+      {authType !== "confirm" && (
+        <input name="email" type="email" placeholder="Email" />
+      )}
+      {authType !== "request" && (
+        <input name="password" type="password" placeholder="Password" />
+      )}
+      <button className="contrast" type="submit">
+        {submitButtonText}
+      </button>
     </form>
   );
 };

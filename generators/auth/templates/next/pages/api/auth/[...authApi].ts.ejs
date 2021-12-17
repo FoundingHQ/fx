@@ -8,7 +8,8 @@ import {
   attachRefreshToken,
   destroyRefreshToken,
 } from "@lib/auth/api/authService";
-<% } %>
+<% } -%>
+
 const handler = createHandler({ attachParams: true });
 
 handler
@@ -19,42 +20,42 @@ handler
     authRoutes.signup,
     passport.authenticate("signup"),
     async (req, res) => {
-      <% if (props.f.isTypeJwt({ props })) { %>
+      <% if (props.f.isTypeJwt({ props })) { -%>
       const accessToken = createAccessToken(req.user!);
       const refreshToken = createRefreshToken(req.user!);
       attachRefreshToken(refreshToken, refreshToken);
       res.status(200).json({ user: req.user, accessToken });
-      <% } %>
-      <% if (props.f.isTypeSession({ props })) { %>
+      <% } -%>
+      <% if (props.f.isTypeSession({ props })) { -%>
       req.session.userId = req.user?.id;
       res.status(200).json({ user: req.user });
-      <% } %>
+      <% } -%>
     }
   )
   .post(
     authRoutes.login,
     passport.authenticate("login"),
     async (req, res) => {
-      <% if (props.f.isTypeJwt({ props })) { %>
+      <% if (props.f.isTypeJwt({ props })) { -%>
       const accessToken = createAccessToken(req.user!);
       const refreshToken = createRefreshToken(req.user!);
       attachRefreshToken(refreshToken, refreshToken);
       res.status(200).json({ user: req.user, accessToken });
-      <% } %>
-      <% if (props.f.isTypeSession({ props })) { %>
+      <% } -%>
+      <% if (props.f.isTypeSession({ props })) { -%>
       req.session.userId = req.user?.id;
       res.status(200).json({ user: req.user });
-      <% } %>
+      <% } -%>
     }
   )
   .post(authRoutes.logout, async (req, res) => {
     req.logout();
-    <% if (props.f.isTypeJwt({ props })) { %>
+    <% if (props.f.isTypeJwt({ props })) { -%>
     destroyRefreshToken(res);
-    <% } %>
+    <% } -%>
     res.status(200).json({ user: null });
   })
-  <% if (props.f.isTypeJwt({ props })) { %>
+  <% if (props.f.isTypeJwt({ props })) { -%>
   .post(
     authRoutes.refresh,
     passport.authenticate("refreshToken"),
@@ -63,8 +64,8 @@ handler
       res.status(200).json({ user: req.user, accessToken });
     }
   )
-  <% } %>
-  <% if (props.f.hasScopeGoogle({ props })) { %>
+  <% } -%>
+  <% if (props.f.hasScopeGoogle({ props })) { -%>
   .get(
     authRoutes.google,
     passport.authenticate("google", {
@@ -77,16 +78,16 @@ handler
       failureRedirect: "/auth/login"
     }),
     async (req, res) => {
-      <% if (props.f.isTypeJwt({ props })) { %>
+      <% if (props.f.isTypeJwt({ props })) { -%>
       const refreshToken = createRefreshToken(req.user!);
       attachRefreshToken(refreshToken, refreshToken);
-      <% } %>
-      <% if (props.f.isTypeSession({ props })) { %>
+      <% } -%>
+      <% if (props.f.isTypeSession({ props })) { -%>
       req.session.userId = req.user?.id;
-      <% } %>
+      <% } -%>
       res.redirect("/");
     }
   )
-  <% } %>
+  <% } -%>
 
 export default handler;
