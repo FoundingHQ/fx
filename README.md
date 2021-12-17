@@ -82,6 +82,12 @@ Current supported frameworks:
 
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 
+## Documentation
+
+Full documentation coming soon
+
+See how to contribute through the [Contribution docs](./DEVELOPERS.md)
+
 ## FAQ
 
 <details>
@@ -111,12 +117,6 @@ Current supported frameworks:
   </summary>
   <p style="margin-top:8px">[TODO]</p>
 </details>
-
-## Contributing
-
-Full documentation coming soon
-
-See how to contribute through the [Contribution docs](./DEVELOPERS.md)
 
 ## Inspired by these amazing projects
 
