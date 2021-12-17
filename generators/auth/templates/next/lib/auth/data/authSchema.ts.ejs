@@ -1,3 +1,4 @@
-import { User as PrismaUser } from "@prisma/client";
-export type User = Pick<PrismaUser, "id" | "email" | "name" | "image" | "role">;
+import { User } from "@lib/user/data/userSchema";
+
 export type Session = { accessToken: string; user: User };
+export type AuthInput = { email: string; password: string };

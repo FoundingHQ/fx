@@ -2,7 +2,7 @@
 filter: <%- props.f.hasScopeLocal({ props }) %>
 ---
 import { Strategy } from "passport-local";
-import { createUser, getUserPasswordHash } from "@lib/users/api/userService";
+import { createUser, getUserPasswordHash } from "@lib/user/api/userService";
 import { validatePassword } from "@lib/auth/api/authService";
 
 export const signupStrategy = new Strategy(

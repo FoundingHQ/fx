@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { fetcher, Options } from "@util/fetcher";
-import { Prisma, <%- p.pascalName %> } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/<%- p.camelName %>Schema"
 
 // Follows https://tkdodo.eu/blog/effective-react-query-keys
 const queryKeys = {

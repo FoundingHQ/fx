@@ -4,7 +4,7 @@ import {
   use<%- p.pascalName %>Update,
   use<%- p.pascalName %>Delete,
 } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
-import { <%- p.pascalName %> } from "@prisma/client";
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/<%- p.camelName %>Schema"
 
 type Props = {
   id?: <%- p.pascalName %>["id"];

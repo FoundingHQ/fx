@@ -5,7 +5,7 @@ export const getAccount = async ({
   provider,
   providerAccountId,
 }: Prisma.AccountProviderProviderAccountIdCompoundUniqueInput) => {
-  return prisma.account.findUnique({
+  const account = await prisma.account.findUnique({
     where: {
       provider_providerAccountId: {
         provider,
@@ -16,4 +16,6 @@ export const getAccount = async ({
       user: true,
     },
   });
+
+  return account;
 };

@@ -45,16 +45,11 @@ const generator: ResourceGenerator = {
       const properties = existingModel.properties;
       (properties || []).forEach((property) => {
         if (property.type === "field") {
-          const { name, fieldType } = property as Record<
-            "name" | "fieldType",
-            string
-          >;
-          if (!systemFields.includes(name)) {
-            attributes[name] = {
-              name,
+          if (!systemFields.includes(property.name)) {
+            attributes[property.name] = {
+              ...property,
               pascalName: h.changeCase.pascalCase(name),
               camelName: h.changeCase.camelCase(name),
-              fieldType,
             };
           }
         }

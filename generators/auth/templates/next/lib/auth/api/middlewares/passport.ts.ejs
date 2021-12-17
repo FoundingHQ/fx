@@ -3,7 +3,7 @@ import passport from "passport";
 import { googleStrategy } from "@lib/auth/api/strategy/google";
 <% } %>
 import { signupStrategy, loginStrategy } from "@lib/auth/api/strategy/local";
-import { serializeUser, deserializeUser } from "@lib/users/api/userService";
+import { serializeUser, deserializeUser } from "@lib/user/api/userService";
 
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);

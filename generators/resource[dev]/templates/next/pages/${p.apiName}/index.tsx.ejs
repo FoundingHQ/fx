@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { <%- p.pascalName %>Form } from "@lib/<%- p.paramName %>/ui/<%- p.pascalName %>Form";
 import { use<%- p.pascalName %>List } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
-import { <%- p.pascalName %> } from "@prisma/client";
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/<%- p.camelName %>Schema"
 
 const DetailView = ({ data }: { data: <%- p.pascalName %> }) => {
   const [isEdit, setIsEdit] = useState(false);

@@ -1,34 +1,40 @@
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useQueryClient, useQuery, useMutation, QueryKey } from "react-query";
-import { fetcher, hydrateQueries } from "@util/fetcher";
+import { fetcher, hydrateQueries, Options } from "@util/fetcher";
 import { authRoutes } from "@lib/auth/api/authConfig";
 import { Session } from "@lib/auth/data/authSchema";
 
-export const sessionKey: QueryKey = "session";
+export const sessionKey: QueryKey = ["session"];
 
-export const getSession = async (config = {}) => {
-  const { data } = await fetcher.get<Session>(authRoutes.session, config);
+export const getSession = async (options?: Options) => {
+  const { data } = await fetcher.get<Session>(authRoutes.session, options);
   return data;
 };
 
 export const useSession = () => {
-  return useQuery(sessionKey, getSession);
+  return useQuery(sessionKey, () => getSession());
 };
 
-export const hydrateSession = (context: GetServerSidePropsContext) => {
-  return hydrateQueries(context, [[sessionKey, getSession]]);
+export const hydrateSession = async (context: GetServerSidePropsContext) => {
+  const { queryClient, dehydratedState } = await hydrateQueries(context, [
+    [sessionKey, getSession],
+  ]);
+
+  return {
+    queryClient,
+    dehydratedState,
+    sessionKey,
+  };
 };
 
-const useHandleAuth = (redirectRoute = "/", shouldInvalidate = false) => {
+const useHandleAuth = (redirectRoute = "/") => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const handleAuth = ({ accessToken, user }: Session) => {
-    queryClient.setQueryData(sessionKey, { user, accessToken });
-    if (shouldInvalidate) {
-      queryClient.invalidateQueries();
-    }
+  const handleAuth = (session: Session) => {
+    queryClient.setQueryData(sessionKey, session);
+    queryClient.invalidateQueries();
     router.push(redirectRoute);
   };
 
@@ -63,6 +69,6 @@ export const logout = async () => {
 };
 
 export const useLogout = (redirectPath = "/") => {
-  const handleAuth = useHandleAuth(redirectPath, true);
+  const handleAuth = useHandleAuth(redirectPath);
   return useMutation(logout, { onSuccess: handleAuth });
 };

@@ -1,35 +1,46 @@
 import { prisma } from "@api/prisma";
-import { <%- p.pascalName %>, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/<%- p.camelName %>Schema"
 
 export const <%- p.getListName %> = async () => {
-  return prisma.<%- p.camelName %>.findMany();
+  const list = await prisma.<%- p.camelName %>.findMany();
+
+  return list;
 };
 
 export const <%- p.getName %> = async (input: <%- p.idTypeName %>) => {
-  return prisma.<%- p.camelName %>.findUnique({
+  const <%- p.camelName %> = await prisma.<%- p.camelName %>.findUnique({
     where: { id: input.id },
   });
+
+  return <%- p.camelName %>;
 };
 
 export const <%- p.createName %> = async (input: <%- p.createInputTypeName %>) => {
   const { id, ...data } = input;
-  return prisma.<%- p.camelName %>.create({
+  const created = await prisma.<%- p.camelName %>.create({
     data,
   });
+
+  return created;
 };
 
 export const <%- p.updateName %> = async (
   input: <%- p.updateInputTypeName %>
 ) => {
   const { id, ...data } = input;
-  return prisma.<%- p.camelName %>.update({
+  const updated = await prisma.<%- p.camelName %>.update({
     where: { id },
     data,
   });
+
+  return updated;
 };
 
 export const <%- props.deleteName %> = async (input: <%- p.idTypeName %>) => {
-  return prisma.<%- p.camelName %>.delete({
+  const deleted = prisma.<%- p.camelName %>.delete({
     where: { id: input.id },
   });
+
+  return deleted;
 };

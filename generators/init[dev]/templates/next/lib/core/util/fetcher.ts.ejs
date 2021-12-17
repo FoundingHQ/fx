@@ -26,12 +26,10 @@ export const hydrateQueries = async (
   prefetch: PrefetchQueries = []
 ) => {
   const queryClient = new QueryClient();
-  const queryKeys: Record<string, QueryKey> = {};
 
   await Promise.all(
     prefetch.map(([queryKey, queryFn]) => {
       return queryClient.prefetchQuery(queryKey, () => {
-        queryKeys[queryKey as string] = queryKey;
         const options: Options = {};
         if (req.cookies && req.cookies.sid) {
           options.headers = {
@@ -44,7 +42,6 @@ export const hydrateQueries = async (
   );
 
   return {
-    queryKeys,
     queryClient,
     dehydratedState: dehydrate(queryClient),
   };

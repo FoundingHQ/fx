@@ -7,10 +7,10 @@ export const pageRequiresAuth = async (
   context: GetServerSidePropsContext,
   redirectTo = "/"
 ) => {
-  const { dehydratedState, queryClient, queryKeys } = await hydrateSession(
+  const { dehydratedState, queryClient, sessionKey } = await hydrateSession(
     context
   );
-  const session = queryClient.getQueryState<Session>(queryKeys.session);
+  const session = queryClient.getQueryState<Session>(sessionKey);
 
   if (session?.data?.user) {
     return {
