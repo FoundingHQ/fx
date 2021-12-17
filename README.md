@@ -114,7 +114,9 @@ Current supported frameworks:
 
 ## Contributing
 
-Coming soon
+Full documentation coming soon
+
+See how to contribute through the [Contribution docs](./DEVELOPERS.md)
 
 ## Inspired by these amazing projects
 
