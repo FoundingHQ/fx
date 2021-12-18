@@ -10,8 +10,16 @@ export type ScaffoldPath = {
   dest: string;
 };
 
-export type Frameworks = "next" | "expo" | "bedrock" | "remix" | "blitz";
+export type Frameworks =
+  | "next"
+  | "expo"
+  | "remix"
+  | "sveltkit"
+  | "bedrock"
+  | "blitz";
+
 export type Language = "typescript" | "javascript";
+
 export type Theme = "pico";
 
 export type Context<T = {}> = {
