@@ -6,8 +6,6 @@
 
 ## Development Setup
 
-We would love your help! This document describes how to set up your development environment to build and test FX.
-
 ### Installing Dependencies
 
 Before you can build FX, you must install and configure the following dependencies on your machine:
@@ -19,21 +17,19 @@ Before you can build FX, you must install and configure the following dependenci
 
 ## Running FX Locally
 
-To work on FX:
-
 1. Clone your Github forked repository:
 
 ```sh
 git clone https://github.com/<github_username>/fx.git
 ```
 
-2. Go to the FX directory and install the dependencies:
+2. Change into the FX directory and install the dependencies:
 
 ```sh
 cd fx && npm i
 ```
 
-3. Install a local FX application:
+3. Create a local FX application for development:
 
 ```sh
 npm run reset:local
@@ -49,22 +45,21 @@ npx fx <command>
 npx fx add ../../generators/auth/index.ts
 ```
 
-### Working on a Generator
+### When working on a Generator
 
-When working on a generator, you may make file changes and run `npx fx add <path/to/generator>` without having to worry about ts compilation.
+When working on a generator, you may make file changes and run `npx fx add <path/to/generator>` without having to worry about ts compilation. FX will automatically transpile your generator during runtime.
 
-### Working on FX
+### When working on the FX CLI
 
 The FX repository is managed as a [lerna](https://github.com/lerna/lerna) monorepo.
 
 When working on the FX packages (anything under `packages/devkit`, `packages/fx`, `packages/create-fx-app`) you'll need to make sure your files are correctly linked to always be working on the latest version.
 
-> Whenever a installation happens in any of the `packages`, you'll need to manually relink files with `npm run reset:links`
+> Whenever a installation happens in any of the `packages`, you'll need to manually relink files with `npm run reset:links`. This occurs most frequently when you run a generator that has a `install` step.
 
-File changes need to be recompiled when working in anything under `packages` directory. The following dev command can be used to watch any changes and recompile in the background:
+On top of linking, file changes also need to be recompiled when working in anything under `packages` directory. The following dev command can be used to watch any changes and recompile in the background:
 
 ```sh
-# Watches all package files for changes and recompiles
 npm run dev
 ```
 
