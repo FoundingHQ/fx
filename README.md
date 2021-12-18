@@ -7,8 +7,6 @@ Scaffold prebuilt features directly into your web projects 💾
 [![GitHub last commit](https://img.shields.io/github/last-commit/foundinghq/fx)](https://github.com/foundinghq/fx)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-%237289DA)](https://discord.gg/YtafKzR)
 
-Focus on building your product and let FX generate the application logic
-
 ```bash
 npx fx add auth
 # ???
@@ -20,6 +18,8 @@ npx fx add payments
 
 # `git diff` to see exact changes FX has made
 ```
+
+_TODO: Add gif_
 
 ## Overview
 
@@ -35,11 +35,6 @@ FX was born out of my own frustration with starting and building new application
 - 🔗 &nbsp; Each feature is fully compatible with one another
 - ⚡️ &nbsp; Build fully featured applications in lightning speed
 - 📱 &nbsp; [Code share]() between your web and native applications
-
-_TODO: Replace this gif with a FX one_
-<img width="600" src="https://user-images.githubusercontent.com/105127/100917537-4661e100-34a5-11eb-89bd-565b7bc31919.gif" alt="illustration of fx">
-
-> 📄 Full docs page coming soon
 
 ## Quickstart
 
@@ -72,21 +67,21 @@ npx fx add [feature]
 
 Current supported frameworks:
 
-| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [Blitz](https://blitzjs.com/) | [CRA](https://create-react-app.dev/) | [Bedrock](https://bedrock.mxstbr.com/) |
-| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | ----------------------------: | -----------------------------------: | -------------------------------------: |
-| [Authentication](generators/auth)    |                             ✅ |                           |                             |                               |                                      |                                        |
-| [Payments](generators/payments[dev]) |                                |                           |                             |                               |                                      |                                        |
-| [Resource](generators/resource)      |                             ✅ |                           |                             |                               |                                      |                                        |
-| [Uploads](generators/uploads)        |                                |                           |                             |                               |                                      |                                        |
-| [Analytics](generators/analytics)    |                                |                           |                             |                               |                                      |                                        |
+| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [SveltKit](https://kit.svelte.dev/) |
+| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | ----------------------------------: |
+| [Authentication](generators/auth)    |                             ✅ |                           |                             |                                     |
+| [Payments](generators/payments[dev]) |                                |                           |                             |                                     |
+| [Resource](generators/resource)      |                             ✅ |                           |                             |                                     |
+| [Uploads](generators/uploads)        |                                |                           |                             |                                     |
+| [Analytics](generators/analytics)    |                                |                           |                             |                                     |
 
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 
 ## Documentation
 
-Full documentation coming soon
+📄 Full documentation pages coming soon
 
-See how to contribute through the [Contribution docs](./DEVELOPERS.md)
+See how to contribute through the [Contribution Docs](./DEVELOPERS.md)
 
 ## FAQ
 
