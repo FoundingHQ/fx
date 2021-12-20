@@ -67,13 +67,13 @@ npx fx add [feature]
 
 Current supported frameworks:
 
-| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [SveltKit](https://kit.svelte.dev/) |
-| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | ----------------------------------: |
-| [Authentication](generators/auth)    |                             ✅ |                           |                             |                                     |
-| [Payments](generators/payments[dev]) |                                |                           |                             |                                     |
-| [Resource](generators/resource)      |                             ✅ |                           |                             |                                     |
-| [Uploads](generators/uploads)        |                                |                           |                             |                                     |
-| [Analytics](generators/analytics)    |                                |                           |                             |                                     |
+| Feature                              | [Next.js](https://nextjs.org/) | [Expo](https://expo.dev/) | [Remix](https://remix.run/) | [SvelteKit](https://kit.svelte.dev/) |
+| ------------------------------------ | -----------------------------: | ------------------------: | --------------------------: | -----------------------------------: |
+| [Authentication](generators/auth)    |                             ✅ |                           |                             |                                      |
+| [Payments](generators/payments[dev]) |                                |                           |                             |                                      |
+| [Resource](generators/resource)      |                             ✅ |                           |                             |                                      |
+| [Uploads](generators/uploads)        |                                |                           |                             |                                      |
+| [Analytics](generators/analytics)    |                                |                           |                             |                                      |
 
 > 👷 Support for more features + frameworks in active development. Upvote or ask for your most wanted through [Github discussions](https://github.com/foundinghq/fx/discussions).
 
