@@ -3,15 +3,16 @@ import { AuthForm } from "@lib/auth/ui/AuthForm";
 const Page = () => {
   return (
     <main className="container">
-      <article>
-        <div>
-          <hgroup>
-            <h1>Sign Up</h1>
-            <h2>Authentication generated with FX</h2>
-          </hgroup>
-          <AuthForm authType="signup" submitButtonText="Sign up" />
-        </div>
-      </article>
+      <hgroup className="center">
+        <h1>Sign Up</h1>
+        <h2>Authentication generated with FX</h2>
+      </hgroup>
+      <AuthForm authType="signup" submitButtonText="Sign up" />
+      <% if (props.f.hasScopeGoogle({ props })) { -%>
+      <a role="button" className="secondary full" href="/api/auth/google">
+        Google
+      </a>
+      <% } -%>
     </main>
   );
 };
@@ -23,8 +24,19 @@ Page.getLayout = (page: React.ReactElement) => {
     <>
       <link
         rel="stylesheet"
-        href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+        href="https://unpkg.com/breezycss@latest/css/breezy.min.css"
       />
+      <style global jsx>{`
+        .container {
+          padding: 6rem 1rem;
+          max-width: 360px;
+          margin: 0 auto;
+        }
+
+        .center {
+          text-align: center;
+        }
+      `}</style>
       {page}
     </>
   );

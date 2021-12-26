@@ -1,5 +1,6 @@
+import { GetServerSidePropsContext } from "next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { fetcher, Options } from "@util/fetcher";
+import { fetcher, hydrateQueries, Options } from "@util/fetcher";
 import { Prisma } from "@prisma/client";
 import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Schema"
 
@@ -25,6 +26,19 @@ export const use<%- p.pascalName %>List = (filters?: Record<string, string>) => 
       params: filters,
     })
   );
+};
+
+export const hydrate<%- p.pascalName %>List = async (context: GetServerSidePropsContext) => {
+  const queryKey = queryKeys.list();
+  const { dehydratedState } = await hydrateQueries(context, [
+    [queryKey, get<%- p.pascalName %>List],
+  ]);
+
+  return {
+    props: {
+      dehydratedState,
+    },
+  };
 };
 
 export const get<%- p.pascalName %> = async (input: <%- p.idTypeName %>, options?: Options) => {

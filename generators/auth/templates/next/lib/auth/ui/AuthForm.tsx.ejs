@@ -35,12 +35,23 @@ export const AuthForm = ({ authType, submitButtonText }: Props) => {
   return (
     <form onSubmit={handleSubmit}>
       {authType !== "confirm" && (
-        <input name="email" type="email" placeholder="Email" />
+        <>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Email" />
+        </>
       )}
       {authType !== "request" && (
-        <input name="password" type="password" placeholder="Password" />
+        <>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+          />
+        </>
       )}
-      <button className="contrast" type="submit">
+      <button className="full" type="submit">
         {submitButtonText}
       </button>
     </form>

@@ -1,6 +1,7 @@
+import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { <%- p.pascalName %>Form } from "@lib/<%- p.paramName %>/ui/<%- p.pascalName %>Form";
-import { use<%- p.pascalName %>List } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
+import { use<%- p.pascalName %>List, hydrate<%- p.pascalName %>List } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Hooks";
 import { <%- p.pascalName %> } from "@lib/<%- p.paramName %>/data/<%- p.camelName %>Schema";
 
 const DetailView = ({
@@ -16,7 +17,11 @@ const DetailView = ({
         <td>{data.<%- attr.camelName %>}</td>
       <% }) -%>
       <td>
-        <button type="button" onClick={() => onEdit(data.id)}>
+        <button
+          type="button"
+          className="secondary"
+          onClick={() => onEdit(data.id)}
+        >
           Edit
         </button>
       </td>
@@ -31,50 +36,42 @@ export const Page = () => {
   if (data) {
     return (
       <>
-        <nav className="container-fluid">
-          <ul>
-            <li>
-              <a className="contrast">
-                <strong><%- p.pascalName %>s</strong>
-              </a>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <button type="button" onClick={() => setEditing("")}>
-                Create
-              </button>
-            </li>
-          </ul>
+        <nav>
+          <h1><%- p.pascalName %>s</h1>
+          <button type="button" onClick={() => setEditing("")}>
+            Create
+          </button>
         </nav>
-        <main className="container">
+        <main>
           {editing !== false && (
             <dialog key={editing} open>
-              <article>
-                <button
-                  aria-label="Close"
-                  className="close"
-                  onClick={() => setEditing(false)}
-                />
-                <<%- p.pascalName %>Form id={editing} onComplete={() => setEditing(false)} />
-              </article>
+              <<%- p.pascalName %>Form
+                id={editing}
+                onComplete={() => setEditing(false)}
+              />
             </dialog>
           )}
           {!data.list.length && <div>No data to show</div>}
           {!!data.list.length && (
-            <figure>
-              <table role="grid">
-                <tbody>
-                  {data.list.map((<%- p.camelName %>) => (
-                    <DetailView
-                      key={<%- p.camelName %>.id}
-                      data={<%- p.camelName %>}
-                      onEdit={(id) => setEditing(id)}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </figure>
+            <table>
+              <thead>
+                <tr>
+                  <% Object.values(props.attributes).forEach((attr) => { -%>
+                    <th><%- attr.pascalName %></th>
+                  <% }) -%>
+                  <th><span hidden>Edit</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.list.map((<%- p.camelName %>) => (
+                  <DetailView
+                    key={<%- p.camelName %>.id}
+                    data={<%- p.camelName %>}
+                    onEdit={(id) => setEditing(id)}
+                  />
+                ))}
+              </tbody>
+            </table>
           )}
         </main>
       </>
@@ -84,13 +81,18 @@ export const Page = () => {
   return "Loading...";
 };
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const res = await hydrate<%- p.pascalName %>List(context);
+  return res;
+};
+
 // Some basic styles, remove this block after generation.
 Page.getLayout = (page: React.ReactElement) => {
   return (
     <>
       <link
         rel="stylesheet"
-        href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+        href="https://unpkg.com/breezycss@latest/css/breezy.min.css"
       />
       {page}
     </>

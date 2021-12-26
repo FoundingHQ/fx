@@ -20,7 +20,7 @@ export type Frameworks =
 
 export type Language = "typescript" | "javascript";
 
-export type Theme = "pico";
+export type Theme = "breezy";
 
 export type Context<T = {}> = {
   props: T;
