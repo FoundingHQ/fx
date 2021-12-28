@@ -147,17 +147,8 @@ export default {
       attributes: [
         {
           type: "attribute",
-          name: "default",
+          name: "updatedAt",
           kind: "field",
-          args: [
-            {
-              type: "attributeArgument",
-              value: {
-                type: "function",
-                name: "now",
-              },
-            },
-          ],
         },
       ],
     },

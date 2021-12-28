@@ -59,6 +59,7 @@ export const getFrameworks = () => {
   const frameworks: Frameworks[] = [];
   const packageJson = readJson(resolve(cwd, "package.json"));
   if (packageJson["dependencies"]["next"]) frameworks.push("next");
+  if (packageJson["dependencies"]["remix"]) frameworks.push("remix");
   if (packageJson["dependencies"]["expo"]) frameworks.push("expo");
   return frameworks;
 };

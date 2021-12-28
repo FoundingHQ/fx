@@ -31,6 +31,16 @@ const generator: Generator<Props> = {
       );
     }
 
+    if (context.config.frameworks.includes("remix")) {
+      deps.push(
+        ...[
+          { name: "@prisma/client" },
+          { name: "dotenv-cli", isDevDep: true },
+          { name: "prisma", isDevDep: true },
+        ]
+      );
+    }
+
     const expoDeps = [
       { name: "expo" },
       { name: "@react-navigation/native-stack" },
