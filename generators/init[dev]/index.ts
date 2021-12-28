@@ -73,46 +73,58 @@ const generator: Generator<Props> = {
     return templates;
   },
   async codemods(context) {
-    const tsConfigPath = context.paths.tsConfig;
-    const tsConfig = readJson(tsConfigPath);
+    const changes = [];
 
-    tsConfig.compilerOptions.baseUrl = tsConfig.compilerOptions.baseUrl || ".";
-    tsConfig.compilerOptions.paths = {
-      ...(tsConfig.compilerOptions.paths || {}),
-      "@ui/*": ["lib/core/ui/*"],
-      "@api/*": ["lib/core/api/*"],
-      "@util/*": ["lib/core/util/*"],
-      "@lib/*": ["lib/*"],
-    };
+    if (context.config.frameworks.includes("next")) {
+      const tsConfigPath = context.paths.tsConfig;
+      const tsConfig = readJson(tsConfigPath);
 
-    writeJson(tsConfigPath, tsConfig, { spaces: 2 });
+      tsConfig.compilerOptions.baseUrl =
+        tsConfig.compilerOptions.baseUrl || ".";
+      tsConfig.compilerOptions.paths = {
+        ...(tsConfig.compilerOptions.paths || {}),
+        "@ui/*": ["./lib/core/ui/*"],
+        "@api/*": ["./lib/core/api/*"],
+        "@util/*": ["./lib/core/util/*"],
+        "@lib/*": ["./lib/*"],
+      };
 
-    const packageJsonPath = context.paths.packageJson;
-    const packageJson = readJson(packageJsonPath);
+      writeJson(tsConfigPath, tsConfig, { spaces: 2 });
+      changes.push(tsConfigPath);
+    }
 
-    packageJson.scripts = {
-      ...packageJson.scripts,
-      "docker:start": "docker-compose up -d",
-      "docker:stop": "docker-compose down",
-      "prisma:generate": "dotenv -e .env.local -- prisma generate",
-      "prisma:migrate:dev":
-        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate dev',
-      "prisma:migrate:prod":
-        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate deploy',
-      "prisma:reset":
-        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate reset',
-      "prisma:seed":
-        'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma db seed',
-    };
+    if (
+      context.config.frameworks.includes("next") ||
+      context.config.frameworks.includes("remix")
+    ) {
+      const packageJsonPath = context.paths.packageJson;
+      const packageJson = readJson(packageJsonPath);
 
-    writeJson(packageJsonPath, packageJson, { spaces: 2 });
+      packageJson.scripts = {
+        ...packageJson.scripts,
+        "docker:start": "docker-compose up -d",
+        "docker:stop": "docker-compose down",
+        "prisma:generate": "dotenv -e .env.local -- prisma generate",
+        "prisma:migrate:dev":
+          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate dev',
+        "prisma:migrate:prod":
+          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate deploy',
+        "prisma:reset":
+          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate reset',
+        "prisma:seed":
+          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma db seed',
+      };
+
+      writeJson(packageJsonPath, packageJson, { spaces: 2 });
+      changes.push(packageJsonPath);
+    }
 
     const envContents = readFile(context.paths.envExample);
     writeFile(context.paths.env, envContents, {
       append: true,
     });
 
-    return [tsConfigPath, packageJsonPath];
+    return changes;
   },
   async finish() {},
   async uninstall() {
