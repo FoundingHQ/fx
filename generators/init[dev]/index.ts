@@ -100,19 +100,21 @@ const generator: Generator<Props> = {
       const packageJsonPath = context.paths.packageJson;
       const packageJson = readJson(packageJsonPath);
 
+      packageJson.type = "commonjs";
+
+      packageJson.prisma = {
+        seed: "npx ts-node -T prisma/seed.ts",
+      };
+
       packageJson.scripts = {
         ...packageJson.scripts,
         "docker:start": "docker-compose up -d",
         "docker:stop": "docker-compose down",
-        "prisma:generate": "dotenv -e .env.local -- prisma generate",
-        "prisma:migrate:dev":
-          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate dev',
-        "prisma:migrate:prod":
-          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate deploy',
-        "prisma:reset":
-          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma migrate reset',
-        "prisma:seed":
-          'TS_NODE_COMPILER_OPTIONS=\'{"module":"commonjs"}\' dotenv -e .env.local -- prisma db seed',
+        "prisma:generate": "dotenv -- prisma generate",
+        "prisma:migrate:dev": "dotenv -- prisma migrate dev",
+        "prisma:migrate:prod": "dotenv -- prisma migrate deploy",
+        "prisma:reset": "dotenv -- prisma migrate reset",
+        "prisma:seed": "dotenv -- prisma db seed",
       };
 
       writeJson(packageJsonPath, packageJson, { spaces: 2 });
