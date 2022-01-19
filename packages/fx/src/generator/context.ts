@@ -72,7 +72,7 @@ export const getLanguage = () => {
 };
 
 export const getTheme = () => {
-  const theme: Theme = "headlesscss";
+  const theme: Theme = "pinecss";
   return theme;
 };
 

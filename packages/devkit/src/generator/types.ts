@@ -20,7 +20,7 @@ export type Frameworks =
 
 export type Language = "typescript" | "javascript";
 
-export type Theme = "headlesscss";
+export type Theme = "pinecss";
 
 export type Context<T = {}> = {
   props: T;
